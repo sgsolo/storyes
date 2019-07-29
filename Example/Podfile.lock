@@ -1,0 +1,16 @@
+PODS:
+  - Stories_iOS (0.1.0)
+
+DEPENDENCIES:
+  - Stories_iOS (from `../`)
+
+EXTERNAL SOURCES:
+  Stories_iOS:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Stories_iOS: 68adfe9c1ecfba5588bc109fe11406bfd2f7b76e
+
+PODFILE CHECKSUM: 7be5badc7c0552496d11832936f5ebd1ce587c98
+
+COCOAPODS: 1.7.5

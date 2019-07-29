@@ -17,12 +17,12 @@ Stories_iOS is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'Stories_iOS'
+pod 'Stories_iOS', :git => "ssh://git@bb.yandex-team.ru/music-mobile/mobile-stories-sdk-ios.git"
 ```
 
 ## Author
 
-sgsolo@yandex.ru, gsoloviev@htc-cs.ru
+gsoloviev100@yandex-team.ru
 
 ## License
 

@@ -1,0 +1,6 @@
+framework module Stories_iOS {
+  umbrella header "Stories_iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
