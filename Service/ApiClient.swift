@@ -10,7 +10,7 @@ protocol ApiClientInput {
 	func getCarusel(success: Success?, failure: Failure?)
 }
 
-extension ApiClient: ApiServiceInput {
+extension ApiClient: ApiClientInput {
 	// TODO: for test
 	func getCarusel(success: Success?, failure: Failure?) {
 		let urlRequest = getRequest("carusel")
