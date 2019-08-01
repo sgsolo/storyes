@@ -649,7 +649,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4EA298B0292FC604EEB25AB8FFADF547 /* Pods-Stories_iOS_Example-dummy.m in Sources */,
-				6B19635A22F2F30400A28376 /* ApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
