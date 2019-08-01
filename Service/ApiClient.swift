@@ -34,14 +34,12 @@ public class ApiClient {
 		
 	}
 	
-//	https://img2.goodfon.ru/original/2048x1365/2/92/priroda-nebo-oblaka-ozero.jpg
-	private let baseURLString = "https://img2.goodfon.ru/original/2048x1365/2/92/priroda-nebo-oblaka-ozero.jpg"
+	private let baseURLString = ""
 	private var taskPool: [URLSessionDataTask] = []
 	static var apiSession: URLSession = {
 		let configuration = URLSessionConfiguration.default
 		configuration.httpMaximumConnectionsPerHost = 1
 		configuration.httpShouldUsePipelining = false
-//		configuration.urlCache = URLCache(memoryCapacity: 500 * 1024 * 1024, diskCapacity: 500 * 1024 * 1024, diskPath: "apiCache")
 		return URLSession(configuration: configuration)
 	}()
 	static var imageSession: URLSession = {
@@ -111,7 +109,7 @@ public class ApiClient {
 	
 	private func dataTaskForImage(_ urlString: String, success: Success?, failure: Failure?) {
 		guard let url = URL(string: urlString) else {
-			failure?(NSError(domain: "Invalid URL", code: 0, userInfo: nil))
+			failure?(NSError(domain: "Invalid URL \(urlString)", code: 0, userInfo: nil))
 			return
 		}
 		let task = ApiClient.imageSession.dataTask(with: url) { data, response, error in
