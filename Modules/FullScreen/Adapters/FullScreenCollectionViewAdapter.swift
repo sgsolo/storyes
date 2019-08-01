@@ -23,15 +23,15 @@ FullScreenCollectionViewAdapterInput {
 		self.cellClasses = [UICollectionViewCell.self]
 	}
 }
-
+//TODO: for test, remove after
 extension UICollectionViewCell: RegistrableComponent {}
-
+//TODO: for test, remove after
 extension UICollectionViewCell: CollectionViewItemsSizeProvider {
 	static func size(for item: Any?, collectionViewSize: CGSize) -> CGSize {
 		return CGSize(width: collectionViewSize.width, height: collectionViewSize.height / 2.0)
 	}
 }
-
+//TODO: for test, remove after
 extension UICollectionViewCell: ConfigurableComponent {
 	func configure(with object: Any) {
 		let doubleValue = CGFloat(Int.random(in: 0...255)) / 255.0
