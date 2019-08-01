@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  Stories_iOS
-//
-//  Created by sgsolo@yandex.ru on 07/29/2019.
-//  Copyright (c) 2019 sgsolo@yandex.ru. All rights reserved.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
