@@ -1,21 +1,18 @@
-//
-//  AppDelegate.swift
-//  Stories_iOS
-//
-//  Created by sgsolo@yandex.ru on 07/29/2019.
-//  Copyright (c) 2019 sgsolo@yandex.ru. All rights reserved.
-//
-
 import UIKit
+import Stories_iOS
 
 @UIApplicationMain
+
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+		//TODO: for test, remove after
+		let fullScreenVC = FullScreenViewController()
+		_ = FullScreenAssembly.setup(fullScreenVC)
+		window?.rootViewController = fullScreenVC
+		window?.makeKeyAndVisible()
         return true
     }
 
