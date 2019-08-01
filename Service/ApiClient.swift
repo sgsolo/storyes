@@ -5,18 +5,20 @@ typealias Failure = ((Error) -> Void)
 
 typealias Parametrs = Dictionary<String, String>
 
-protocol ApiServiceInput {
+protocol ApiClientInput {
+	// TODO: for test
 	func getCarusel(success: Success?, failure: Failure?)
 }
 
-extension ApiService: ApiServiceInput {
+extension ApiClient: ApiServiceInput {
+	// TODO: for test
 	func getCarusel(success: Success?, failure: Failure?) {
 		let urlRequest = getRequest("carusel")
 		dataTask(urlRequest, success: success, failure: failure)
 	}
 }
 
-class ApiService {
+class ApiClient {
 	private let baseURLString = ""
 	private var taskPool: [URLSessionDataTask] = []
 
