@@ -20,6 +20,7 @@ protocol BaseCollectionViewAdpaterInput: class {
 
 protocol BaseCollectionViewAdapterOutput: class {
     func didSelectCollectionCell(at indexPath: IndexPath)
+	func didScroll()
     func didEndScrollingAnimation()
     func didEndDragging(willDecelerate: Bool)
     func didEndDecelerating()
@@ -27,8 +28,9 @@ protocol BaseCollectionViewAdapterOutput: class {
 
 extension BaseCollectionViewAdapterOutput {
     func didSelectCollectionCell(at indexPath: IndexPath) {}
-    func didFocusOnCollectionCell(at indexPath: IndexPath) {}
+	func didScroll() {}
     func didEndScrollingAnimation() {}
+	func willBeginDecelerating() {}
     func didEndDragging(willDecelerate: Bool) {}
     func didEndDecelerating() {}
 }
@@ -70,8 +72,6 @@ class BaseCollectionViewAdapter: NSObject, BaseCollectionViewAdpaterInput {
             switch type.registrableSource {
             case .class:
                 self.collectionView?.register(type as? AnyClass, forCellWithReuseIdentifier: type.identifier)
-            case let .nib(nib):
-                self.collectionView?.register(nib, forCellWithReuseIdentifier: type.identifier)
             }
         }
     }
@@ -81,8 +81,6 @@ class BaseCollectionViewAdapter: NSObject, BaseCollectionViewAdpaterInput {
             switch type.registrableSource {
             case .class:
                 self.collectionView?.register(type as? AnyClass, forSupplementaryViewOfKind: type.kind, withReuseIdentifier: type.identifier)
-            case let .nib(nib):
-                self.collectionView?.register(nib, forSupplementaryViewOfKind: type.kind, withReuseIdentifier: type.identifier)
             }
         }
     }
@@ -149,7 +147,11 @@ extension BaseCollectionViewAdapter: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.output?.didSelectCollectionCell(at: indexPath)
     }
-    
+	
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		self.output?.didScroll()
+	}
+	
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         self.output?.didEndScrollingAnimation()
     }

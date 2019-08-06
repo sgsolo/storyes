@@ -1,10 +1,3 @@
-//
-//  FullScreenCollectionViewAdapter.swift
-//  Stories_iOS
-//
-//  Created by Григорий Соловьев on 29/07/2019.
-//
-
 import Foundation
 
 protocol FullScreenCollectionViewAdapterInput: BaseCollectionViewAdpaterInput {
@@ -12,29 +5,62 @@ protocol FullScreenCollectionViewAdapterInput: BaseCollectionViewAdpaterInput {
 }
 
 protocol FullScreenCollectionViewAdapterOutput: BaseCollectionViewAdapterOutput {
+	func storyCellDidTapOnLeftSide()
+	func storyCellDidTapOnRightSide()
+	func storyCellTouchesBegan()
+	func storyCellTouchesCancelled()
+	func storyCellDidTouchesEnded()
+	
+	func closeButtonDidTap()
+}
+
+final class FullScreenCollectionViewAdapter: BaseCollectionViewAdapter, FullScreenCollectionViewAdapterInput {
+	
+	private var fullScreenOutput: FullScreenCollectionViewAdapterOutput? {
+		return output as? FullScreenCollectionViewAdapterOutput
+	}
+	
+	override init() {
+		super.init()		
+		self.cellClasses = [StoryCell.self]
+	}
+}
+
+extension FullScreenCollectionViewAdapter {
+	override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = super.collectionView(collectionView, cellForItemAt: indexPath)
+		(cell as? StoryCell)?.delegate = self
+		return cell
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+
+	}
 	
 }
 
-final class FullScreenCollectionViewAdapter:
-	BaseCollectionViewAdapter,
-FullScreenCollectionViewAdapterInput {
-	override init() {
-		super.init()		
-		self.cellClasses = [UICollectionViewCell.self]
+extension FullScreenCollectionViewAdapter: StoryCellDelegate {
+	func storyCellDidTapOnLeftSide() {
+		fullScreenOutput?.storyCellDidTapOnLeftSide()
 	}
-}
-//TODO: for test, remove after
-extension UICollectionViewCell: RegistrableComponent {}
-//TODO: for test, remove after
-extension UICollectionViewCell: CollectionViewItemsSizeProvider {
-	static func size(for item: Any?, collectionViewSize: CGSize) -> CGSize {
-		return CGSize(width: collectionViewSize.width, height: collectionViewSize.height / 2.0)
+	
+	func storyCellDidTapOnRightSide() {
+		fullScreenOutput?.storyCellDidTapOnRightSide()
 	}
-}
-//TODO: for test, remove after
-extension UICollectionViewCell: ConfigurableComponent {
-	func configure(with object: Any) {
-		let doubleValue = CGFloat(Int.random(in: 0...255)) / 255.0
-		self.backgroundColor = UIColor(red: doubleValue, green: doubleValue, blue: doubleValue, alpha: 1)
+	
+	func storyCellTouchesBegan() {
+		fullScreenOutput?.storyCellTouchesBegan()
+	}
+	
+	func storyCellTouchesCancelled() {
+		fullScreenOutput?.storyCellTouchesCancelled()
+	}
+	
+	func storyCellDidTouchesEnded() {
+		fullScreenOutput?.storyCellDidTouchesEnded()
+	}
+	
+	func closeButtonDidTap() {
+		fullScreenOutput?.closeButtonDidTap()
 	}
 }
