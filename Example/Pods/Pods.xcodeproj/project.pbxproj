@@ -26,6 +26,12 @@
 		6B3656BD22F819A600446834 /* StoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656BC22F819A600446834 /* StoryCell.swift */; };
 		6B3656BF22F81C2B00446834 /* PagedSliderFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656BE22F81C2B00446834 /* PagedSliderFlowLayout.swift */; };
 		6B3656C122F8494300446834 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B3656C022F8494300446834 /* Images.xcassets */; };
+		6B3656C322F9A5D900446834 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656C222F9A5D900446834 /* ProgressView.swift */; };
+		6B3656C522F9B00E00446834 /* ProgressCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656C422F9B00E00446834 /* ProgressCollectionViewAdapter.swift */; };
+		6B3656C722F9B07200446834 /* ProgressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656C622F9B07200446834 /* ProgressCell.swift */; };
+		6B3656CC22FA9CD900446834 /* PauseTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656CB22FA9CD900446834 /* PauseTimer.swift */; };
+		6B3656CF22FAAE9300446834 /* LayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656CE22FAAE9300446834 /* LayerExtensions.swift */; };
+		6B8A09BA22FAE2D400305C66 /* DisplayableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8A09B922FAE2D400305C66 /* DisplayableComponent.swift */; };
 		6B9F191322F47AB000BA00F3 /* StoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9F191222F47AB000BA00F3 /* StoryScreen.swift */; };
 		6E633AFA1C2AAA4AE709C856F128B796 /* Pods-Stories_iOS_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C5A31DD1DD85DA18F529BA312F6B620 /* Pods-Stories_iOS_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7F330D44ED75DDE1F971E912CB99F5EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
@@ -80,6 +86,12 @@
 		6B3656BC22F819A600446834 /* StoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCell.swift; sourceTree = "<group>"; };
 		6B3656BE22F81C2B00446834 /* PagedSliderFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedSliderFlowLayout.swift; sourceTree = "<group>"; };
 		6B3656C022F8494300446834 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		6B3656C222F9A5D900446834 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		6B3656C422F9B00E00446834 /* ProgressCollectionViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCollectionViewAdapter.swift; sourceTree = "<group>"; };
+		6B3656C622F9B07200446834 /* ProgressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCell.swift; sourceTree = "<group>"; };
+		6B3656CB22FA9CD900446834 /* PauseTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseTimer.swift; sourceTree = "<group>"; };
+		6B3656CE22FAAE9300446834 /* LayerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerExtensions.swift; sourceTree = "<group>"; };
+		6B8A09B922FAE2D400305C66 /* DisplayableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayableComponent.swift; sourceTree = "<group>"; };
 		6B9F191222F47AB000BA00F3 /* StoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScreen.swift; sourceTree = "<group>"; };
 		6F0422C556622C630C26182881C0FF18 /* Stories_iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Stories_iOS-dummy.m"; sourceTree = "<group>"; };
 		70C8D5B78E6CBDDE0A52B5B6D558BCEA /* Stories_iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Stories_iOS-umbrella.h"; sourceTree = "<group>"; };
@@ -196,6 +208,8 @@
 		6B19631A22EF2D3A00A28376 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				6B3656CD22FAAE6900446834 /* Extensions */,
+				6B3656C822FA953900446834 /* Classes */,
 				6B19632E22EF32BD00A28376 /* Enums and types */,
 				6B19632922EF323000A28376 /* Protocols */,
 				6B19632222EF2FE500A28376 /* CollectionViewAdapters */,
@@ -209,6 +223,7 @@
 				6B19632022EF2EBB00A28376 /* FullScreenAssembly.swift */,
 				6B19631D22EF2E6B00A28376 /* FullScreenPresenter.swift */,
 				6B19631B22EF2E3300A28376 /* FullScreenViewController.swift */,
+				6B8A09BB22FB075100305C66 /* Progress */,
 				6B9F191422F817C300BA00F3 /* Views */,
 				6B19633322EF36FD00A28376 /* Adapters */,
 			);
@@ -231,6 +246,7 @@
 				6B19632B22EF326300A28376 /* RegistrableComponent.swift */,
 				6B19632A22EF326300A28376 /* ReusableComponent.swift */,
 				6B19633122EF335C00A28376 /* ConfigurableComponent.swift */,
+				6B8A09B922FAE2D400305C66 /* DisplayableComponent.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -250,6 +266,32 @@
 				6B3656BE22F81C2B00446834 /* PagedSliderFlowLayout.swift */,
 			);
 			path = Adapters;
+			sourceTree = "<group>";
+		};
+		6B3656C822FA953900446834 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6B3656CB22FA9CD900446834 /* PauseTimer.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		6B3656CD22FAAE6900446834 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6B3656CE22FAAE9300446834 /* LayerExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		6B8A09BB22FB075100305C66 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				6B3656C222F9A5D900446834 /* ProgressView.swift */,
+				6B3656C422F9B00E00446834 /* ProgressCollectionViewAdapter.swift */,
+				6B3656C622F9B07200446834 /* ProgressCell.swift */,
+			);
+			path = Progress;
 			sourceTree = "<group>";
 		};
 		6B9F191122F47A4800BA00F3 /* StoryScreen */ = {
@@ -535,11 +577,17 @@
 				6B19632D22EF326300A28376 /* RegistrableComponent.swift in Sources */,
 				6B19631C22EF2E3300A28376 /* FullScreenViewController.swift in Sources */,
 				6B19633022EF32D400A28376 /* RegistrableSource.swift in Sources */,
+				6B3656C522F9B00E00446834 /* ProgressCollectionViewAdapter.swift in Sources */,
 				6B3656BF22F81C2B00446834 /* PagedSliderFlowLayout.swift in Sources */,
 				6B19633522EF372600A28376 /* FullScreenCollectionViewAdapter.swift in Sources */,
 				6B19631E22EF2E6B00A28376 /* FullScreenPresenter.swift in Sources */,
+				6B3656CF22FAAE9300446834 /* LayerExtensions.swift in Sources */,
+				6B8A09BA22FAE2D400305C66 /* DisplayableComponent.swift in Sources */,
 				6B19632122EF2EBB00A28376 /* FullScreenAssembly.swift in Sources */,
+				6B3656CC22FA9CD900446834 /* PauseTimer.swift in Sources */,
+				6B3656C322F9A5D900446834 /* ProgressView.swift in Sources */,
 				6B19633222EF335C00A28376 /* ConfigurableComponent.swift in Sources */,
+				6B3656C722F9B07200446834 /* ProgressCell.swift in Sources */,
 				6B19632822EF2FE500A28376 /* CollectionViewItemsSizeProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

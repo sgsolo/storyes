@@ -14,12 +14,14 @@ class StoryCell: UICollectionViewCell {
 	
 	weak var delegate: StoryCellDelegate?
 	var slideView = UIImageView()
+	let progressView = ProgressView()
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		addSlideView()
 		addGestureRecognizers()
 		addCloseButton()
+		configureProgressView()
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -64,9 +66,22 @@ class StoryCell: UICollectionViewCell {
 		let button = UIButton(type: .custom)
 		let bundle = Bundle(for: StoryCell.self)
 		button.setImage(UIImage(named: "closeIcon", in: bundle, compatibleWith: nil), for: .normal)
-		button.frame = CGRect(x: UIScreen.main.bounds.width - 50, y: 50, width: 50, height: 50)
 		button.addTarget(self, action: #selector(closeButtonDidTap), for: .touchUpInside)
 		self.addSubview(button)
+		button.translatesAutoresizingMaskIntoConstraints = false
+		button.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
+		button.topAnchor.constraint(equalTo: self.topAnchor, constant: 82).isActive = true
+		button.heightAnchor.constraint(equalToConstant: 28).isActive = true
+		button.widthAnchor.constraint(equalToConstant: 28).isActive = true
+	}
+	
+	func configureProgressView() {
+		self.addSubview(progressView)
+		progressView.translatesAutoresizingMaskIntoConstraints = false
+		progressView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+		progressView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+		progressView.topAnchor.constraint(equalTo: self.topAnchor, constant: 60).isActive = true
+		progressView.heightAnchor.constraint(equalToConstant: 4).isActive = true
 	}
 }
 
@@ -124,6 +139,22 @@ extension StoryCell: ConfigurableComponent {
 			let slideModel = slideModels.first {
 			self.slideView.backgroundColor = slideModel.color
 			self.slideView.image = slideModel.image
+			
+			var objects: [ProgressModel] = []
+			for index in 0...slideModels.count {
+				var state: ProgressState
+				let currentIndex = 0
+				if index < currentIndex {
+					state = .watched
+				} else if index == currentIndex {
+					state = .inProgress
+				} else {
+					state = .notWatched
+				}
+				objects.append(ProgressModel(modelsCount: slideModels.count, progressState: state))
+			}
+			let collectionSectionData = CollectionSectionData(objects: objects)
+			self.progressView.collectionViewAdapter.updateData(with: [collectionSectionData])
 		}
 	}
 }

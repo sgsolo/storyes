@@ -6,11 +6,14 @@ protocol FullScreenViewInput: class {
 	func setCollectionViewUserInteractionEnabled(_ isEnabled: Bool)
 	func updateData(with objects: [CollectionSectionData])
 	func scrollToStory(index: Int, animated: Bool)
-	func showSlide(model: SlideModel)
+	func showSlide(model: SlideModel, modelsCount: Int, modelIndex: Int)
+	func resumeAnimation()
+	func pauseAnimation()
 }
 
 protocol FullScreenViewOutput: class {
 	func loadView()
+	func viewDidDisappear(_ animated: Bool)
 	
 	func storyCellDidTapOnLeftSide()
 	func storyCellDidTapOnRightSide()
@@ -39,6 +42,11 @@ public final class FullScreenViewController: UIViewController {
 	override public func loadView() {
 		super.loadView()
 		presenter.loadView()
+	}
+	
+	override public func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+		presenter.viewDidDisappear(animated)
 	}
 }
 
@@ -73,11 +81,34 @@ extension FullScreenViewController: FullScreenViewInput {
 		collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .left, animated: animated)
 	}
 	
-	func showSlide(model: SlideModel) {
+	func showSlide(model: SlideModel, modelsCount: Int, modelIndex: Int) {
+		//TODO:Fix later visibleCells
 		if let cell = collectionView.visibleCells.first as? StoryCell {
 			cell.slideView.backgroundColor = model.color
 			cell.slideView.image = model.image
+			var objects: [ProgressModel] = []
+			for index in 0...modelsCount {
+				var state: ProgressState
+				if index < modelIndex {
+					state = .watched
+				} else if index ==  modelIndex {
+					state = .inProgress
+				} else {
+					state = .notWatched
+				}
+				objects.append(ProgressModel(modelsCount: modelsCount, progressState: state))
+			}
+			let collectionSectionData = CollectionSectionData(objects: objects)
+			cell.progressView.collectionViewAdapter.updateData(with: [collectionSectionData])
 		}
+	}
+	
+	func resumeAnimation() {
+		self.view.layer.resume()
+	}
+	
+	func pauseAnimation() {
+		self.view.layer.pause()
 	}
 }
 
