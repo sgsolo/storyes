@@ -23,6 +23,10 @@
 		6B19633022EF32D400A28376 /* RegistrableSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B19632F22EF32D400A28376 /* RegistrableSource.swift */; };
 		6B19633222EF335C00A28376 /* ConfigurableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B19633122EF335C00A28376 /* ConfigurableComponent.swift */; };
 		6B19633522EF372600A28376 /* FullScreenCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B19633422EF372600A28376 /* FullScreenCollectionViewAdapter.swift */; };
+		6B3656BD22F819A600446834 /* StoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656BC22F819A600446834 /* StoryCell.swift */; };
+		6B3656BF22F81C2B00446834 /* PagedSliderFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656BE22F81C2B00446834 /* PagedSliderFlowLayout.swift */; };
+		6B3656C122F8494300446834 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B3656C022F8494300446834 /* Images.xcassets */; };
+		6B9F191322F47AB000BA00F3 /* StoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9F191222F47AB000BA00F3 /* StoryScreen.swift */; };
 		6E633AFA1C2AAA4AE709C856F128B796 /* Pods-Stories_iOS_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C5A31DD1DD85DA18F529BA312F6B620 /* Pods-Stories_iOS_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7F330D44ED75DDE1F971E912CB99F5EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		C30A2DEB27D0A54063ECEE24662D84A7 /* Stories_iOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F0422C556622C630C26182881C0FF18 /* Stories_iOS-dummy.m */; };
@@ -73,6 +77,10 @@
 		6B19632F22EF32D400A28376 /* RegistrableSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrableSource.swift; sourceTree = "<group>"; };
 		6B19633122EF335C00A28376 /* ConfigurableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableComponent.swift; sourceTree = "<group>"; };
 		6B19633422EF372600A28376 /* FullScreenCollectionViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenCollectionViewAdapter.swift; sourceTree = "<group>"; };
+		6B3656BC22F819A600446834 /* StoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCell.swift; sourceTree = "<group>"; };
+		6B3656BE22F81C2B00446834 /* PagedSliderFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedSliderFlowLayout.swift; sourceTree = "<group>"; };
+		6B3656C022F8494300446834 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		6B9F191222F47AB000BA00F3 /* StoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScreen.swift; sourceTree = "<group>"; };
 		6F0422C556622C630C26182881C0FF18 /* Stories_iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Stories_iOS-dummy.m"; sourceTree = "<group>"; };
 		70C8D5B78E6CBDDE0A52B5B6D558BCEA /* Stories_iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Stories_iOS-umbrella.h"; sourceTree = "<group>"; };
 		75D4503E4CE86131E83B0BF658D3E902 /* Pods-Stories_iOS_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Stories_iOS_Tests.modulemap"; sourceTree = "<group>"; };
@@ -164,6 +172,7 @@
 		6B19631722EF2BB100A28376 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				6B9F191122F47A4800BA00F3 /* StoryScreen */,
 				6B19631F22EF2E7100A28376 /* FullScreen */,
 			);
 			path = Modules;
@@ -172,6 +181,7 @@
 		6B19631822EF2CDA00A28376 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6B3656C022F8494300446834 /* Images.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -199,6 +209,7 @@
 				6B19632022EF2EBB00A28376 /* FullScreenAssembly.swift */,
 				6B19631D22EF2E6B00A28376 /* FullScreenPresenter.swift */,
 				6B19631B22EF2E3300A28376 /* FullScreenViewController.swift */,
+				6B9F191422F817C300BA00F3 /* Views */,
 				6B19633322EF36FD00A28376 /* Adapters */,
 			);
 			path = FullScreen;
@@ -236,8 +247,25 @@
 			isa = PBXGroup;
 			children = (
 				6B19633422EF372600A28376 /* FullScreenCollectionViewAdapter.swift */,
+				6B3656BE22F81C2B00446834 /* PagedSliderFlowLayout.swift */,
 			);
 			path = Adapters;
+			sourceTree = "<group>";
+		};
+		6B9F191122F47A4800BA00F3 /* StoryScreen */ = {
+			isa = PBXGroup;
+			children = (
+				6B9F191222F47AB000BA00F3 /* StoryScreen.swift */,
+			);
+			path = StoryScreen;
+			sourceTree = "<group>";
+		};
+		6B9F191422F817C300BA00F3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6B3656BC22F819A600446834 /* StoryCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		7EBC1474445DB517AC10FE8F35985329 /* Stories_iOS */ = {
@@ -479,6 +507,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B3656C122F8494300446834 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,12 +527,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B19632C22EF326300A28376 /* ReusableComponent.swift in Sources */,
+				6B9F191322F47AB000BA00F3 /* StoryScreen.swift in Sources */,
 				C30A2DEB27D0A54063ECEE24662D84A7 /* Stories_iOS-dummy.m in Sources */,
+				6B3656BD22F819A600446834 /* StoryCell.swift in Sources */,
 				6B19632622EF2FE500A28376 /* BaseCollectionViewAdapter.swift in Sources */,
 				6B19632722EF2FE500A28376 /* RegistrableSupplementaryViewComponent.swift in Sources */,
 				6B19632D22EF326300A28376 /* RegistrableComponent.swift in Sources */,
 				6B19631C22EF2E3300A28376 /* FullScreenViewController.swift in Sources */,
 				6B19633022EF32D400A28376 /* RegistrableSource.swift in Sources */,
+				6B3656BF22F81C2B00446834 /* PagedSliderFlowLayout.swift in Sources */,
 				6B19633522EF372600A28376 /* FullScreenCollectionViewAdapter.swift in Sources */,
 				6B19631E22EF2E6B00A28376 /* FullScreenPresenter.swift in Sources */,
 				6B19632122EF2EBB00A28376 /* FullScreenAssembly.swift in Sources */,
