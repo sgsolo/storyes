@@ -163,6 +163,11 @@ extension BaseCollectionViewAdapter: UICollectionViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.output?.didEndDecelerating()
     }
+	
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+		let item = self.collectionSections[indexPath.section].objects[indexPath.row]
+		(cell as? DisplayableComponent)?.prepareForDisplay(with: item)
+	}
 }
 
 extension BaseCollectionViewAdapter: UICollectionViewDelegateFlowLayout {
