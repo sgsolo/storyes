@@ -8,7 +8,7 @@ public struct CarouselPreviewAssembly {
     public static func setup(withConfig config: CarouselPreviewConfiguration) -> CarouselPreviewModule {
         let viewController = CarouselPreviewViewController(with: config)
         let presenter = CarouselPreviewPresentrer()
-        let adapter = CarouselPreviewCollectionViewAdapter(with: config)
+        let adapter = CarouselCollectionViewAdapter(with: config)
         viewController.presenter = presenter
         viewController.collectionViewAdapter = adapter
         presenter.view = viewController

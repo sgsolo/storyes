@@ -38,7 +38,7 @@
 		B217ECF822F8037C00F7D7F1 /* CarouselPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B217ECF722F8037C00F7D7F1 /* CarouselPreviewViewController.swift */; };
 		B217ECFA22F8040000F7D7F1 /* CarouselPreviewPresentrer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B217ECF922F8040000F7D7F1 /* CarouselPreviewPresentrer.swift */; };
 		B217ECFC22F8078500F7D7F1 /* CarouselPreviewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B217ECFB22F8078500F7D7F1 /* CarouselPreviewAssembly.swift */; };
-		B217ECFE22F80E9C00F7D7F1 /* CarouselPreviewCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B217ECFD22F80E9C00F7D7F1 /* CarouselPreviewCollectionViewAdapter.swift */; };
+		B217ECFE22F80E9C00F7D7F1 /* CarouselCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B217ECFD22F80E9C00F7D7F1 /* CarouselCollectionViewAdapter.swift */; };
 		B217ED0022F8124C00F7D7F1 /* StoriePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B217ECFF22F8124C00F7D7F1 /* StoriePreviewCell.swift */; };
 		B217ED0222F812F100F7D7F1 /* StoriePreviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B217ED0122F812F100F7D7F1 /* StoriePreviewModel.swift */; };
 		B217ED1422F974F000F7D7F1 /* 2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B217ED0F22F974F000F7D7F1 /* 2.jpeg */; };
@@ -122,7 +122,7 @@
 		B217ECF722F8037C00F7D7F1 /* CarouselPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselPreviewViewController.swift; sourceTree = "<group>"; };
 		B217ECF922F8040000F7D7F1 /* CarouselPreviewPresentrer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselPreviewPresentrer.swift; sourceTree = "<group>"; };
 		B217ECFB22F8078500F7D7F1 /* CarouselPreviewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselPreviewAssembly.swift; sourceTree = "<group>"; };
-		B217ECFD22F80E9C00F7D7F1 /* CarouselPreviewCollectionViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselPreviewCollectionViewAdapter.swift; sourceTree = "<group>"; };
+		B217ECFD22F80E9C00F7D7F1 /* CarouselCollectionViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewAdapter.swift; sourceTree = "<group>"; };
 		B217ECFF22F8124C00F7D7F1 /* StoriePreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriePreviewCell.swift; sourceTree = "<group>"; };
 		B217ED0122F812F100F7D7F1 /* StoriePreviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriePreviewModel.swift; sourceTree = "<group>"; };
 		B217ED0F22F974F000F7D7F1 /* 2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpeg; sourceTree = "<group>"; };
@@ -408,7 +408,7 @@
 				B217ECFB22F8078500F7D7F1 /* CarouselPreviewAssembly.swift */,
 				B217ECF722F8037C00F7D7F1 /* CarouselPreviewViewController.swift */,
 				B217ECF922F8040000F7D7F1 /* CarouselPreviewPresentrer.swift */,
-				B217ECFD22F80E9C00F7D7F1 /* CarouselPreviewCollectionViewAdapter.swift */,
+				B217ECFD22F80E9C00F7D7F1 /* CarouselCollectionViewAdapter.swift */,
 				B29A990922F9BC90006067EA /* CarouselPreviewSizeCalculator.swift */,
 				B217ECFF22F8124C00F7D7F1 /* StoriePreviewCell.swift */,
 			);
@@ -679,7 +679,7 @@
 				6B3656CC22FA9CD900446834 /* PauseTimer.swift in Sources */,
 				6B3656C322F9A5D900446834 /* ProgressView.swift in Sources */,
 				B29A990E22F9CDB5006067EA /* CarouselPreviewConfiguration.swift in Sources */,
-				B217ECFE22F80E9C00F7D7F1 /* CarouselPreviewCollectionViewAdapter.swift in Sources */,
+				B217ECFE22F80E9C00F7D7F1 /* CarouselCollectionViewAdapter.swift in Sources */,
 				6B19633222EF335C00A28376 /* ConfigurableComponent.swift in Sources */,
 				6B3656C722F9B07200446834 /* ProgressCell.swift in Sources */,
 				6B19632822EF2FE500A28376 /* CollectionViewItemsSizeProvider.swift in Sources */,

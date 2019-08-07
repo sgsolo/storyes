@@ -5,7 +5,7 @@ protocol CarouselPreviewCollectionViewAdapterOutput: BaseCollectionViewAdapterOu
     
 }
 
-final class CarouselPreviewCollectionViewAdapter: BaseCollectionViewAdapter, CarouselPreviewCollectionViewAdapterInput {
+final class CarouselCollectionViewAdapter: BaseCollectionViewAdapter, CarouselPreviewCollectionViewAdapterInput {
     private let cellSize: CGSize
     
     init(with configuration: CarouselPreviewConfiguration) {

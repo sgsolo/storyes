@@ -7,8 +7,10 @@ public final class CarouselPreviewPresentrer {
 }
 
 extension CarouselPreviewPresentrer: CarouselPreviewOutput {
-    public func loadView() {
-        view.showData(MockStoriesPreviewData.storiesPreviewData())
+    public func viewDidLoad() {
+        let mockData = MockStoriesPreviewData.storiesPreviewData()
+        let sectionData = CollectionSectionData(objects: mockData)
+        view.showData([sectionData])
     }
 }
 

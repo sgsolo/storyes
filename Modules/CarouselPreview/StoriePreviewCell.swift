@@ -1,4 +1,5 @@
 class StoriePreviewCell: UICollectionViewCell, RegistrableComponent {
+    static let imageCornerRadius: CGFloat = 4
     private let imageView = UIImageView()
     private let titleLabel = UILabel()
     
@@ -26,7 +27,7 @@ class StoriePreviewCell: UICollectionViewCell, RegistrableComponent {
             imageOverlayView.topAnchor.constraint(equalTo: imageView.topAnchor).isActive = true
             imageOverlayView.rightAnchor.constraint(equalTo: imageView.rightAnchor).isActive = true
             imageOverlayView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
-            imageOverlayView.layer.cornerRadius = 4
+            imageOverlayView.layer.cornerRadius = StoriePreviewCell.imageCornerRadius
         }
         imageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(imageView)
@@ -35,7 +36,7 @@ class StoriePreviewCell: UICollectionViewCell, RegistrableComponent {
         contentView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 4).isActive = true
         contentView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4).isActive = true
         imageView.contentMode = .center
-        imageView.layer.cornerRadius = 4
+        imageView.layer.cornerRadius = StoriePreviewCell.imageCornerRadius
         imageView.clipsToBounds = true
         configureImageOverlayView()
     }

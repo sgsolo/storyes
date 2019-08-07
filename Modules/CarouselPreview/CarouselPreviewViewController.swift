@@ -1,9 +1,9 @@
 protocol CarouselPreviewInput: class {
-    func showData(_ data: [StoriePreviewModel])
+    func showData(_ data: [CollectionSectionData])
 }
 
 public protocol CarouselPreviewOutput: class {
-    func loadView()
+    func viewDidLoad()
 }
 
 public class CarouselPreviewViewController: UIViewController {
@@ -11,7 +11,7 @@ public class CarouselPreviewViewController: UIViewController {
     var presenter: CarouselPreviewOutput!
     var collectionViewAdapter: CarouselPreviewCollectionViewAdapterInput!
     
-    private var carouselPreviewAdapter: CarouselPreviewCollectionViewAdapter!
+    private var carouselPreviewAdapter: CarouselCollectionViewAdapter!
     private var configuration: CarouselPreviewConfiguration
     private let titleLabel = UILabel()
     private var carouselPreview: UICollectionView!
@@ -31,7 +31,7 @@ public class CarouselPreviewViewController: UIViewController {
         super.viewDidLoad()
         configureTitleLabel()
         configureCarouselPreview()
-        presenter.loadView()
+        presenter.viewDidLoad()
     }
 }
 
@@ -46,7 +46,7 @@ extension CarouselPreviewViewController {
     }
     
     private func configureTitleLabel() {
-        titleLabel.font = UIFont.systemFont(ofSize: 18.0, weight: .bold)
+        titleLabel.font = .systemFont(ofSize: 18.0, weight: .bold)
         titleLabel.backgroundColor = .clear
         titleLabel.textColor = .black
         titleLabel.textAlignment = .center
@@ -59,6 +59,7 @@ extension CarouselPreviewViewController {
     }
     
     private func configureCarouselPreview() {
+        collectionViewAdapter.collectionView = carouselPreview
         carouselPreview.showsHorizontalScrollIndicator = false
         carouselPreview.backgroundColor = .clear
         carouselPreview.translatesAutoresizingMaskIntoConstraints = false
@@ -71,11 +72,9 @@ extension CarouselPreviewViewController {
     }
 }
 
-extension CarouselPreviewViewController: CarouselPreviewInput {
-    func showData(_ data: [StoriePreviewModel]) {
-        collectionViewAdapter.collectionView = carouselPreview
-        let sectionData = CollectionSectionData(objects: data)
-        collectionViewAdapter.updateData(with: [sectionData])
+extension CarouselPreviewViewController: CarouselPreviewInput {    
+    func showData(_ data: [CollectionSectionData]) {
+        collectionViewAdapter.updateData(with: data)
     }
 }
 
