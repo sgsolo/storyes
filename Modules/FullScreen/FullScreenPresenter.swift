@@ -23,10 +23,6 @@ class FullScreenPresenter {
 	weak var output: FullScreenModuleOutput!
 	weak var view: FullScreenViewInput!
 	
-	private var slideSwitchTimer: Timer?
-	private var pauseStartDate: Date?
-	private var previousFireDate: Date?
-	
 	var storyIndexPath = StoryIndexPath()
 	let sectionData = CollectionSectionData(objects:
 		[
@@ -42,6 +38,7 @@ class FullScreenPresenter {
 			 SlideModel(color: .green, image: UIImage(named: "4", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
 			 SlideModel(color: .purple, image: UIImage(named: "5", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil))]
 		])
+	private var slideSwitchTimer = PauseTimer()
 }
 
 extension FullScreenPresenter: FullScreenViewOutput {
@@ -58,33 +55,21 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	
 	//TODO: брать TimeInterval из модели слайда
 	private func runTimerForSlide() {
-		invalidateTimer()
-		self.pauseStartDate = nil
-		self.previousFireDate = nil
-		self.slideSwitchTimer = Timer.scheduledTimer(withTimeInterval: 6, repeats: true, block: { [weak self] timer in
+		self.slideSwitchTimer.scheduledTimer(withTimeInterval: 6, repeats: true, block: { [weak self] timer in
 			self?.showNextSlide()
 		})
 	}
 	
 	private func invalidateTimer() {
-		self.slideSwitchTimer?.invalidate()
-		self.slideSwitchTimer = nil
-		
-		self.pauseStartDate = nil
-		self.previousFireDate = nil
+		self.slideSwitchTimer.invalidate()
 	}
 	
 	private func pauseTimer() {
-		guard let timer = self.slideSwitchTimer, self.previousFireDate == nil else { return }
-		self.pauseStartDate = Date()
-		self.previousFireDate = timer.fireDate
-		timer.fireDate = Date.distantFuture
+		self.slideSwitchTimer.pause()
 	}
 	
 	private func resumeTimer() {
-		guard let pauseStartDate = self.pauseStartDate, let previousFireDate = self.previousFireDate else { return }
-		let pauseTime = pauseStartDate.timeIntervalSinceNow * -1
-		self.slideSwitchTimer?.fireDate = Date(timeInterval: pauseTime, since: previousFireDate)
+		self.slideSwitchTimer.resume()
 	}
 	
 	private func showSlide() {
