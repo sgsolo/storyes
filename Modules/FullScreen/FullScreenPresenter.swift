@@ -23,19 +23,23 @@ class FullScreenPresenter {
 	weak var output: FullScreenModuleOutput!
 	weak var view: FullScreenViewInput!
 	
+	private var slideSwitchTimer: Timer?
+	private var pauseStartDate: Date?
+	private var previousFireDate: Date?
+	
 	var storyIndexPath = StoryIndexPath()
 	let sectionData = CollectionSectionData(objects:
 		[
 			[SlideModel(color: .red, image: UIImage(named: "1", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
 			 SlideModel(color: .blue, image: UIImage(named: "2", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
 			 SlideModel(color: .brown, image: UIImage(named: "3", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
-			 SlideModel(color: .yellow, image: UIImage(named: "4", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
+			 SlideModel(color: .green, image: UIImage(named: "4", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
 			 SlideModel(color: .purple, image: UIImage(named: "5", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil))]
 			,
 			[SlideModel(color: .red, image: UIImage(named: "1", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
 			 SlideModel(color: .blue, image: UIImage(named: "2", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
 			 SlideModel(color: .brown, image: UIImage(named: "3", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
-			 SlideModel(color: .yellow, image: UIImage(named: "4", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
+			 SlideModel(color: .green, image: UIImage(named: "4", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
 			 SlideModel(color: .purple, image: UIImage(named: "5", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil))]
 		])
 }
@@ -48,13 +52,49 @@ extension FullScreenPresenter: FullScreenViewOutput {
 		showSlide()
 	}
 	
+	func viewDidDisappear(_ animated: Bool) {
+		invalidateTimer()
+	}
+	
+	//TODO: брать TimeInterval из модели слайда
+	private func runTimerForSlide() {
+		invalidateTimer()
+		self.pauseStartDate = nil
+		self.previousFireDate = nil
+		self.slideSwitchTimer = Timer.scheduledTimer(withTimeInterval: 6, repeats: true, block: { [weak self] timer in
+			self?.showNextSlide()
+		})
+	}
+	
+	private func invalidateTimer() {
+		self.slideSwitchTimer?.invalidate()
+		self.slideSwitchTimer = nil
+		
+		self.pauseStartDate = nil
+		self.previousFireDate = nil
+	}
+	
+	private func pauseTimer() {
+		guard let timer = self.slideSwitchTimer, self.previousFireDate == nil else { return }
+		self.pauseStartDate = Date()
+		self.previousFireDate = timer.fireDate
+		timer.fireDate = Date.distantFuture
+	}
+	
+	private func resumeTimer() {
+		guard let pauseStartDate = self.pauseStartDate, let previousFireDate = self.previousFireDate else { return }
+		let pauseTime = pauseStartDate.timeIntervalSinceNow * -1
+		self.slideSwitchTimer?.fireDate = Date(timeInterval: pauseTime, since: previousFireDate)
+	}
+	
 	private func showSlide() {
 		if sectionData.objects.count > storyIndexPath.currentStory,
 			let slideModels = sectionData.objects[storyIndexPath.currentStory] as? [SlideModel],
 			slideModels.count > storyIndexPath.currentSlide {
 			let slideModel = slideModels[storyIndexPath.currentSlide]
-			showSlide(model: slideModel)
+			showSlide(model: slideModel, modelsCount: slideModels.count, modelIndex: storyIndexPath.currentSlide)
 		}
+		runTimerForSlide()
 	}
 	
 	private func updateData() {
@@ -66,10 +106,14 @@ extension FullScreenPresenter: FullScreenViewOutput {
 			view.setCollectionViewUserInteractionEnabled(false)
 		}
 		view.scrollToStory(index: index, animated: animated)
+		if !animated {
+			view.resumeAnimation()
+			resumeTimer()
+		}
 	}
 	
-	private func showSlide(model: SlideModel) {
-		view.showSlide(model: model)
+	private func showSlide(model: SlideModel, modelsCount: Int, modelIndex: Int) {
+		view.showSlide(model: model, modelsCount: modelsCount, modelIndex: modelIndex)
 	}
 	
 	func storyCellDidTapOnLeftSide() {
@@ -122,18 +166,26 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	
 	func storyCellTouchesBegan() {
 //		view.setCollectionViewScrollEnabled(false)
+		pauseTimer()
+		view.pauseAnimation()
 	}
 	
 	func storyCellTouchesCancelled() {
 		view.setCollectionViewScrollEnabled(true)
+		resumeTimer()
+		view.resumeAnimation()
 	}
 	
 	func storyCellDidTouchesEnded() {
 		view.setCollectionViewScrollEnabled(true)
+		resumeTimer()
+		view.resumeAnimation()
 	}
 	
 	func didEndScrollingAnimation() {
 		view.setCollectionViewUserInteractionEnabled(true)
+		resumeTimer()
+		view.resumeAnimation()
 	}
 	
 	func collectionViewDidScroll(contentSize: CGSize, contentOffset: CGPoint) {
@@ -141,13 +193,18 @@ extension FullScreenPresenter: FullScreenViewOutput {
 		if contentSize.width + margin < contentOffset.x + UIScreen.main.bounds.width {
 			output.fullScreenStoriesDidEnd()
 		}
+		pauseTimer()
+		view.pauseAnimation()
 	}
 	
 	func collectionViewDidEndDecelerating(visibleIndexPath: IndexPath) {
 		if visibleIndexPath.item != storyIndexPath.currentStory {
 			storyIndexPath.currentStory = visibleIndexPath.item
+			runTimerForSlide()
 		}
 		view.setCollectionViewScrollEnabled(true)
+		resumeTimer()
+		view.resumeAnimation()
 	}
 	
 	func closeButtonDidTap() {
