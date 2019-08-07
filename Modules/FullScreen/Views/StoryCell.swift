@@ -66,9 +66,13 @@ class StoryCell: UICollectionViewCell {
 		let button = UIButton(type: .custom)
 		let bundle = Bundle(for: StoryCell.self)
 		button.setImage(UIImage(named: "closeIcon", in: bundle, compatibleWith: nil), for: .normal)
-		button.frame = CGRect(x: UIScreen.main.bounds.width - 50, y: 50, width: 50, height: 50)
 		button.addTarget(self, action: #selector(closeButtonDidTap), for: .touchUpInside)
 		self.addSubview(button)
+		button.translatesAutoresizingMaskIntoConstraints = false
+		button.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
+		button.topAnchor.constraint(equalTo: self.topAnchor, constant: 82).isActive = true
+		button.heightAnchor.constraint(equalToConstant: 28).isActive = true
+		button.widthAnchor.constraint(equalToConstant: 28).isActive = true
 	}
 	
 	func configureProgressView() {
