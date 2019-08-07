@@ -17,9 +17,7 @@ class ProgressCell: UICollectionViewCell {
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
-		super.init(coder: aDecoder)
-		configureTranslucentView()
-		configureProgressView()
+		fatalError("init(coder:) has not been implemented")
 	}
 	
 	private func configureProgressView() {
