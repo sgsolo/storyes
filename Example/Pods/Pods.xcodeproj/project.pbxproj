@@ -223,6 +223,7 @@
 				6B19632022EF2EBB00A28376 /* FullScreenAssembly.swift */,
 				6B19631D22EF2E6B00A28376 /* FullScreenPresenter.swift */,
 				6B19631B22EF2E3300A28376 /* FullScreenViewController.swift */,
+				6B8A09BB22FB075100305C66 /* Progress */,
 				6B9F191422F817C300BA00F3 /* Views */,
 				6B19633322EF36FD00A28376 /* Adapters */,
 			);
@@ -262,7 +263,6 @@
 			isa = PBXGroup;
 			children = (
 				6B19633422EF372600A28376 /* FullScreenCollectionViewAdapter.swift */,
-				6B3656C422F9B00E00446834 /* ProgressCollectionViewAdapter.swift */,
 				6B3656BE22F81C2B00446834 /* PagedSliderFlowLayout.swift */,
 			);
 			path = Adapters;
@@ -284,6 +284,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		6B8A09BB22FB075100305C66 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				6B3656C222F9A5D900446834 /* ProgressView.swift */,
+				6B3656C422F9B00E00446834 /* ProgressCollectionViewAdapter.swift */,
+				6B3656C622F9B07200446834 /* ProgressCell.swift */,
+			);
+			path = Progress;
+			sourceTree = "<group>";
+		};
 		6B9F191122F47A4800BA00F3 /* StoryScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,8 +306,6 @@
 			isa = PBXGroup;
 			children = (
 				6B3656BC22F819A600446834 /* StoryCell.swift */,
-				6B3656C222F9A5D900446834 /* ProgressView.swift */,
-				6B3656C622F9B07200446834 /* ProgressCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
