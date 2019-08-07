@@ -1,6 +1,6 @@
 import UIKit
 
-//TODO: создать PauseTimer и выннести из PauseTimer FullScreenPresenter-а
+//TODO: Выннести функциональность работы с таймером из FullScreenPresenter-а в PauseTimer
 //class PauseTimer {
 //
 //	private let timer: Timer? = nil
