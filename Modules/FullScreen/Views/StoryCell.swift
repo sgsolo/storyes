@@ -23,13 +23,10 @@ class StoryCell: UICollectionViewCell {
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
-		super.init(coder: aDecoder)
-		addSlideView()
-		addGestureRecognizers()
-		addCloseButton()
+		fatalError("init(coder:) has not been implemented")
 	}
 	
-	func addSlideView() {
+	private func addSlideView() {
 		self.addSubview(slideView)
 		slideView.contentMode = .center
 		slideView.translatesAutoresizingMaskIntoConstraints = false
@@ -39,7 +36,7 @@ class StoryCell: UICollectionViewCell {
 		slideView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 	}
 	
-	func addGestureRecognizers() {
+	private func addGestureRecognizers() {
 		let leftTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOnLeftSide))
 		let leftTapArea = UIView(frame: .zero)
 		leftTapArea.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +60,7 @@ class StoryCell: UICollectionViewCell {
 		rightTapArea.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
 	}
 	
-	func addCloseButton() {
+	private func addCloseButton() {
 		let button = UIButton(type: .custom)
 		let bundle = Bundle(for: StoryCell.self)
 		button.setImage(UIImage(named: "closeIcon", in: bundle, compatibleWith: nil), for: .normal)
@@ -75,17 +72,17 @@ class StoryCell: UICollectionViewCell {
 
 // MARK: - Actions
 extension StoryCell {
-	@objc func tapOnLeftSide() {
+	@objc private func tapOnLeftSide() {
 		print("tapOnLeftSide")
 		delegate?.storyCellDidTapOnLeftSide()
 	}
 	
-	@objc func tapOnRightSide() {
+	@objc private func tapOnRightSide() {
 		print("tapOnRightSide")
 		delegate?.storyCellDidTapOnRightSide()
 	}
 	
-	@objc func closeButtonDidTap() {
+	@objc private func closeButtonDidTap() {
 		print("closeButtonDidTap")
 		delegate?.closeButtonDidTap()
 	}

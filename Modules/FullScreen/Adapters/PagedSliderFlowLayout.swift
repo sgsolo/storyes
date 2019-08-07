@@ -1,6 +1,8 @@
 import UIKit
 
 class PagedSliderFlowLayout: UICollectionViewFlowLayout {
+	override class var layoutAttributesClass: AnyClass { return AnimatedCollectionViewLayoutAttributes.self }
+	
 	var inset: CGFloat
 	
 	init(inset: CGFloat) {
@@ -10,9 +12,7 @@ class PagedSliderFlowLayout: UICollectionViewFlowLayout {
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
-		inset = 0
-		super.init(coder: aDecoder)
-		scrollDirection = .horizontal
+		fatalError("init(coder:) has not been implemented")
 	}
 	
 	override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
@@ -34,14 +34,12 @@ class PagedSliderFlowLayout: UICollectionViewFlowLayout {
 		return CGPoint(x: proposedContentOffset.x + offsetCorrection, y: collectionView.bounds.origin.y)
 	}
 	
-	open override class var layoutAttributesClass: AnyClass { return AnimatedCollectionViewLayoutAttributes.self }
-	
-	open override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+	override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
 		guard let attributes = super.layoutAttributesForElements(in: rect) else { return nil }
 		return attributes.compactMap { $0 as? AnimatedCollectionViewLayoutAttributes }.map { self.transformLayoutAttributes($0) }
 	}
 	
-	open override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+	override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
 		return true
 	}
 	
