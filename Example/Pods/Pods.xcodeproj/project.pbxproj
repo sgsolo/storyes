@@ -33,6 +33,8 @@
 		6B3656CF22FAAE9300446834 /* LayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656CE22FAAE9300446834 /* LayerExtensions.swift */; };
 		6B8A09BA22FAE2D400305C66 /* DisplayableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8A09B922FAE2D400305C66 /* DisplayableComponent.swift */; };
 		6B9F191322F47AB000BA00F3 /* StoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9F191222F47AB000BA00F3 /* StoryScreen.swift */; };
+		6B19635A22F2F30400A28376 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B19635922F2F30400A28376 /* ApiClient.swift */; };
+		6B19635B22F2F30400A28376 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B19635922F2F30400A28376 /* ApiClient.swift */; };
 		6E633AFA1C2AAA4AE709C856F128B796 /* Pods-Stories_iOS_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C5A31DD1DD85DA18F529BA312F6B620 /* Pods-Stories_iOS_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7F330D44ED75DDE1F971E912CB99F5EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		B217ECF822F8037C00F7D7F1 /* CarouselPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B217ECF722F8037C00F7D7F1 /* CarouselPreviewViewController.swift */; };
@@ -85,7 +87,6 @@
 		4F3705CA610E9273FE7102A0E9401336 /* Pods-Stories_iOS_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Stories_iOS_Tests-dummy.m"; sourceTree = "<group>"; };
 		51109C025B90E1129B51D7C6D5D0C16E /* Stories_iOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Stories_iOS.modulemap; sourceTree = "<group>"; };
 		5817FC8B7CA367B0A67EE1C0B7F614FB /* Pods-Stories_iOS_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Stories_iOS_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		6B19631322EEDAC600A28376 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
 		6B19631B22EF2E3300A28376 /* FullScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenViewController.swift; sourceTree = "<group>"; };
 		6B19631D22EF2E6B00A28376 /* FullScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPresenter.swift; sourceTree = "<group>"; };
 		6B19632022EF2EBB00A28376 /* FullScreenAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenAssembly.swift; sourceTree = "<group>"; };
@@ -107,6 +108,7 @@
 		6B3656CE22FAAE9300446834 /* LayerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerExtensions.swift; sourceTree = "<group>"; };
 		6B8A09B922FAE2D400305C66 /* DisplayableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayableComponent.swift; sourceTree = "<group>"; };
 		6B9F191222F47AB000BA00F3 /* StoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScreen.swift; sourceTree = "<group>"; };
+		6B19635922F2F30400A28376 /* ApiClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		6F0422C556622C630C26182881C0FF18 /* Stories_iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Stories_iOS-dummy.m"; sourceTree = "<group>"; };
 		70C8D5B78E6CBDDE0A52B5B6D558BCEA /* Stories_iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Stories_iOS-umbrella.h"; sourceTree = "<group>"; };
 		75D4503E4CE86131E83B0BF658D3E902 /* Pods-Stories_iOS_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Stories_iOS_Tests.modulemap"; sourceTree = "<group>"; };
@@ -197,7 +199,7 @@
 		6B19631222EEDA8400A28376 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				6B19631322EEDAC600A28376 /* ApiService.swift */,
+				6B19635922F2F30400A28376 /* ApiClient.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -680,6 +682,7 @@
 				6B3656C322F9A5D900446834 /* ProgressView.swift in Sources */,
 				B29A990E22F9CDB5006067EA /* CarouselPreviewConfiguration.swift in Sources */,
 				B217ECFE22F80E9C00F7D7F1 /* CarouselCollectionViewAdapter.swift in Sources */,
+				6B19635B22F2F30400A28376 /* ApiClient.swift in Sources */,
 				6B19633222EF335C00A28376 /* ConfigurableComponent.swift in Sources */,
 				6B3656C722F9B07200446834 /* ProgressCell.swift in Sources */,
 				6B19632822EF2FE500A28376 /* CollectionViewItemsSizeProvider.swift in Sources */,
