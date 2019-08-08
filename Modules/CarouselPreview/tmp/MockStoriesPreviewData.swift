@@ -5,23 +5,23 @@ class MockStoriesPreviewData {
         let bundle = Bundle(for: self)
         let obj0 = StoriePreviewModel(
             title: attrString("Новый Two Door Cinema Club"),
-            image: UIImage(named: "0.jpeg", in: bundle, compatibleWith: nil) ?? UIImage(),
+            image: UIImage(named: "Preview0.jpeg", in: bundle, compatibleWith: nil) ?? UIImage(),
             isViewed: false)
         let obj1 = StoriePreviewModel(
             title: attrString("Что послушать летом?"),
-            image: UIImage(named: "1.jpeg", in: bundle, compatibleWith: nil) ?? UIImage(),
+            image: UIImage(named: "Preview1.jpeg", in: bundle, compatibleWith: nil) ?? UIImage(),
             isViewed: false)
         let obj2 = StoriePreviewModel(
             title: attrString("Горячие новинки месяца"),
-            image: UIImage(named: "2.jpeg", in: bundle, compatibleWith: nil) ?? UIImage(),
+            image: UIImage(named: "Preview2.jpeg", in: bundle, compatibleWith: nil) ?? UIImage(),
             isViewed: true)
         let obj3 = StoriePreviewModel(
             title: attrString("Все альбомы Tool на Музыке"),
-            image: UIImage(named: "3.jpeg", in: bundle, compatibleWith: nil) ?? UIImage(),
+            image: UIImage(named: "Preview3.jpeg", in: bundle, compatibleWith: nil) ?? UIImage(),
             isViewed: true)
         let obj4 = StoriePreviewModel(
             title: attrString("Thomas Mraz вернулся"),
-            image: UIImage(named: "4.jpeg", in: bundle, compatibleWith: nil) ?? UIImage(),
+            image: UIImage(named: "Preview4.jpeg", in: bundle, compatibleWith: nil) ?? UIImage(),
             isViewed: true)
         return [obj0,obj1,obj2,obj3,obj4]
     }

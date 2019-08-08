@@ -8,11 +8,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-		//TODO: for test, remove after
-		let fullScreenVC = FullScreenViewController()
-		_ = FullScreenAssembly.setup(fullScreenVC, delegate: self)
-		window?.rootViewController = fullScreenVC
-		window?.makeKeyAndVisible()
+//        //TODO: for test, remove after
+//        let fullScreenVC = FullScreenViewController()
+//        _ = FullScreenAssembly.setup(fullScreenVC, delegate: self)
+//        window?.rootViewController = fullScreenVC
+//        window?.makeKeyAndVisible()
         return true
     }
 
