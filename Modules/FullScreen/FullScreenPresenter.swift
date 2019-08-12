@@ -69,7 +69,7 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	private func showSlide() {
-		if let storyes = storiesService.storyes,
+		if let storyes = storiesService.stories,
 			storyes.count > currentStory.storyIndex,
 			storyes[currentStory.storyIndex].count > currentStory.slideIndex {
 			
@@ -81,7 +81,7 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	private func updateData() {
-		guard let storyes = storiesService.storyes else { return }
+		guard let storyes = storiesService.stories else { return }
 		let sectionData = CollectionSectionData(objects: storyes)
 		view.updateData(with: [sectionData])
 	}
@@ -108,12 +108,12 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	private func showPrevSlide() {
-		if let storyes = storiesService.storyes,
+		if let storyes = storiesService.stories,
 			storyes.count > currentStory.storyIndex,
 			currentStory.slideIndex - 1 >= 0 {
 			currentStory.slideIndex -= 1
 			showSlide()
-		} else if let storyes = storiesService.storyes,
+		} else if let storyes = storiesService.stories,
 			storyes.count > currentStory.storyIndex,
 			currentStory.storyIndex - 1 >= 0 {
 			currentStory.storyIndex -= 1
@@ -132,17 +132,17 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	private func showNextSlide() {
-		if let storyes = storiesService.storyes,
+		if let storyes = storiesService.stories,
 			storyes.count > currentStory.storyIndex,
 			storyes[currentStory.storyIndex].count > currentStory.slideIndex + 1 {
 			currentStory.slideIndex += 1
 			showSlide()
-		} else if let storyes = storiesService.storyes,
+		} else if let storyes = storiesService.stories,
 			storyes.count > currentStory.storyIndex,
 			storyes[currentStory.storyIndex].count == currentStory.slideIndex + 1,
 			storyes.count == currentStory.storyIndex + 1 {
 			output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
-		} else if let storyes = storiesService.storyes,
+		} else if let storyes = storiesService.stories,
 			storyes.count > currentStory.storyIndex,
 			storyes[currentStory.storyIndex].count > currentStory.storyIndex + 1 {
 			currentStory.storyIndex += 1

@@ -84,7 +84,7 @@ extension CarouselPreviewViewController: CarouselPreviewInput {
 	
 	func scrollTo(storyIndex: Int) {
 		guard carouselPreview.numberOfSections > 0, carouselPreview.numberOfItems(inSection: 0) > storyIndex else { return }
-		//TODO: нужен ли скролл до каррывающейся ячейки истории?
+		//TODO: нужен ли скролл до зарывающейся ячейки истории?
 //		carouselPreview.scrollToItem(at: IndexPath(item: storyIndex, section: 0), at: .centeredHorizontally, animated: false)
 	}
 	

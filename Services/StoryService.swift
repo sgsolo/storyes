@@ -1,7 +1,7 @@
 import UIKit
 
 public protocol StoriesServiceInput {
-	var storyes: StoryesModel? { get }
+	var stories: StoryesModel? { get }
 	func getStories(success: Success?, failure: Failure?)
 }
 
@@ -26,7 +26,7 @@ struct Story {
 
 class StoriesService: StoriesServiceInput {
 	
-	var storyes: StoryesModel? = [
+	var stories: StoryesModel? = [
 		[SlideModel(color: .red, image: UIImage(named: "1", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
 		 SlideModel(color: .blue, image: UIImage(named: "1", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
 		 SlideModel(color: .brown, image: UIImage(named: "1", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
@@ -60,7 +60,7 @@ class StoriesService: StoriesServiceInput {
 	private var apiClient: ApiClientInput = ApiClient()
 	
 	func getStories(success: Success?, failure: Failure?) {
-		success?(storyes)
+		success?(stories)
 		apiClient.getCarusel(success: { data in
 //			if let data = data as? Data, let storyes = try? JSONDecoder().decode(StoryesModel.self, from: data) {
 //				self.storyes = storyes
