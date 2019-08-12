@@ -69,11 +69,11 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	private func showSlide() {
-		if let storyes = storiesService.stories,
-			storyes.count > currentStory.storyIndex,
-			storyes[currentStory.storyIndex].count > currentStory.slideIndex {
+		if let stories = storiesService.stories,
+			stories.count > currentStory.storyIndex,
+			stories[currentStory.storyIndex].count > currentStory.slideIndex {
 			
-			let slideModels = storyes[currentStory.storyIndex]
+			let slideModels = stories[currentStory.storyIndex]
 			let slideModel = slideModels[currentStory.slideIndex]
 			showSlide(model: slideModel, modelsCount: slideModels.count, modelIndex: currentStory.slideIndex)
 		}
@@ -81,8 +81,8 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	private func updateData() {
-		guard let storyes = storiesService.stories else { return }
-		let sectionData = CollectionSectionData(objects: storyes)
+		guard let stories = storiesService.stories else { return }
+		let sectionData = CollectionSectionData(objects: stories)
 		view.updateData(with: [sectionData])
 	}
 	
@@ -108,13 +108,13 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	private func showPrevSlide() {
-		if let storyes = storiesService.stories,
-			storyes.count > currentStory.storyIndex,
+		if let stories = storiesService.stories,
+			stories.count > currentStory.storyIndex,
 			currentStory.slideIndex - 1 >= 0 {
 			currentStory.slideIndex -= 1
 			showSlide()
-		} else if let storyes = storiesService.stories,
-			storyes.count > currentStory.storyIndex,
+		} else if let stories = storiesService.stories,
+			stories.count > currentStory.storyIndex,
 			currentStory.storyIndex - 1 >= 0 {
 			currentStory.storyIndex -= 1
 			scrollToStory(index: currentStory.storyIndex, animated: true)
@@ -132,19 +132,19 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	private func showNextSlide() {
-		if let storyes = storiesService.stories,
-			storyes.count > currentStory.storyIndex,
-			storyes[currentStory.storyIndex].count > currentStory.slideIndex + 1 {
+		if let stories = storiesService.stories,
+			stories.count > currentStory.storyIndex,
+			stories[currentStory.storyIndex].count > currentStory.slideIndex + 1 {
 			currentStory.slideIndex += 1
 			showSlide()
-		} else if let storyes = storiesService.stories,
-			storyes.count > currentStory.storyIndex,
-			storyes[currentStory.storyIndex].count == currentStory.slideIndex + 1,
-			storyes.count == currentStory.storyIndex + 1 {
+		} else if let stories = storiesService.stories,
+			stories.count > currentStory.storyIndex,
+			stories[currentStory.storyIndex].count == currentStory.slideIndex + 1,
+			stories.count == currentStory.storyIndex + 1 {
 			output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
-		} else if let storyes = storiesService.stories,
-			storyes.count > currentStory.storyIndex,
-			storyes[currentStory.storyIndex].count > currentStory.storyIndex + 1 {
+		} else if let stories = storiesService.stories,
+			stories.count > currentStory.storyIndex,
+			stories[currentStory.storyIndex].count > currentStory.storyIndex + 1 {
 			currentStory.storyIndex += 1
 			scrollToStory(index: currentStory.storyIndex, animated: true)
 			showSlide()

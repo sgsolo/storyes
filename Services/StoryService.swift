@@ -1,12 +1,12 @@
 import UIKit
 
 public protocol StoriesServiceInput {
-	var stories: StoryesModel? { get }
+	var stories: StoriesModel? { get }
 	func getStories(success: Success?, failure: Failure?)
 }
 
 public typealias StoryModel = [SlideModel]
-public typealias StoryesModel = [StoryModel]
+public typealias StoriesModel = [StoryModel]
 
 //TODO: StoryModel для теста вьюхи, после удалить
 public struct SlideModel/*: Codable */{
@@ -26,7 +26,7 @@ struct Story {
 
 class StoriesService: StoriesServiceInput {
 	
-	var stories: StoryesModel? = [
+	var stories: StoriesModel? = [
 		[SlideModel(color: .red, image: UIImage(named: "1", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
 		 SlideModel(color: .blue, image: UIImage(named: "1", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
 		 SlideModel(color: .brown, image: UIImage(named: "1", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
