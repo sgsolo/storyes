@@ -1,5 +1,5 @@
 import XCTest
-import Stories_iOS
+import StoriesSDK
 
 class Tests: XCTestCase {
     
