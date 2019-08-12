@@ -1,16 +1,18 @@
 import Foundation
 
 public protocol FullScreenModuleInput: class {
+	func setSelectedStory(index: Int)
 }
 
 public protocol FullScreenModuleOutput: class {
-	func fullScreenDidTapOnCloseButton()
-	func fullScreenStoriesDidEnd()
+	func fullScreenDidTapOnCloseButton(storyIndex: Int)
+	func fullScreenStoriesDidEnd(storyIndex: Int)
 }
 
 public final class FullScreenAssembly {
-	public static func setup(_ viewController: FullScreenViewController, delegate: FullScreenModuleOutput) -> FullScreenModuleInput {
+	public static func setup(_ viewController: FullScreenViewController, storiesService: StoriesServiceInput, delegate: FullScreenModuleOutput) -> FullScreenModuleInput {
 		let presenter = FullScreenPresenter()
+		presenter.storiesService = storiesService
 		let adapter = FullScreenCollectionViewAdapter()
 		adapter.output = viewController
 		

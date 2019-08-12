@@ -1,9 +1,14 @@
+import UIKit
+
 protocol CarouselPreviewInput: class {
     func showData(_ data: [CollectionSectionData])
+	func scrollTo(storyIndex: Int)
+	func getStoryFrame(at storyIndex: Int) -> CGRect
 }
 
 public protocol CarouselPreviewOutput: class {
     func viewDidLoad()
+	func didSelectCollectionCell(at indexPath: IndexPath, frame: CGRect)
 }
 
 public class CarouselPreviewViewController: UIViewController {
@@ -76,8 +81,32 @@ extension CarouselPreviewViewController: CarouselPreviewInput {
     func showData(_ data: [CollectionSectionData]) {
         collectionViewAdapter.updateData(with: data)
     }
+	
+	func scrollTo(storyIndex: Int) {
+		guard carouselPreview.numberOfSections > 0, carouselPreview.numberOfItems(inSection: 0) > storyIndex else { return }
+		//TODO: нужен ли скролл до зарывающейся ячейки истории?
+//		carouselPreview.scrollToItem(at: IndexPath(item: storyIndex, section: 0), at: .centeredHorizontally, animated: false)
+	}
+	
+	func getStoryFrame(at storyIndex: Int) -> CGRect {
+		guard carouselPreview.numberOfSections > 0,
+			carouselPreview.numberOfItems(inSection: 0) > storyIndex,
+			let window = UIApplication.shared.delegate?.window else { return .zero }
+		
+		if let cell = carouselPreview.cellForItem(at: IndexPath(item: storyIndex, section: 0)) {
+			return cell.convert(cell.bounds, to: window)
+		} else if let visibleCell = carouselPreview.visibleCells.last {
+			return visibleCell.convert(visibleCell.bounds, to: window)
+		}
+		return .zero
+	}
 }
 
-extension CarouselPreviewViewController: CarouselPreviewOutput {
-
+extension CarouselPreviewViewController: CarouselPreviewCollectionViewAdapterOutput {
+	public func didSelectCollectionCell(at indexPath: IndexPath) {
+		if let cell = self.carouselPreview.cellForItem(at: indexPath) {
+			let frame = cell.convert(cell.bounds, to: nil)
+			presenter.didSelectCollectionCell(at: indexPath, frame: frame)
+		}
+	}
 }

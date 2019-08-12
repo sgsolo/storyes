@@ -87,9 +87,9 @@ public class ApiClient {
 			
 			if [200, 201, 204].contains(httpResponse?.statusCode) {
 				if let data = data, !data.isEmpty {
-					let json = try? JSONSerialization.jsonObject(with: data, options: [])
+//					let json = try? JSONSerialization.jsonObject(with: data, options: [])
 					DispatchQueue.main.async {
-						success?(json)
+						success?(data)
 					}
 				} else {
 					DispatchQueue.main.async {

@@ -13,6 +13,8 @@ protocol FullScreenViewInput: class {
 
 protocol FullScreenViewOutput: class {
 	func loadView()
+	func viewWillAppear(_ animated: Bool)
+	func viewDidAppear(_ animated: Bool)
 	func viewDidDisappear(_ animated: Bool)
 	
 	func storyCellDidTapOnLeftSide()
@@ -42,6 +44,16 @@ public final class FullScreenViewController: UIViewController {
 	override public func loadView() {
 		super.loadView()
 		presenter.loadView()
+	}
+	
+	override public func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		presenter.viewWillAppear(animated)
+	}
+	
+	override public func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		presenter.viewDidAppear(animated)
 	}
 	
 	override public func viewDidDisappear(_ animated: Bool) {
@@ -104,16 +116,14 @@ extension FullScreenViewController: FullScreenViewInput {
 	}
 	
 	func resumeAnimation() {
+		print("resumeAnimation")
 		self.view.layer.resume()
 	}
 	
 	func pauseAnimation() {
+		print("pauseAnimation")
 		self.view.layer.pause()
 	}
-}
-
-extension FullScreenViewController {
-	
 }
 
 extension FullScreenViewController: FullScreenCollectionViewAdapterOutput {
