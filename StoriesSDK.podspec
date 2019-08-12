@@ -19,5 +19,5 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'ssh://git@bb.yandex-team.ru/music-mobile/mobile-stories-sdk-ios.git', :tag => s.version.to_s }
   s.ios.deployment_target = '10.0'
   s.source_files = 'StoriesSDK/Classes/**/*'
-  s.resource = 'StoriesSDK/Assets/*'
+  s.resource = 'StoriesSDK/Resourses/*'
 end
