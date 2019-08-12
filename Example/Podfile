@@ -1,7 +1,7 @@
 use_frameworks!
 
 target 'Stories_iOS_Example' do
-  pod 'Stories_iOS', :path => '../'
+  pod 'StoriesSDK', :path => '../'
 
   target 'Stories_iOS_Tests' do
     inherit! :search_paths

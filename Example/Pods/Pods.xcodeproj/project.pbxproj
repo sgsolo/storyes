@@ -371,7 +371,7 @@
 			path = AnimatedTransitioning;
 			sourceTree = "<group>";
 		};
-		7EBC1474445DB517AC10FE8F35985329 /* Stories_iOS */ = {
+		7EBC1474445DB517AC10FE8F35985329 /* StoriesSDK */ = {
 			isa = PBXGroup;
 			children = (
 				6B76CF7922FBF0D500D95FD7 /* Services */,
@@ -385,7 +385,7 @@
 				639F71F6E48EA96A263294FDC0E4BBC7 /* Pod */,
 				F19AE2AFE6D2C47DC437F98586299BF2 /* Support Files */,
 			);
-			name = Stories_iOS;
+			name = StoriesSDK;
 			path = ../..;
 			sourceTree = "<group>";
 		};
@@ -401,7 +401,7 @@
 		9EA1154458216E334F4E609223AEC7D6 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7EBC1474445DB517AC10FE8F35985329 /* Stories_iOS */,
+				7EBC1474445DB517AC10FE8F35985329 /* StoriesSDK */,
 			);
 			name = "Development Pods";
 			sourceTree = "<group>";
