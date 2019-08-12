@@ -1,0 +1,6 @@
+framework module StoriesSDK {
+  umbrella header "StoriesSDK-umbrella.h"
+
+  export *
+  module * { export * }
+}
