@@ -61,7 +61,6 @@ extension ProgressCell: CollectionViewItemsSizeProvider {
 
 extension ProgressCell: ConfigurableComponent {
 	func configure(with object: Any) {
-		print("configure ProgressCell")
 		if let model = object as? ProgressModel {
 			progressState = model.progressState
 		}

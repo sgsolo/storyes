@@ -1,51 +1,36 @@
-import Foundation
+import CoreGraphics
 
 //protocol FullScreenPresenterInput: class {
 //}
 //
-//TODO: StoryModel для теста вьюхи, после удалить
-struct SlideModel {
-	let duration = 6
-	var color: UIColor
-	var image: UIImage?
-}
-
-struct StoryIndexPath {
-	var currentStory: Int = 1 {
-		didSet {
-			currentSlide = 0
-		}
-	}
-	var currentSlide: Int = 0
-}
 
 class FullScreenPresenter {
 	weak var output: FullScreenModuleOutput!
 	weak var view: FullScreenViewInput!
+	var storiesService: StoriesServiceInput!
 	
-	var storyIndexPath = StoryIndexPath()
-	let sectionData = CollectionSectionData(objects:
-		[
-			[SlideModel(color: .red, image: UIImage(named: "1", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
-			 SlideModel(color: .blue, image: UIImage(named: "2", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
-			 SlideModel(color: .brown, image: UIImage(named: "3", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
-			 SlideModel(color: .green, image: UIImage(named: "4", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
-			 SlideModel(color: .purple, image: UIImage(named: "5", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil))]
-			,
-			[SlideModel(color: .red, image: UIImage(named: "1", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
-			 SlideModel(color: .blue, image: UIImage(named: "2", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
-			 SlideModel(color: .brown, image: UIImage(named: "3", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
-			 SlideModel(color: .green, image: UIImage(named: "4", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil)),
-			 SlideModel(color: .purple, image: UIImage(named: "5", in: Bundle(for: FullScreenPresenter.self), compatibleWith: nil))]
-		])
+	var currentStory = Story()
 	private var slideSwitchTimer = PauseTimer()
+	private var isFullScreenStoriesDidEnded = false
+	private var isViewDidAppear = false
 }
 
 extension FullScreenPresenter: FullScreenViewOutput {
 	func loadView() {
 		view.configureCollectionView()
 		updateData()
-		scrollToStory(index: storyIndexPath.currentStory, animated: false)
+		scrollToStory(index: currentStory.storyIndex, animated: false)
+		showSlide()
+	}
+	
+	func viewWillAppear(_ animated: Bool) {
+//		scrollToStory(index: currentStory.storyIndex, animated: false)
+	}
+	
+	func viewDidAppear(_ animated: Bool) {
+		isViewDidAppear = true
+		updateData()
+		scrollToStory(index: currentStory.storyIndex, animated: false)
 		showSlide()
 	}
 	
@@ -72,17 +57,32 @@ extension FullScreenPresenter: FullScreenViewOutput {
 		self.slideSwitchTimer.resume()
 	}
 	
+	private func pauseAnimation() {
+		//!!! нельзя анимировано скрывать контроллер и при этом отключать анимацию, в этом случае пользовательский интерфейс фризится
+		guard !isFullScreenStoriesDidEnded && isViewDidAppear else { return }
+		self.view.pauseAnimation()
+	}
+	
+	private func resumeAnimation() {
+		guard isViewDidAppear else { return }
+		self.view.resumeAnimation()
+	}
+	
 	private func showSlide() {
-		if sectionData.objects.count > storyIndexPath.currentStory,
-			let slideModels = sectionData.objects[storyIndexPath.currentStory] as? [SlideModel],
-			slideModels.count > storyIndexPath.currentSlide {
-			let slideModel = slideModels[storyIndexPath.currentSlide]
-			showSlide(model: slideModel, modelsCount: slideModels.count, modelIndex: storyIndexPath.currentSlide)
+		if let storyes = storiesService.storyes,
+			storyes.count > currentStory.storyIndex,
+			storyes[currentStory.storyIndex].count > currentStory.slideIndex {
+			
+			let slideModels = storyes[currentStory.storyIndex]
+			let slideModel = slideModels[currentStory.slideIndex]
+			showSlide(model: slideModel, modelsCount: slideModels.count, modelIndex: currentStory.slideIndex)
 		}
 		runTimerForSlide()
 	}
 	
 	private func updateData() {
+		guard let storyes = storiesService.storyes else { return }
+		let sectionData = CollectionSectionData(objects: storyes)
 		view.updateData(with: [sectionData])
 	}
 	
@@ -92,7 +92,7 @@ extension FullScreenPresenter: FullScreenViewOutput {
 		}
 		view.scrollToStory(index: index, animated: animated)
 		if !animated {
-			view.resumeAnimation()
+			resumeAnimation()
 			resumeTimer()
 		}
 	}
@@ -108,18 +108,20 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	private func showPrevSlide() {
-		if sectionData.objects.count > storyIndexPath.currentStory,
-			storyIndexPath.currentSlide - 1 >= 0 {
-			storyIndexPath.currentSlide -= 1
+		if let storyes = storiesService.storyes,
+			storyes.count > currentStory.storyIndex,
+			currentStory.slideIndex - 1 >= 0 {
+			currentStory.slideIndex -= 1
 			showSlide()
-		} else if sectionData.objects.count > storyIndexPath.currentStory,
-			storyIndexPath.currentStory - 1 >= 0  {
-			storyIndexPath.currentStory -= 1
-			scrollToStory(index: storyIndexPath.currentStory, animated: true)
+		} else if let storyes = storiesService.storyes,
+			storyes.count > currentStory.storyIndex,
+			currentStory.storyIndex - 1 >= 0 {
+			currentStory.storyIndex -= 1
+			scrollToStory(index: currentStory.storyIndex, animated: true)
 			showSlide()
-		} else if storyIndexPath.currentStory == 0,
-			storyIndexPath.currentSlide == 0 {
-			output.fullScreenStoriesDidEnd()
+		} else if currentStory.storyIndex == 0,
+			currentStory.slideIndex == 0 {
+			output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
 		}
 	}
 	
@@ -130,21 +132,21 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	private func showNextSlide() {
-		if sectionData.objects.count > storyIndexPath.currentStory,
-			let slideModels = sectionData.objects[storyIndexPath.currentStory] as? [SlideModel],
-			slideModels.count > storyIndexPath.currentSlide + 1 {
-			storyIndexPath.currentSlide += 1
+		if let storyes = storiesService.storyes,
+			storyes.count > currentStory.storyIndex,
+			storyes[currentStory.storyIndex].count > currentStory.slideIndex + 1 {
+			currentStory.slideIndex += 1
 			showSlide()
-		} else if sectionData.objects.count > storyIndexPath.currentStory,
-			let slideModels = sectionData.objects[storyIndexPath.currentStory] as? [SlideModel],
-			slideModels.count == storyIndexPath.currentSlide + 1,
-			sectionData.objects.count == storyIndexPath.currentStory + 1 {
-			output.fullScreenStoriesDidEnd()
-		} else if sectionData.objects.count > storyIndexPath.currentStory,
-			let slideModels = sectionData.objects[storyIndexPath.currentStory] as? [SlideModel],
-			slideModels.count > storyIndexPath.currentStory + 1 {
-			storyIndexPath.currentStory += 1
-			scrollToStory(index: storyIndexPath.currentStory, animated: true)
+		} else if let storyes = storiesService.storyes,
+			storyes.count > currentStory.storyIndex,
+			storyes[currentStory.storyIndex].count == currentStory.slideIndex + 1,
+			storyes.count == currentStory.storyIndex + 1 {
+			output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
+		} else if let storyes = storiesService.storyes,
+			storyes.count > currentStory.storyIndex,
+			storyes[currentStory.storyIndex].count > currentStory.storyIndex + 1 {
+			currentStory.storyIndex += 1
+			scrollToStory(index: currentStory.storyIndex, animated: true)
 			showSlide()
 		}
 	}
@@ -152,51 +154,59 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	func storyCellTouchesBegan() {
 //		view.setCollectionViewScrollEnabled(false)
 		pauseTimer()
-		view.pauseAnimation()
+		pauseAnimation()
 	}
 	
 	func storyCellTouchesCancelled() {
 		view.setCollectionViewScrollEnabled(true)
 		resumeTimer()
-		view.resumeAnimation()
+		resumeAnimation()
 	}
 	
 	func storyCellDidTouchesEnded() {
 		view.setCollectionViewScrollEnabled(true)
 		resumeTimer()
-		view.resumeAnimation()
+		resumeAnimation()
 	}
 	
 	func didEndScrollingAnimation() {
 		view.setCollectionViewUserInteractionEnabled(true)
 		resumeTimer()
-		view.resumeAnimation()
+		resumeAnimation()
 	}
 	
 	func collectionViewDidScroll(contentSize: CGSize, contentOffset: CGPoint) {
+		pauseTimer()
+		pauseAnimation()
 		let margin: CGFloat = 40
 		if contentSize.width + margin < contentOffset.x + UIScreen.main.bounds.width {
-			output.fullScreenStoriesDidEnd()
+			self.isFullScreenStoriesDidEnded = true
+			resumeAnimation()
+			output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
 		}
-		pauseTimer()
-		view.pauseAnimation()
 	}
 	
 	func collectionViewDidEndDecelerating(visibleIndexPath: IndexPath) {
-		if visibleIndexPath.item != storyIndexPath.currentStory {
-			storyIndexPath.currentStory = visibleIndexPath.item
+		if visibleIndexPath.item != currentStory.storyIndex {
+			currentStory.storyIndex = visibleIndexPath.item
 			runTimerForSlide()
 		}
 		view.setCollectionViewScrollEnabled(true)
 		resumeTimer()
-		view.resumeAnimation()
+		resumeAnimation()
 	}
 	
 	func closeButtonDidTap() {
-		output.fullScreenDidTapOnCloseButton()
+		output.fullScreenDidTapOnCloseButton(storyIndex: currentStory.storyIndex)
 	}
 }
 
 extension FullScreenPresenter: FullScreenModuleInput {
-	
+	func setSelectedStory(index: Int) {
+		isFullScreenStoriesDidEnded = false
+		currentStory.storyIndex = index
+		updateData()
+		scrollToStory(index: currentStory.storyIndex, animated: false)
+		showSlide()
+	}
 }

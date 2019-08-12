@@ -1,9 +1,15 @@
-public protocol CarouselPreviewPresentrerInput {}
+public protocol CarouselPreviewPresentrerInput {
+	func scrollTo(storyIndex: Int)
+	func getStoryFrame(at storyIndex: Int) -> CGRect
+}
 
-protocol CarouselPreviewPresentrerOutput {}
+public protocol CarouselPreviewPresentrerOutput: class {
+	func didSelectStory(at index: Int, frame: CGRect)
+}
 
 public final class CarouselPreviewPresentrer {
     weak var view: CarouselPreviewInput!
+	weak var output: CarouselPreviewPresentrerOutput!
 }
 
 extension CarouselPreviewPresentrer: CarouselPreviewOutput {
@@ -12,6 +18,18 @@ extension CarouselPreviewPresentrer: CarouselPreviewOutput {
         let sectionData = CollectionSectionData(objects: mockData)
         view.showData([sectionData])
     }
+	
+	public func didSelectCollectionCell(at indexPath: IndexPath, frame: CGRect) {
+		output.didSelectStory(at: indexPath.item, frame: frame)
+	}
 }
 
-extension CarouselPreviewPresentrer: CarouselPreviewPresentrerOutput {}
+extension CarouselPreviewPresentrer: CarouselPreviewPresentrerInput {
+	public func scrollTo(storyIndex: Int) {
+		view.scrollTo(storyIndex: storyIndex)
+	}
+	
+	public func getStoryFrame(at storyIndex: Int) -> CGRect {
+		return view.getStoryFrame(at: storyIndex)
+	}
+}

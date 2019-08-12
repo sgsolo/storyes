@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 protocol StoryCellDelegate: class {
 	func storyCellDidTapOnLeftSide()
@@ -30,7 +30,7 @@ class StoryCell: UICollectionViewCell {
 	
 	private func addSlideView() {
 		self.addSubview(slideView)
-		slideView.contentMode = .center
+		slideView.contentMode = .scaleAspectFit
 		slideView.translatesAutoresizingMaskIntoConstraints = false
 		slideView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
 		slideView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true

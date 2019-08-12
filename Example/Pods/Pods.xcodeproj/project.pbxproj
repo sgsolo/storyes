@@ -32,8 +32,11 @@
 		6B3656C722F9B07200446834 /* ProgressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656C622F9B07200446834 /* ProgressCell.swift */; };
 		6B3656CC22FA9CD900446834 /* PauseTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656CB22FA9CD900446834 /* PauseTimer.swift */; };
 		6B3656CF22FAAE9300446834 /* LayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3656CE22FAAE9300446834 /* LayerExtensions.swift */; };
+		6B76CF7822FBECB200D95FD7 /* StoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B76CF7722FBECB200D95FD7 /* StoryManager.swift */; };
+		6B76CF7B22FBF12F00D95FD7 /* StoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B76CF7A22FBF12F00D95FD7 /* StoryService.swift */; };
 		6B8A09BA22FAE2D400305C66 /* DisplayableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8A09B922FAE2D400305C66 /* DisplayableComponent.swift */; };
 		6B9F191322F47AB000BA00F3 /* StoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9F191222F47AB000BA00F3 /* StoryScreen.swift */; };
+		6BDDA98F23013633005DD2C8 /* AnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDDA98E23013633005DD2C8 /* AnimatedTransitioning.swift */; };
 		6E633AFA1C2AAA4AE709C856F128B796 /* Pods-Stories_iOS_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C5A31DD1DD85DA18F529BA312F6B620 /* Pods-Stories_iOS_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7F330D44ED75DDE1F971E912CB99F5EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		B217ECF822F8037C00F7D7F1 /* CarouselPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B217ECF722F8037C00F7D7F1 /* CarouselPreviewViewController.swift */; };
@@ -106,8 +109,11 @@
 		6B3656C622F9B07200446834 /* ProgressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCell.swift; sourceTree = "<group>"; };
 		6B3656CB22FA9CD900446834 /* PauseTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseTimer.swift; sourceTree = "<group>"; };
 		6B3656CE22FAAE9300446834 /* LayerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerExtensions.swift; sourceTree = "<group>"; };
+		6B76CF7722FBECB200D95FD7 /* StoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryManager.swift; sourceTree = "<group>"; };
+		6B76CF7A22FBF12F00D95FD7 /* StoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryService.swift; sourceTree = "<group>"; };
 		6B8A09B922FAE2D400305C66 /* DisplayableComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayableComponent.swift; sourceTree = "<group>"; };
 		6B9F191222F47AB000BA00F3 /* StoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScreen.swift; sourceTree = "<group>"; };
+		6BDDA98E23013633005DD2C8 /* AnimatedTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedTransitioning.swift; sourceTree = "<group>"; };
 		6F0422C556622C630C26182881C0FF18 /* Stories_iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Stories_iOS-dummy.m"; sourceTree = "<group>"; };
 		70C8D5B78E6CBDDE0A52B5B6D558BCEA /* Stories_iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Stories_iOS-umbrella.h"; sourceTree = "<group>"; };
 		75D4503E4CE86131E83B0BF658D3E902 /* Pods-Stories_iOS_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Stories_iOS_Tests.modulemap"; sourceTree = "<group>"; };
@@ -256,6 +262,7 @@
 				6B8A09BB22FB075100305C66 /* Progress */,
 				6B9F191422F817C300BA00F3 /* Views */,
 				6B19633322EF36FD00A28376 /* Adapters */,
+				6BDDA98D230135D7005DD2C8 /* AnimatedTransitioning */,
 			);
 			path = FullScreen;
 			sourceTree = "<group>";
@@ -314,6 +321,22 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		6B76CF7622FBEC8500D95FD7 /* StoryManager */ = {
+			isa = PBXGroup;
+			children = (
+				6B76CF7722FBECB200D95FD7 /* StoryManager.swift */,
+			);
+			path = StoryManager;
+			sourceTree = "<group>";
+		};
+		6B76CF7922FBF0D500D95FD7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				6B76CF7A22FBF12F00D95FD7 /* StoryService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		6B8A09BB22FB075100305C66 /* Progress */ = {
 			isa = PBXGroup;
 			children = (
@@ -340,9 +363,19 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		6BDDA98D230135D7005DD2C8 /* AnimatedTransitioning */ = {
+			isa = PBXGroup;
+			children = (
+				6BDDA98E23013633005DD2C8 /* AnimatedTransitioning.swift */,
+			);
+			path = AnimatedTransitioning;
+			sourceTree = "<group>";
+		};
 		7EBC1474445DB517AC10FE8F35985329 /* Stories_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				6B76CF7922FBF0D500D95FD7 /* Services */,
+				6B76CF7622FBEC8500D95FD7 /* StoryManager */,
 				6B19631A22EF2D3A00A28376 /* Common */,
 				6B19631722EF2BB100A28376 /* Modules */,
 				6B19631622EF2BA500A28376 /* Models */,
@@ -661,6 +694,7 @@
 				B217ECF822F8037C00F7D7F1 /* CarouselPreviewViewController.swift in Sources */,
 				C30A2DEB27D0A54063ECEE24662D84A7 /* Stories_iOS-dummy.m in Sources */,
 				6B3656BD22F819A600446834 /* StoryCell.swift in Sources */,
+				6BDDA98F23013633005DD2C8 /* AnimatedTransitioning.swift in Sources */,
 				6B19632622EF2FE500A28376 /* BaseCollectionViewAdapter.swift in Sources */,
 				6B19632722EF2FE500A28376 /* RegistrableSupplementaryViewComponent.swift in Sources */,
 				6B19632D22EF326300A28376 /* RegistrableComponent.swift in Sources */,
@@ -668,6 +702,7 @@
 				B217ED0222F812F100F7D7F1 /* StoriePreviewModel.swift in Sources */,
 				6B19631C22EF2E3300A28376 /* FullScreenViewController.swift in Sources */,
 				6B19633022EF32D400A28376 /* RegistrableSource.swift in Sources */,
+				6B76CF7822FBECB200D95FD7 /* StoryManager.swift in Sources */,
 				6B3656C522F9B00E00446834 /* ProgressCollectionViewAdapter.swift in Sources */,
 				6B3656BF22F81C2B00446834 /* PagedSliderFlowLayout.swift in Sources */,
 				B29A990A22F9BC90006067EA /* CarouselPreviewSizeCalculator.swift in Sources */,
@@ -684,6 +719,7 @@
 				6B19635B22F2F30400A28376 /* ApiClient.swift in Sources */,
 				6B19633222EF335C00A28376 /* ConfigurableComponent.swift in Sources */,
 				6B3656C722F9B07200446834 /* ProgressCell.swift in Sources */,
+				6B76CF7B22FBF12F00D95FD7 /* StoryService.swift in Sources */,
 				6B19632822EF2FE500A28376 /* CollectionViewItemsSizeProvider.swift in Sources */,
 				B29A98EA22F9A71C006067EA /* MockStoriesPreviewData.swift in Sources */,
 			);
