@@ -20,5 +20,5 @@
     "ios": "10.0"
   },
   "source_files": "StoriesSDK/Classes/**/*",
-  "resources": "StoriesSDK/Assets/*"
+  "resources": "StoriesSDK/Resourses/*"
 }
