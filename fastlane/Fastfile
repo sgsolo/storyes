@@ -5,7 +5,6 @@ default_platform :ios # Платформа
 platform :ios do
     # Для всех lane'ов, предварительные действия
     before_all do |lane, options|
-        cocoapods(repo_update: false) # Говорим что необходимо установить CocoaPods (см. Podfile, Podfile.lock, делается pod install, master repo лучше каждый раз не обновлять)
         # xcversion(version: "~> 8.0")
         xcode_select "/Applications/Xcode8.1.app" # Выбираем версию Xcode (по пути, еще можно использовать xcversion, но будьте готовы что xcversion может попытаться скачать и установить Xcode если его нет)
     end
@@ -15,13 +14,13 @@ platform :ios do
         # Получаем идентификатор приложения
         appIdentifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) 
         # Получаем версию приложения
-        appVersion = get_info_plist_value(path: "./App/Info.plist", key: 'CFBundleShortVersionString') 
+        appVersion = get_info_plist_value(path: "./DemoStoriesSDK/Info.plist", key: 'CFBundleShortVersionString') 
         # Получаем номер билда, переданный через параметры командной строки
         buildNumber = options[:buildNumber] 
         # Устанавливаем номер билда в Info.plist
-        set_info_plist_value(path: "./App/Info.plist", key: "CFBundleVersion", value: buildNumber) 
+        set_info_plist_value(path: "./DemoStoriesSDK/Info.plist", key: "CFBundleVersion", value: buildNumber) 
         # Пользуясь Action'ом collect_changelog получаем список изменений с teamcity
-        BUILD_LOG = collect_changelog(buildID: options[:buildId]) 
+        # BUILD_LOG = collect_changelog(buildID: options[:buildId]) 
         # Пользуясь Action'ом shield накладываем на иконку приложения номер версии, номер билда и шильдик beta
         shield(
             path: ".",
@@ -47,7 +46,7 @@ platform :ios do
             build: buildNumber,
             ipa_path: betaIPAPath,
             branch: options[:betaBranch].gsub("/", "_"),
-            changelog: BUILD_LOG,
+            changelog: demo,
             debug: false)
     end
     # lane для запуска тестов
@@ -58,6 +57,6 @@ platform :ios do
              clean: false,
              slack_channel: "#builds",
              slack_message: "iOS: протестирован билд #{options[:betaBranch]} (#{options[:buildNumber]})",
-             skip_slack: false)
+             skip_slack: true)
     end
 end
