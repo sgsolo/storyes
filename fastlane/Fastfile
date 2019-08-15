@@ -20,7 +20,7 @@ platform :ios do
         # Устанавливаем номер билда в Info.plist
         set_info_plist_value(path: "./DemoStoriesSDK/Info.plist", key: "CFBundleVersion", value: buildNumber) 
         # Пользуясь Action'ом collect_changelog получаем список изменений с teamcity
-        # BUILD_LOG = collect_changelog(buildID: options[:buildId]) 
+        BUILD_LOG = collect_changelog(buildID: options[:buildId]) 
         # Пользуясь Action'ом shield накладываем на иконку приложения номер версии, номер билда и шильдик beta
         shield(
             path: ".",
@@ -45,7 +45,7 @@ platform :ios do
             build: buildNumber,
             ipa_path: betaIPAPath,
             branch: options[:betaBranch].gsub("/", "_"),
-            changelog: demo,
+            changelog: BUILD_LOG,
             debug: false)
     end
     # lane для запуска тестов
