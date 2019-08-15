@@ -32,7 +32,6 @@ platform :ios do
         gym(scheme: "DemoStoriesSDK",
             configuration: "AdHoc",
             export_method: "enterprise",
-            use_legacy_build_api: true,
             codesigning_identity: "iPhone Distribution: Yandex LLC",
             silent: false)
         # Получаем путь до собранного ipa файла
