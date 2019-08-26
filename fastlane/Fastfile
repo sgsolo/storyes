@@ -6,7 +6,7 @@ platform :ios do
     # Для всех lane'ов, предварительные действия
     before_all do |lane, options|
         # xcversion(version: "~> 8.0")
-        xcode_select "/Applications/Xcode8.1.app" # Выбираем версию Xcode (по пути, еще можно использовать xcversion, но будьте готовы что xcversion может попытаться скачать и установить Xcode если его нет)
+        xcode_select "/Applications/Xcode.app" # Выбираем версию Xcode (по пути, еще можно использовать xcversion, но будьте готовы что xcversion может попытаться скачать и установить Xcode если его нет)
     end
     # lane сборки для публикацию на http://beta.m.soft.yandex.ru
     desc "Yandex beta build"
@@ -33,6 +33,7 @@ platform :ios do
             configuration: "AdHoc",
             export_method: "enterprise",
             codesigning_identity: "iPhone Distribution: Yandex LLC",
+	    provisioning_profile_specifier: "Generic Yandex In House Profile 2014",
             silent: false)
         # Получаем путь до собранного ipa файла
         betaIPAPath = Actions.lane_context[SharedValues::IPA_OUTPUT_PATH].to_s
