@@ -33,7 +33,6 @@ platform :ios do
             configuration: "AdHoc",
             export_method: "enterprise",
             codesigning_identity: "iPhone Distribution: Yandex LLC",
-	    provisioning_profile_specifier: "Generic Yandex In House Profile 2014",
             silent: false)
         # Получаем путь до собранного ipa файла
         betaIPAPath = Actions.lane_context[SharedValues::IPA_OUTPUT_PATH].to_s
