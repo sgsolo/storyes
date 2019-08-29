@@ -1,0 +1,6 @@
+framework module Pods_DemoStoriesSDK {
+  umbrella header "Pods-DemoStoriesSDK-umbrella.h"
+
+  export *
+  module * { export * }
+}

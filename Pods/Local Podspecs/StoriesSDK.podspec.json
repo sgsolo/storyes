@@ -1,0 +1,24 @@
+{
+  "name": "StoriesSDK",
+  "version": "0.0.1",
+  "summary": "Stories for Music and Kinopoisk Application.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://bb.yandex-team.ru/projects/MUSIC-MOBILE/repos/mobile-stories-sdk-ios/browse",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Григорий Соловьев": "gsoloviev100@yandex-team.ru",
+    "Ильнур Ибрагимов": "iibragimov@yandex-team.ru"
+  },
+  "source": {
+    "git": "ssh://git@bb.yandex-team.ru/music-mobile/mobile-stories-sdk-ios.git",
+    "tag": "0.0.1"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "StoriesSDK/Classes/**/*",
+  "resources": "StoriesSDK/Resourses/*"
+}

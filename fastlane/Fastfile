@@ -1,0 +1,61 @@
+fastlane_version "1.104.0" # Тут минимально необходимая версия FastLane
+default_platform :ios # Платформа
+# TEAMCITY_URL = 'https://teamcity.mobile.dev.yandex.net/viewLog.html' # Адрес teamcity (если необходимо)
+# Сборочные lane'ы для платформы iOS
+platform :ios do
+    # Для всех lane'ов, предварительные действия
+    before_all do |lane, options|
+        # xcversion(version: "~> 8.0")
+        xcode_select "/Applications/Xcode.app" # Выбираем версию Xcode (по пути, еще можно использовать xcversion, но будьте готовы что xcversion может попытаться скачать и установить Xcode если его нет)
+    end
+    # lane сборки для публикацию на http://beta.m.soft.yandex.ru
+    desc "Yandex beta build"
+    lane :beta do |options|
+        # Получаем идентификатор приложения
+        appIdentifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) 
+        # Получаем версию приложения
+        appVersion = get_info_plist_value(path: "./DemoStoriesSDK/Info.plist", key: 'CFBundleShortVersionString') 
+        # Получаем номер билда, переданный через параметры командной строки
+        buildNumber = options[:buildNumber] 
+        # Устанавливаем номер билда в Info.plist
+        set_info_plist_value(path: "./DemoStoriesSDK/Info.plist", key: "CFBundleVersion", value: buildNumber) 
+        # Пользуясь Action'ом collect_changelog получаем список изменений с teamcity
+        BUILD_LOG = collect_changelog(buildID: options[:buildId]) 
+        # Пользуясь Action'ом shield накладываем на иконку приложения номер версии, номер билда и шильдик beta
+        shield(
+            path: ".",
+            dark: false,
+            alpha: false,
+            shield: "#{appVersion}-#{options[:buildNumber]}-#{'#007ec6'}",
+            shield_no_resize: true)
+        # Собираем приложение (в том числе с codesign)
+        gym(scheme: "DemoStoriesSDK",
+            configuration: "AdHoc",
+            export_method: "enterprise",
+            codesigning_identity: "iPhone Distribution: Yandex LLC",
+            silent: false)
+        # Получаем путь до собранного ipa файла
+        betaIPAPath = Actions.lane_context[SharedValues::IPA_OUTPUT_PATH].to_s
+        # Пользуясь Action'ом ybeta, заливаем сборку на http://beta.m.soft.yandex.ru
+        ybeta(
+            platform: 'iphone',
+            project_name: options[:betaAppName],
+            bundle_id: appIdentifier,
+            version: appVersion,
+            build: buildNumber,
+            ipa_path: betaIPAPath,
+            branch: options[:betaBranch].gsub("/", "_"),
+            changelog: BUILD_LOG,
+            debug: false)
+    end
+    # lane для запуска тестов
+    desc "Yandex tests"
+    lane :tests do |options|
+        # Запускаем тестирование (сборка автоматически соберется для тестирования) и заодно рапортуем в Slack о ситуации
+        scan(scheme: "DemoStoriesSDK",
+             clean: false,
+             slack_channel: "#builds",
+             slack_message: "iOS: протестирован билд #{options[:betaBranch]} (#{options[:buildNumber]})",
+             skip_slack: true)
+    end
+end
