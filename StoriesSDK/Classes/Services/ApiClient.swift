@@ -46,7 +46,7 @@ public class ApiClient {
 		let configuration = URLSessionConfiguration.default
 		configuration.httpMaximumConnectionsPerHost = 1
 		configuration.httpShouldUsePipelining = false
-		configuration.urlCache = URLCache(memoryCapacity: 10000 * 1024 * 1024, diskCapacity: 10000 * 1024 * 1024, diskPath: "imageCache")
+		configuration.urlCache = URLCache(memoryCapacity: Int.max, diskCapacity: Int.max, diskPath: "imageCache")
 		return URLSession(configuration: configuration)
 	}()
 

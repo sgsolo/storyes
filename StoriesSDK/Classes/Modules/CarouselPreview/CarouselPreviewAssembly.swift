@@ -1,4 +1,4 @@
-#warning("Struct just for CarouselUITesting")
+//#warning("Struct just for CarouselUITesting")
 public struct CarouselPreviewModule {
     public let view: CarouselPreviewViewController
     public let input: CarouselPreviewPresentrerInput
