@@ -1,8 +1,5 @@
 import CoreGraphics
-
-//protocol FullScreenPresenterInput: class {
-//}
-//
+import Foundation
 
 class FullScreenPresenter {
 	weak var output: FullScreenModuleOutput!
@@ -12,192 +9,111 @@ class FullScreenPresenter {
 	var currentStory = Story()
 	private var slideSwitchTimer = PauseTimer()
 	private var isFullScreenStoriesDidEnded = false
-	private var isViewDidAppear = false
 }
 
 extension FullScreenPresenter: FullScreenViewOutput {
 	func loadView() {
-		view.configureCollectionView()
-		updateData()
-		scrollToStory(index: currentStory.storyIndex, animated: false)
-		showSlide()
+		view.addPanGestureRecognizer()
+	}
+
+	func closeButtonDidTap() {
+		output.fullScreenDidTapOnCloseButton(storyIndex: currentStory.storyIndex)
 	}
 	
-	func viewWillAppear(_ animated: Bool) {
-//		scrollToStory(index: currentStory.storyIndex, animated: false)
+	func needShowPrevStory() {
+		showPrevStory()
 	}
 	
-	func viewDidAppear(_ animated: Bool) {
-		isViewDidAppear = true
-		updateData()
-		scrollToStory(index: currentStory.storyIndex, animated: false)
-		showSlide()
-	}
-	
-	func viewDidDisappear(_ animated: Bool) {
-		invalidateTimer()
-	}
-	
-	//TODO: брать TimeInterval из модели слайда
-	private func runTimerForSlide() {
-		self.slideSwitchTimer.scheduledTimer(withTimeInterval: 6, repeats: true, block: { [weak self] timer in
-			self?.showNextSlide()
-		})
-	}
-	
-	private func invalidateTimer() {
-		self.slideSwitchTimer.invalidate()
-	}
-	
-	private func pauseTimer() {
-		self.slideSwitchTimer.pause()
-	}
-	
-	private func resumeTimer() {
-		self.slideSwitchTimer.resume()
-	}
-	
-	private func pauseAnimation() {
-		//!!! нельзя анимировано скрывать контроллер и при этом отключать анимацию, в этом случае пользовательский интерфейс фризится
-		guard !isFullScreenStoriesDidEnded && isViewDidAppear else { return }
-		self.view.pauseAnimation()
-	}
-	
-	private func resumeAnimation() {
-		guard isViewDidAppear else { return }
-		self.view.resumeAnimation()
-	}
-	
-	private func showSlide() {
+	private func showPrevStory() {
 		if let stories = storiesService.stories,
-			stories.count > currentStory.storyIndex,
-			stories[currentStory.storyIndex].count > currentStory.slideIndex {
-			
-			let slideModels = stories[currentStory.storyIndex]
-			let slideModel = slideModels[currentStory.slideIndex]
-			showSlide(model: slideModel, modelsCount: slideModels.count, modelIndex: currentStory.slideIndex)
-		}
-		runTimerForSlide()
-	}
-	
-	private func updateData() {
-		guard let stories = storiesService.stories else { return }
-		let sectionData = CollectionSectionData(objects: stories)
-		view.updateData(with: [sectionData])
-	}
-	
-	private func scrollToStory(index: Int, animated: Bool) {
-		if animated {
-			view.setCollectionViewUserInteractionEnabled(false)
-		}
-		view.scrollToStory(index: index, animated: animated)
-		if !animated {
-			resumeAnimation()
-			resumeTimer()
-		}
-	}
-	
-	private func showSlide(model: SlideModel, modelsCount: Int, modelIndex: Int) {
-		view.showSlide(model: model, modelsCount: modelsCount, modelIndex: modelIndex)
-	}
-	
-	func storyCellDidTapOnLeftSide() {
-		assert(Thread.isMainThread)
-		view.setCollectionViewScrollEnabled(true)
-		showPrevSlide()
-	}
-	
-	private func showPrevSlide() {
-		if let stories = storiesService.stories,
-			stories.count > currentStory.storyIndex,
-			currentStory.slideIndex - 1 >= 0 {
-			currentStory.slideIndex -= 1
-			showSlide()
-		} else if let stories = storiesService.stories,
 			stories.count > currentStory.storyIndex,
 			currentStory.storyIndex - 1 >= 0 {
 			currentStory.storyIndex -= 1
-			scrollToStory(index: currentStory.storyIndex, animated: true)
-			showSlide()
+			view.showStory(storyModel: stories[currentStory.storyIndex], direction: .leftToRight)
+			preloadPrevious()
 		} else if currentStory.storyIndex == 0,
 			currentStory.slideIndex == 0 {
 			output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
 		}
 	}
 	
-	func storyCellDidTapOnRightSide() {
-		assert(Thread.isMainThread)
-		view.setCollectionViewScrollEnabled(true)
-		showNextSlide()
+	func needShowNextStory() {
+		showNextStory()
 	}
 	
-	private func showNextSlide() {
+	private func showNextStory() {
 		if let stories = storiesService.stories,
 			stories.count > currentStory.storyIndex,
-			stories[currentStory.storyIndex].count > currentStory.slideIndex + 1 {
-			currentStory.slideIndex += 1
-			showSlide()
-		} else if let stories = storiesService.stories,
-			stories.count > currentStory.storyIndex,
-			stories[currentStory.storyIndex].count == currentStory.slideIndex + 1,
 			stories.count == currentStory.storyIndex + 1 {
 			output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
 		} else if let stories = storiesService.stories,
-			stories.count > currentStory.storyIndex,
-			stories[currentStory.storyIndex].count > currentStory.storyIndex + 1 {
+			stories.count > currentStory.storyIndex {
 			currentStory.storyIndex += 1
-			scrollToStory(index: currentStory.storyIndex, animated: true)
-			showSlide()
+			view.showStory(storyModel: stories[currentStory.storyIndex], direction: .rightToLeft)
+			preloadNext()
 		}
 	}
 	
-	func storyCellTouchesBegan() {
-//		view.setCollectionViewScrollEnabled(false)
-		pauseTimer()
-		pauseAnimation()
+	private func prevStory() -> StoryModel? {
+		if let stories = storiesService.stories,
+			stories.count > currentStory.storyIndex,
+			currentStory.storyIndex - 1 >= 0 {
+			return stories[currentStory.storyIndex - 1]
+		}
+		return nil
 	}
 	
-	func storyCellTouchesCancelled() {
-		view.setCollectionViewScrollEnabled(true)
-		resumeTimer()
-		resumeAnimation()
+	private func nextStory() -> StoryModel? {
+		if let stories = storiesService.stories,
+			stories.count > currentStory.storyIndex + 1 {
+			return stories[currentStory.storyIndex + 1]
+		}
+		return nil
 	}
 	
-	func storyCellDidTouchesEnded() {
-		view.setCollectionViewScrollEnabled(true)
-		resumeTimer()
-		resumeAnimation()
-	}
-	
-	func didEndScrollingAnimation() {
-		view.setCollectionViewUserInteractionEnabled(true)
-		resumeTimer()
-		resumeAnimation()
-	}
-	
-	func collectionViewDidScroll(contentSize: CGSize, contentOffset: CGPoint) {
-		pauseTimer()
-		pauseAnimation()
-		let margin: CGFloat = 40
-		if contentSize.width + margin < contentOffset.x + UIScreen.main.bounds.width {
-			self.isFullScreenStoriesDidEnded = true
-			resumeAnimation()
-			output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
+	func panGestureRecognizerBegan(direction: Direction) {
+		switch direction {
+		case .leftToRight:
+			guard let prevStory = prevStory() else {
+				output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
+				return
+			}
+			view.startInteractiveTransition(storyModel: prevStory)
+		case .rightToLeft:
+			guard let nextStoty = nextStory() else {
+				output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
+				return
+			}
+			view.startInteractiveTransition(storyModel: nextStoty)
 		}
 	}
 	
-	func collectionViewDidEndDecelerating(visibleIndexPath: IndexPath) {
-		if visibleIndexPath.item != currentStory.storyIndex {
-			currentStory.storyIndex = visibleIndexPath.item
-			runTimerForSlide()
+	func interactiveTransitionDidEnd(direction: Direction) {
+		switch direction {
+		case .leftToRight:
+			currentStory.storyIndex -= 1
+			preloadPrevious()
+		case .rightToLeft:
+			currentStory.storyIndex += 1
+			preloadNext()
 		}
-		view.setCollectionViewScrollEnabled(true)
-		resumeTimer()
-		resumeAnimation()
 	}
 	
-	func closeButtonDidTap() {
-		output.fullScreenDidTapOnCloseButton(storyIndex: currentStory.storyIndex)
+	private func preloadNext() {
+		let nextStoryIndex = currentStory.storyIndex + 1
+		if let stories = storiesService.stories, stories.count > nextStoryIndex, stories[nextStoryIndex].dataSlides.count > 0 {
+			storiesService.addDownloadQueue(slideModel: stories[nextStoryIndex].dataSlides[0])
+		}
+	}
+	
+	private func preloadPrevious() {
+		let prevStoryIndex = currentStory.storyIndex - 1
+		if let stories = storiesService.stories,
+			stories.count > prevStoryIndex,
+			prevStoryIndex >= 0,
+			stories[prevStoryIndex].dataSlides.count > 0 {
+			storiesService.addDownloadQueue(slideModel: stories[prevStoryIndex].dataSlides[0])
+		}
 	}
 }
 
@@ -205,8 +121,9 @@ extension FullScreenPresenter: FullScreenModuleInput {
 	func setSelectedStory(index: Int) {
 		isFullScreenStoriesDidEnded = false
 		currentStory.storyIndex = index
-		updateData()
-		scrollToStory(index: currentStory.storyIndex, animated: false)
-		showSlide()
+		if let stories = storiesService.stories, stories.count > index {
+			view.showInitialStory(storyModel: stories[index])
+			preloadNext()
+		}
 	}
 }

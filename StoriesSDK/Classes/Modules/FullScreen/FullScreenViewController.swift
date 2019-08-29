@@ -1,167 +1,169 @@
 import UIKit
 
 protocol FullScreenViewInput: class {
-	func configureCollectionView()
-	func setCollectionViewScrollEnabled(_ isEnabled: Bool)
-	func setCollectionViewUserInteractionEnabled(_ isEnabled: Bool)
-	func updateData(with objects: [CollectionSectionData])
-	func scrollToStory(index: Int, animated: Bool)
-	func showSlide(model: SlideModel, modelsCount: Int, modelIndex: Int)
-	func resumeAnimation()
-	func pauseAnimation()
+	func addPanGestureRecognizer()
+	func showStory(storyModel: StoryModel, direction: Direction)
+	func showInitialStory(storyModel: StoryModel)
+	func startInteractiveTransition(storyModel: StoryModel)
 }
 
 protocol FullScreenViewOutput: class {
 	func loadView()
-	func viewWillAppear(_ animated: Bool)
-	func viewDidAppear(_ animated: Bool)
-	func viewDidDisappear(_ animated: Bool)
+	func panGestureRecognizerBegan(direction: Direction)
+	func interactiveTransitionDidEnd(direction: Direction)
 	
-	func storyCellDidTapOnLeftSide()
-	func storyCellDidTapOnRightSide()
-	func storyCellTouchesBegan()
-	func storyCellTouchesCancelled()
-	func storyCellDidTouchesEnded()
-	
-	func didEndScrollingAnimation()
-	func collectionViewDidScroll(contentSize: CGSize, contentOffset: CGPoint)
-	func collectionViewDidEndDecelerating(visibleIndexPath: IndexPath)
 	func closeButtonDidTap()
+	func needShowPrevStory()
+	func needShowNextStory()
 }
 
 public final class FullScreenViewController: UIViewController {
 	var presenter: FullScreenViewOutput!
-	var collectionViewAdapter: FullScreenCollectionViewAdapterInput!
-	
-	private var collectionView: UICollectionView = {
-		let layout = PagedSliderFlowLayout(inset: 0)
-		layout.minimumInteritemSpacing = 0
-		layout.minimumLineSpacing = 0
-		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		return collectionView
-	}()
+	var interactionController: StoryInteractiveTransitioning?
+	var direction: Direction = .leftToRight
+	var fromVC: StoryScreenViewController?
+	var fromModuleInput: StoryScreenModuleInput?
 	
 	override public func loadView() {
 		super.loadView()
 		presenter.loadView()
 	}
-	
-	override public func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		presenter.viewWillAppear(animated)
-	}
-	
-	override public func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		presenter.viewDidAppear(animated)
-	}
-	
-	override public func viewDidDisappear(_ animated: Bool) {
-		super.viewDidDisappear(animated)
-		presenter.viewDidDisappear(animated)
-	}
 }
 
 extension FullScreenViewController: FullScreenViewInput {
-	func configureCollectionView() {
-		self.view.addSubview(collectionView)
-		collectionView.translatesAutoresizingMaskIntoConstraints = false
-		collectionView.decelerationRate = UIScrollViewDecelerationRateFast
-		collectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-		collectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-		collectionView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-		collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+	
+	func addPanGestureRecognizer() {
+		let pan = UIPanGestureRecognizer(target: self, action: #selector(handleGesture(_:)))
+		view.addGestureRecognizer(pan)
+	}
+	
+	func showInitialStory(storyModel: StoryModel) {
+		let controller = StoryScreenViewController()
+		let moduleInput = StoryScreenAssembly.setup(controller, delegate: self)
+		moduleInput.storyModel = storyModel
+		self.addChildViewController(controller)
+		controller.view.frame = self.view.frame
+		controller.view.backgroundColor = .black
+		self.view.addSubview(controller.view)
+		controller.didMove(toParentViewController: self)
+		fromVC = controller
+		fromModuleInput = moduleInput
+	}
+	
+	func showStory(storyModel: StoryModel, direction: Direction) {
+		guard let fromVC = fromVC, let fromModuleInput = fromModuleInput else { return }
+		let controller = StoryScreenViewController()
+		let moduleInput = StoryScreenAssembly.setup(controller, delegate: self)
+		moduleInput.storyModel = storyModel
+		self.addChildViewController(controller)
+		self.view.addSubview(controller.view)
 		
-		collectionViewAdapter.collectionView = collectionView
-	}
-	
-	func setCollectionViewScrollEnabled(_ isEnabled: Bool) {
-		collectionView.isScrollEnabled = isEnabled
-	}
-	
-	func setCollectionViewUserInteractionEnabled(_ isEnabled: Bool) {
-		collectionView.isUserInteractionEnabled = isEnabled
-	}
-	
-	func updateData(with objects: [CollectionSectionData]) {
-		collectionViewAdapter.updateData(with: objects)
-	}
-	
-	func scrollToStory(index: Int, animated: Bool) {
-		guard collectionView.numberOfSections > 0, collectionView.numberOfItems(inSection: 0) > index else { return }
-		collectionView.performBatchUpdates(nil, completion: nil)
-		collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .left, animated: animated)
-	}
-	
-	func showSlide(model: SlideModel, modelsCount: Int, modelIndex: Int) {
-		//TODO:Fix later visibleCells
-		if let cell = collectionView.visibleCells.first as? StoryCell {
-			cell.slideView.backgroundColor = model.color
-			cell.slideView.image = model.image
-			var objects: [ProgressModel] = []
-			for index in 0...modelsCount {
-				var state: ProgressState
-				if index < modelIndex {
-					state = .watched
-				} else if index ==  modelIndex {
-					state = .inProgress
-				} else {
-					state = .notWatched
-				}
-				objects.append(ProgressModel(modelsCount: modelsCount, progressState: state))
-			}
-			let collectionSectionData = CollectionSectionData(objects: objects)
-			cell.progressView.collectionViewAdapter.updateData(with: [collectionSectionData])
+		fromModuleInput.pauseStoryScreen()
+		fromModuleInput.isTransitionInProgress = true
+		fromModuleInput.stopAnimation()
+		fromModuleInput.invalidateTimer()
+		
+		fromVC.willMove(toParentViewController: nil)
+		controller.beginAppearanceTransition(true, animated: true)
+		fromVC.beginAppearanceTransition(false, animated: true)
+		
+		let storyAnimatedTransitioning = StoryAnimatedTransitioning(direction: direction)
+		let privateAnimatedTransition = StoryContextTransitioning(from: fromVC, to: controller)
+		privateAnimatedTransition.completeTransition = { _ in
+			fromVC.view.removeFromSuperview()
+			fromVC.removeFromParentViewController()
+			fromVC.endAppearanceTransition()
+			
+			controller.endAppearanceTransition()
+			controller.didMove(toParentViewController: self)
+			
+			self.fromVC = controller
+			self.fromModuleInput = moduleInput
 		}
-	}
-	
-	func resumeAnimation() {
-		print("resumeAnimation")
-		self.view.layer.resume()
-	}
-	
-	func pauseAnimation() {
-		print("pauseAnimation")
-		self.view.layer.pause()
+		storyAnimatedTransitioning.animateTransition(using: privateAnimatedTransition)
 	}
 }
 
-extension FullScreenViewController: FullScreenCollectionViewAdapterOutput {
-	func storyCellDidTapOnLeftSide() {
-		presenter.storyCellDidTapOnLeftSide()
+extension FullScreenViewController: StoryScreenModuleOutput {
+	func needShowPrevStory() {
+		presenter.needShowPrevStory()
 	}
 	
-	func storyCellDidTapOnRightSide() {
-		presenter.storyCellDidTapOnRightSide()
+	func needShowNextStory() {
+		presenter.needShowNextStory()
 	}
-	
-	func storyCellTouchesBegan() {
-		presenter.storyCellTouchesBegan()
+
+	func closeButtonDidTap() {
+		presenter.closeButtonDidTap()
 	}
-	
-	func storyCellTouchesCancelled() {
-		presenter.storyCellTouchesCancelled()
-	}
-	
-	func storyCellDidTouchesEnded() {
-		presenter.storyCellDidTouchesEnded()
-	}
-	
-	func didScroll() {
-		presenter.collectionViewDidScroll(contentSize: self.collectionView.contentSize, contentOffset: self.collectionView.contentOffset)
-	}
-	
-	func didEndScrollingAnimation() {
-		presenter.didEndScrollingAnimation()
-	}
-	
-	func didEndDecelerating() {
-		if let visibleIndexPath = collectionView.indexPathsForVisibleItems.first {
-			presenter.collectionViewDidEndDecelerating(visibleIndexPath: visibleIndexPath)
+}
+
+extension FullScreenViewController {
+	@objc func handleGesture(_ gesture: UIPanGestureRecognizer) {
+		guard let gestureView = gesture.view else { return }
+		let translate = gesture.translation(in: gestureView)
+		let percent = abs(translate.x) / gestureView.bounds.size.width
+		
+		if gesture.state == .began {
+			let velocity = gesture.velocity(in: gesture.view)
+			direction = velocity.x > 0 ? .leftToRight : .rightToLeft
+			presenter.panGestureRecognizerBegan(direction: direction)
+		} else if gesture.state == .changed {
+			interactionController?.updateInteractiveTransition(percentComplete: percent)
+		} else if gesture.state == .ended || gesture.state == .cancelled {
+			let velocity = gesture.velocity(in: gesture.view)
+			let cond = direction == .leftToRight ? velocity.x > 0 : velocity.x < 0
+			if (percent > 0.5 && velocity.x == 0) || cond {
+				interactionController?.finishInteractiveTransition()
+			} else {
+				interactionController?.cancelInteractiveTransition()
+			}
+			interactionController = nil
 		}
 	}
 	
-	func closeButtonDidTap() {
-		presenter.closeButtonDidTap()
+	func startInteractiveTransition(storyModel: StoryModel) {
+		guard let fromVC = fromVC, let fromModuleInput = fromModuleInput else { return }
+		let controller = StoryScreenViewController()
+		let moduleInput = StoryScreenAssembly.setup(controller, delegate: self)
+		moduleInput.storyModel = storyModel
+		
+		fromModuleInput.pauseStoryScreen()
+		fromModuleInput.isTransitionInProgress = true
+		
+		fromVC.willMove(toParentViewController: nil)
+		controller.beginAppearanceTransition(true, animated: true)
+		fromVC.beginAppearanceTransition(false, animated: true)
+		
+		let storyAnimatedTransitioning = StoryAnimatedTransitioning(direction: direction)
+		let privateAnimatedTransition = StoryContextTransitioning(from: fromVC, to: controller)
+		privateAnimatedTransition.completeTransition = { didComplete in
+			if didComplete {
+				self.addChildViewController(controller)
+				self.view.addSubview(controller.view)
+				controller.endAppearanceTransition()
+				
+				fromModuleInput.stopAnimation()
+				fromModuleInput.invalidateTimer()
+				
+				fromVC.view.removeFromSuperview()
+				fromVC.removeFromParentViewController()
+				fromVC.endAppearanceTransition()
+				controller.didMove(toParentViewController: self)
+				
+				self.fromVC = controller
+				self.fromModuleInput = moduleInput
+				self.presenter.interactiveTransitionDidEnd(direction: self.direction)
+			} else {
+//				self.fromVC.endAppearanceTransition()
+				controller.view.removeFromSuperview()
+				controller.removeFromParentViewController()
+				fromModuleInput.isTransitionInProgress = false
+				fromModuleInput.resumeStoryScreen()
+				fromModuleInput.runStoryActivityIfNeeded()
+			}
+		}
+		interactionController = StoryInteractiveTransitioning(animator: storyAnimatedTransitioning)
+		interactionController?.startInteractiveTransition(privateAnimatedTransition)
 	}
 }
