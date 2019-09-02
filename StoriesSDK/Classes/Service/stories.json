@@ -208,10 +208,7 @@
 					  "rubric": "NEW ALBUM",
 					  
 					  "trackText": "Forebode Pluck",
-					  "actor": "Clark",
-					  
-					  "buttonText": "Listen",
-					  "buttonType": 1
+					  "actor": "Clark"
 				  },
 				  {
 					  "video": {
@@ -393,7 +390,7 @@
 					  "actor": "Clark",
 					  
 					  "buttonText": "Listen",
-					  "buttonType": 1
+					  "buttonType": 4
 				  },
 				  {
 					  "title": "Новинки недели",
@@ -415,7 +412,50 @@
 					  "actor": "Clark",
 					  
 					  "buttonText": "Listen",
-					  "buttonType": 1
+					  "buttonType": 5
+				  },
+				  {
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://i3twtest.s3-eu-west-1.amazonaws.com/37_tn.jpg",
+					  "frontImage": "https://i3twtest.s3-eu-west-1.amazonaws.com/bitmap%403x.png",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": false,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Clark",
+					  "header": "Kiri Variations",
+					  "rubric": "NEW ALBUM",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+				  },
+				  {
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://i3twtest.s3-eu-west-1.amazonaws.com/37_tn.jpg",
+					  "frontImage": "https://i3twtest.s3-eu-west-1.amazonaws.com/bitmap%403x.png",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": false,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Clark",
+					  "header": "Kiri Variations",
+					  "rubric": "NEW ALBUM",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 5
 				  }
 			  ]
 		  },

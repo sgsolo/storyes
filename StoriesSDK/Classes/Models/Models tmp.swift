@@ -45,6 +45,7 @@ public struct SlideModel: Codable {
 	let track: Track?
 	let video: Video?
 	let image: String?
+	let frontImage: String?
 	let title, title2, description: String
 	let coverImage: String?
 	let buttonURL: Int
@@ -65,7 +66,7 @@ public struct SlideModel: Codable {
 	enum CodingKeys: String, CodingKey {
 		case track, title, title2, video
 		case description
-		case image, coverImage, buttonURL, buttonColor, buttonTextColor
+		case image, frontImage, coverImage, buttonURL, buttonColor, buttonTextColor
 		case text, subtitle, header, rubric, trackText, actor, buttonText
 		case buttonType
 		case isBounded

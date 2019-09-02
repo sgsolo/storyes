@@ -38,7 +38,14 @@ class StoryScreenViewController: UIViewController {
 	var progressAnimator: UIViewPropertyAnimator?
 	var loadingView = LoaderView()
 	
-	private var slideView = MusicSlideView()
+	private lazy var slideView: SlideViewInput = {
+		switch YStoriesManager.targetApp {
+		case .music:
+			return MusicSlideView()
+		case .kinopoisk:
+			return KinopoiskSlideView()
+		}
+	}()
 	private var progressStackView: UIStackView?
 	
 	override func viewDidLoad() {
@@ -111,7 +118,7 @@ extension StoryScreenViewController: StoryScreenViewInput {
 	}
 	
 	func addGestureRecognizers() {
-		let leftTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOnLeftSide))
+		let leftTapGestureRecognizer = ShortTapGestureRecognizer(target: self, action: #selector(tapOnLeftSide))
 		let leftTapArea = UIView(frame: .zero)
 		leftTapArea.translatesAutoresizingMaskIntoConstraints = false
 		leftTapArea.addGestureRecognizer(leftTapGestureRecognizer)
@@ -119,7 +126,7 @@ extension StoryScreenViewController: StoryScreenViewInput {
 		
 		let rightTapArea = UIView(frame: .zero)
 		rightTapArea.translatesAutoresizingMaskIntoConstraints = false
-		let rightTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOnRightSide))
+		let rightTapGestureRecognizer = ShortTapGestureRecognizer(target: self, action: #selector(tapOnRightSide))
 		rightTapArea.addGestureRecognizer(rightTapGestureRecognizer)
 		self.view.addSubview(rightTapArea)
 		
@@ -142,9 +149,15 @@ extension StoryScreenViewController: StoryScreenViewInput {
 		self.view.addSubview(button)
 		button.translatesAutoresizingMaskIntoConstraints = false
 		button.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-		button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 82).isActive = true
 		button.heightAnchor.constraint(equalToConstant: 28).isActive = true
 		button.widthAnchor.constraint(equalToConstant: 28).isActive = true
+		if YStoriesManager.targetApp == .music {
+			button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 82).isActive = true
+		} else if isIphoneX, YStoriesManager.targetApp == .kinopoisk {
+			button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 91).isActive = true
+		} else {
+			button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 53).isActive = true
+		}
 	}
 
 	func showSlide(model: SlideViewModel) {
@@ -229,8 +242,16 @@ extension StoryScreenViewController {
 		stackView.translatesAutoresizingMaskIntoConstraints = false
 		stackView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
 		stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-		stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 60).isActive = true
-		stackView.heightAnchor.constraint(equalToConstant: 4).isActive = true
+		if YStoriesManager.targetApp == .music {
+			stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 60).isActive = true
+			stackView.heightAnchor.constraint(equalToConstant: 4).isActive = true
+		} else if isIphoneX, YStoriesManager.targetApp == .kinopoisk {
+			stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 70).isActive = true
+			stackView.heightAnchor.constraint(equalToConstant: 3).isActive = true
+		} else {
+			stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 32).isActive = true
+			stackView.heightAnchor.constraint(equalToConstant: 3).isActive = true
+		}
 	}
 	
 	private func updateProgressView(with storyModel: StoryModel, needProgressAnimation: Bool) {

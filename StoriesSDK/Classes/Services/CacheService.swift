@@ -41,27 +41,30 @@ class CacheService: CacheServiceInput {
 				return nil
 			}
 			return viewModel
-		} else if let track = slideModel.track, let trackUrl = track.trackUrl {
-			viewModel.type = .track
-			if let url = self.getUrlWith(stringUrl: trackUrl) {
-				viewModel.trackUrl = url
-			} else {
-				return nil
-			}
+		} else {
 			if let imageUrlString = slideModel.image {
+				viewModel.type = .image
 				if let url = self.getUrlWith(stringUrl: imageUrlString) {
 					viewModel.imageUrl = url
 				} else {
 					return nil
 				}
 			}
-			return viewModel
-		} else if let imageUrlString = slideModel.image {
-			viewModel.type = .image
-			if let url = self.getUrlWith(stringUrl: imageUrlString) {
-				viewModel.imageUrl = url
-			} else {
-				return nil
+			if let frontImageUrlString = slideModel.frontImage {
+				viewModel.type = .image
+				if let url = self.getUrlWith(stringUrl: frontImageUrlString) {
+					viewModel.frontImageUrl = url
+				} else {
+					return nil
+				}
+			}
+			if let track = slideModel.track, let trackUrl = track.trackUrl {
+				viewModel.type = .track
+				if let url = self.getUrlWith(stringUrl: trackUrl) {
+					viewModel.trackUrl = url
+				} else {
+					return nil
+				}
 			}
 			return viewModel
 		}

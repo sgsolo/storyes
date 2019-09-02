@@ -19,6 +19,9 @@
 		585DAFC4694596D211C95EE4F41E4A79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		5D766B176D10F010877467F5DF2C42CB /* ConfigurableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641A0DC9CA92EE4B87FB1C4F7693AB56 /* ConfigurableComponent.swift */; };
 		6713D914DB7FB315F7F58A0B50A03214 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		6B115C812318163A006FB92F /* ShortTapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B115C802318163A006FB92F /* ShortTapGestureRecognizer.swift */; };
+		6B69A1A3231D20D200CBAA41 /* SlideViewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B69A1A2231D20D200CBAA41 /* SlideViewInput.swift */; };
+		6B69A1A7231D216500CBAA41 /* KinopoiskSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B69A1A6231D216500CBAA41 /* KinopoiskSlideView.swift */; };
 		95EF38934C88AF3FFDF82B2F408406AA /* StoriesSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 77C3C294E52F4D6090DC9814B3E1474D /* StoriesSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9B65A39C3044E8A989F66CE183AFC75A /* Pods-DemoStoriesSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = ECF9975B26AEAA6BC84B2F333AE48C73 /* Pods-DemoStoriesSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A136B91BE50F54E4E39D4FF8D85AA2A0 /* CollectionViewItemsSizeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19A98A5C64E8449C3A028124E4DE24 /* CollectionViewItemsSizeProvider.swift */; };
@@ -101,6 +104,9 @@
 		641A0DC9CA92EE4B87FB1C4F7693AB56 /* ConfigurableComponent.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConfigurableComponent.swift; sourceTree = "<group>"; };
 		656F98CD1FDA0A98139E676687014270 /* Pods-DemoStoriesSDK.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DemoStoriesSDK.adhoc.xcconfig"; sourceTree = "<group>"; };
 		6696C517F3D45561AF89D70B6D471109 /* StoriesSDK-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "StoriesSDK-Info.plist"; sourceTree = "<group>"; };
+		6B115C802318163A006FB92F /* ShortTapGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortTapGestureRecognizer.swift; sourceTree = "<group>"; };
+		6B69A1A2231D20D200CBAA41 /* SlideViewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideViewInput.swift; sourceTree = "<group>"; };
+		6B69A1A6231D216500CBAA41 /* KinopoiskSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinopoiskSlideView.swift; sourceTree = "<group>"; };
 		6BA85C0B88FEC0E26E549B1A3E63CC1C /* Pods-DemoStoriesSDK_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DemoStoriesSDK_Tests.modulemap"; sourceTree = "<group>"; };
 		6FFB792032F70F4ACB0A9D274E740CDA /* Pods-DemoStoriesSDK-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DemoStoriesSDK-Info.plist"; sourceTree = "<group>"; };
 		738A4D0ECC4D79298100861DFEB76664 /* Pods-DemoStoriesSDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DemoStoriesSDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -384,7 +390,9 @@
 		B27AC9312317E58400110B52 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6B69A1A2231D20D200CBAA41 /* SlideViewInput.swift */,
 				B27AC9322317E58400110B52 /* MusicSlideView.swift */,
+				6B69A1A6231D216500CBAA41 /* KinopoiskSlideView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -521,6 +529,7 @@
 			children = (
 				8186616A598FD810D23B87344D6D500C /* PauseTimer.swift */,
 				B27AC92C2317E49700110B52 /* SafeDictionary.swift */,
+				6B115C802318163A006FB92F /* ShortTapGestureRecognizer.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -728,6 +737,7 @@
 				B27AC9532317E5F400110B52 /* CarouselPreviewSizeCalculator.swift in Sources */,
 				B27AC9502317E5F400110B52 /* StoriePreviewModel.swift in Sources */,
 				B27AC9512317E5F400110B52 /* CarouselPreviewAssembly.swift in Sources */,
+				6B69A1A3231D20D200CBAA41 /* SlideViewInput.swift in Sources */,
 				B27AC9542317E5F400110B52 /* CarouselPreviewViewController.swift in Sources */,
 				138F294A2B36C2DBB8CDF786F7B8E183 /* LayerExtension.swift in Sources */,
 				B27AC9622317E67200110B52 /* FullScreenAssembly.swift in Sources */,
@@ -736,6 +746,7 @@
 				B27AC9682317E67200110B52 /* FullScreenAnimatedTransitioning.swift in Sources */,
 				B27AC9552317E5F400110B52 /* StoriePreviewCell.swift in Sources */,
 				B27AC9522317E5F400110B52 /* CarouselPreviewConfiguration.swift in Sources */,
+				6B69A1A7231D216500CBAA41 /* KinopoiskSlideView.swift in Sources */,
 				B27AC9292317E43A00110B52 /* CacheService.swift in Sources */,
 				D5060C9B4EF5CA12A5F5691F06BB698D /* PauseTimer.swift in Sources */,
 				102D538E4A253B4CBFE5F1D025C21457 /* RegistrableComponent.swift in Sources */,
@@ -750,6 +761,7 @@
 				2D22C4E55CA0DC677BC52D0EDB69B305 /* StoryManager.swift in Sources */,
 				B27AC9732317E7C500110B52 /* ApiClient.swift in Sources */,
 				B27AC92D2317E49700110B52 /* SafeDictionary.swift in Sources */,
+				6B115C812318163A006FB92F /* ShortTapGestureRecognizer.swift in Sources */,
 				B27AC9352317E58400110B52 /* StoryScreenPresenter.swift in Sources */,
 				01F16B4604063EE68E06B1EEF1C02E44 /* StoryService.swift in Sources */,
 				B27AC94F2317E5F400110B52 /* CarouselPreviewPresentrer.swift in Sources */,

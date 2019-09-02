@@ -11,6 +11,7 @@ struct SlideViewModel {
 	var videoUrl: URL?
 	var trackUrl: URL?
 	var imageUrl: URL?
+	var frontImageUrl: URL?
 	
 	var isBounded: Bool = false
 	var text: String?

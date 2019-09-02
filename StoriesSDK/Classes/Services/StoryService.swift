@@ -85,6 +85,18 @@ class StoriesService: StoriesServiceInput {
                     dispatchGroup.leave()
                 })
             }
+			if let frontImage = slideModel.frontImage {
+				dispatchGroup.enter()
+				getTrack(frontImage, success: { frontImageUrl in
+					if let frontImageUrl = frontImageUrl as? URL {
+						viewModel.frontImageUrl = frontImageUrl
+					}
+					dispatchGroup.leave()
+				}, failure: { error in
+					networkError = error
+					dispatchGroup.leave()
+				})
+			}
             if let track = slideModel.track, let trackUrl = track.trackUrl {
                 viewModel.type = .track
                 dispatchGroup.enter()

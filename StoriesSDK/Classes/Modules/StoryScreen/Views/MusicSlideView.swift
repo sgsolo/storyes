@@ -2,7 +2,7 @@
 import UIKit
 import AVFoundation
 
-class MusicSlideView: UIView {
+class MusicSlideView: UIView, SlideViewInput {
 	
 	let leftRightButtonMargin: CGFloat = 68
 	let baseLeftRightMargin: CGFloat = 16

@@ -18,20 +18,21 @@ public enum SupportedApp: String {
 }
 
 public class YStoriesManager: YStoriesManagerInput {
-    
+	
+	static var targetApp: SupportedApp = .music
+	
     public var caruselViewController: UIViewController?
     private var carosuelModule: CarouselPreviewModule?
     private var fullScreenModule: FullScreenModuleInput?
-    
-    private let currentApp: SupportedApp
+	
     private let user: String
     private let experiments: Dictionary<String, Any>
     private let storiesManagerOutput: YStoriesManagerOutput
     private let storiesService: StoriesServiceInput = StoriesService.shared
     
     //TODO: добавить тему
-    public init(currentApp: SupportedApp, user: String, experiments: Dictionary<String, Any> /*тема*/, storiesManagerOutput: YStoriesManagerOutput) {
-        self.currentApp = currentApp
+    public init(targetApp: SupportedApp, user: String, experiments: Dictionary<String, Any> /*тема*/, storiesManagerOutput: YStoriesManagerOutput) {
+        YStoriesManager.targetApp = targetApp
         self.user = user
         self.experiments = experiments
         self.storiesManagerOutput = storiesManagerOutput

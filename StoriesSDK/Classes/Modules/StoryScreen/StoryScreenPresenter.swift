@@ -55,10 +55,12 @@ extension StoryScreenPresenter: StoryScreenViewOutput {
 	}
 	
 	func tapOnLeftSide() {
+		guard !isTransitionInProgress else { return }
 		showPrevSlide()
 	}
 	
 	func tapOnRightSide() {
+		guard !isTransitionInProgress else { return }
 		showNextSlide()
 	}
 	

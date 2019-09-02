@@ -9,10 +9,14 @@ class ViewController: UIViewController {
     //    var fullScreen: FullScreenViewController!
     var startFrame: CGRect!
     var endFrame: CGRect!
+	var targetApp: SupportedApp = .music
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        storiesManager = YStoriesManager(currentApp: .music, user: "user", experiments: [:], storiesManagerOutput: self)
+		self.view.backgroundColor = .white
+		addCloseButton()
+		
+        storiesManager = YStoriesManager(targetApp: targetApp, user: "user", experiments: [:], storiesManagerOutput: self)
         
         storiesCarousel = storiesManager.caruselViewController
         view.addSubview(storiesCarousel.view)
@@ -25,6 +29,26 @@ class ViewController: UIViewController {
         
         storiesManager.loadStories()
     }
+	
+	func addCloseButton() {
+		let button = UIButton(type: .custom)
+		let bundle = Bundle(for: YStoriesManager.self)
+		button.setImage(UIImage(named: "closeIcon", in: bundle, compatibleWith: nil), for: .normal)
+		button.addTarget(self, action: #selector(closeButtonDidTap), for: .touchUpInside)
+		button.layer.borderWidth = 4
+		button.layer.cornerRadius = 20
+		button.layer.borderColor = UIColor.black.cgColor
+		self.view.addSubview(button)
+		button.translatesAutoresizingMaskIntoConstraints = false
+		button.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+		button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 35).isActive = true
+		button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+		button.widthAnchor.constraint(equalToConstant: 40).isActive = true
+	}
+	
+	@objc private func closeButtonDidTap() {
+		self.dismiss(animated: true)
+	}
 }
 
 extension ViewController: YStoriesManagerOutput {
