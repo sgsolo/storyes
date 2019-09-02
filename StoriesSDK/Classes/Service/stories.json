@@ -59,7 +59,7 @@
 						"storageDir": "2be1fae6.155774",
 						"ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
 						"fileSize": 123456,
-						"videoUrl": "http://joxi.ru/4Akn5bxCoa8o62.mov",
+						"videoUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/storyofgame.mov",
 						"artists": [
 							{
 								"id": 375233,
@@ -441,7 +441,7 @@
 						  "storageDir": "2be1fae6.155774",
 						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
 						  "fileSize": 123456,
-						  "trackUrl": "http://joxi.ru/v29BaZKtZM77aA.mov",
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video2.mov",
 						  "artists": [
 							  {
 								  "id": 375233,
@@ -482,7 +482,7 @@
 						  "storageDir": "2be1fae6.155774",
 						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
 						  "fileSize": 123456,
-						  "trackUrl": "http://joxi.ru/8AnkdvyUzdBzlr.mov",
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video.mov",
 						  "artists": [
 							  {
 								  "id": 375233,
@@ -523,7 +523,7 @@
 						  "storageDir": "2be1fae6.155774",
 						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
 						  "fileSize": 123456,
-						  "trackUrl": "http://joxi.ru/Grq7ZoNs471kQ2.mov",
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video3.mov",
 						  "artists": [
 							  {
 								  "id": 375233,
