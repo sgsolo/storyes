@@ -47,7 +47,7 @@ class ApiClient {
 		let configuration = URLSessionConfiguration.default
 		configuration.httpMaximumConnectionsPerHost = 1
 		configuration.httpShouldUsePipelining = false
-		configuration.urlCache = URLCache(memoryCapacity: 10000 * 1024 * 1024, diskCapacity: 10000 * 1024 * 1024, diskPath: "imageCache")
+		configuration.urlCache = URLCache(memoryCapacity: Int.max, diskCapacity: Int.max, diskPath: "imageCache")
 		return URLSession(configuration: configuration)
 	}()
 
@@ -91,7 +91,7 @@ class ApiClient {
 	
 	private func dataTask(_ urlRequest: URLRequest, success: Success?, failure: Failure?) {
 		
-		#warning("MOCK удалить позже")
+//        #warning("MOCK удалить позже")
 		if let path = Bundle(for: ApiClient.self).path(forResource: "stories.json", ofType: nil) {
 			if let data = FileManager.default.contents(atPath: path) {
 				success?(data)

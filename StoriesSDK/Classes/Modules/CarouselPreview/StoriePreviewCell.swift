@@ -58,7 +58,7 @@ extension StoriePreviewCell: ConfigurableComponent {
         }
         titleLabel.attributedText = object.title
         imageView.image = object.image
-        #warning("Encapsulate color in enum")
+//        #warning("Encapsulate color in enum")
         if object.isViewed {
             layer.borderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
         } else {
