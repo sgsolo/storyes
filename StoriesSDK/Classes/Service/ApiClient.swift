@@ -33,7 +33,7 @@ class ApiClient {
 
 	private let cacheManager: CacheServiceInput = CacheService()
 	private let baseURLString = ""
-	private var taskPool: [URLSessionTask] = []
+	private var taskPool = SafeArray<URLSessionTask>()
 	private let downloadQueue = DispatchQueue(label: "DownloadQueue", attributes: .concurrent)
 	private static var tasks = SafeDictionary<URL, DispatchSemaphore>()
 	static var apiSession: URLSession = {
