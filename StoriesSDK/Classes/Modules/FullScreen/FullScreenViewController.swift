@@ -28,6 +28,10 @@ public final class FullScreenViewController: UIViewController {
 		super.loadView()
 		presenter.loadView()
 	}
+	
+	override public var preferredStatusBarStyle: UIStatusBarStyle {
+		return .lightContent
+	}
 }
 
 extension FullScreenViewController: FullScreenViewInput {
