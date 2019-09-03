@@ -20,6 +20,16 @@
 		5D766B176D10F010877467F5DF2C42CB /* ConfigurableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641A0DC9CA92EE4B87FB1C4F7693AB56 /* ConfigurableComponent.swift */; };
 		6713D914DB7FB315F7F58A0B50A03214 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		6B115C812318163A006FB92F /* ShortTapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B115C802318163A006FB92F /* ShortTapGestureRecognizer.swift */; };
+		6B37D840231E441B00F7CF7B /* Graphik Kinopoisk LC-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6B37D839231E441A00F7CF7B /* Graphik Kinopoisk LC-Bold.otf */; };
+		6B37D841231E441B00F7CF7B /* Graphik Kinopoisk LC-Bold Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6B37D83A231E441A00F7CF7B /* Graphik Kinopoisk LC-Bold Italic.otf */; };
+		6B37D842231E441B00F7CF7B /* Graphik Kinopoisk LC-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6B37D83B231E441B00F7CF7B /* Graphik Kinopoisk LC-Regular.otf */; };
+		6B37D843231E441B00F7CF7B /* Graphik Kinopoisk LC-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6B37D83C231E441B00F7CF7B /* Graphik Kinopoisk LC-Semibold.otf */; };
+		6B37D844231E441B00F7CF7B /* Graphik Kinopoisk LC-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6B37D83D231E441B00F7CF7B /* Graphik Kinopoisk LC-Light.otf */; };
+		6B37D845231E441B00F7CF7B /* Graphik Kinopoisk LC-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6B37D83E231E441B00F7CF7B /* Graphik Kinopoisk LC-Medium.otf */; };
+		6B37D846231E441B00F7CF7B /* Graphik Kinopoisk LC-Semibold Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6B37D83F231E441B00F7CF7B /* Graphik Kinopoisk LC-Semibold Italic.otf */; };
+		6B37D848231E502B00F7CF7B /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37D847231E502A00F7CF7B /* UIFontExtension.swift */; };
+		6B37D84A231E59BF00F7CF7B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37D849231E59BF00F7CF7B /* Constants.swift */; };
+		6B37D84C231E706600F7CF7B /* SafeArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37D84B231E706600F7CF7B /* SafeArray.swift */; };
 		6B69A1A3231D20D200CBAA41 /* SlideViewInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B69A1A2231D20D200CBAA41 /* SlideViewInput.swift */; };
 		6B69A1A7231D216500CBAA41 /* KinopoiskSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B69A1A6231D216500CBAA41 /* KinopoiskSlideView.swift */; };
 		95EF38934C88AF3FFDF82B2F408406AA /* StoriesSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 77C3C294E52F4D6090DC9814B3E1474D /* StoriesSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -105,6 +115,16 @@
 		656F98CD1FDA0A98139E676687014270 /* Pods-DemoStoriesSDK.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DemoStoriesSDK.adhoc.xcconfig"; sourceTree = "<group>"; };
 		6696C517F3D45561AF89D70B6D471109 /* StoriesSDK-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "StoriesSDK-Info.plist"; sourceTree = "<group>"; };
 		6B115C802318163A006FB92F /* ShortTapGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortTapGestureRecognizer.swift; sourceTree = "<group>"; };
+		6B37D839231E441A00F7CF7B /* Graphik Kinopoisk LC-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Graphik Kinopoisk LC-Bold.otf"; sourceTree = "<group>"; };
+		6B37D83A231E441A00F7CF7B /* Graphik Kinopoisk LC-Bold Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Graphik Kinopoisk LC-Bold Italic.otf"; sourceTree = "<group>"; };
+		6B37D83B231E441B00F7CF7B /* Graphik Kinopoisk LC-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Graphik Kinopoisk LC-Regular.otf"; sourceTree = "<group>"; };
+		6B37D83C231E441B00F7CF7B /* Graphik Kinopoisk LC-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Graphik Kinopoisk LC-Semibold.otf"; sourceTree = "<group>"; };
+		6B37D83D231E441B00F7CF7B /* Graphik Kinopoisk LC-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Graphik Kinopoisk LC-Light.otf"; sourceTree = "<group>"; };
+		6B37D83E231E441B00F7CF7B /* Graphik Kinopoisk LC-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Graphik Kinopoisk LC-Medium.otf"; sourceTree = "<group>"; };
+		6B37D83F231E441B00F7CF7B /* Graphik Kinopoisk LC-Semibold Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Graphik Kinopoisk LC-Semibold Italic.otf"; sourceTree = "<group>"; };
+		6B37D847231E502A00F7CF7B /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
+		6B37D849231E59BF00F7CF7B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		6B37D84B231E706600F7CF7B /* SafeArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeArray.swift; sourceTree = "<group>"; };
 		6B69A1A2231D20D200CBAA41 /* SlideViewInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideViewInput.swift; sourceTree = "<group>"; };
 		6B69A1A6231D216500CBAA41 /* KinopoiskSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinopoiskSlideView.swift; sourceTree = "<group>"; };
 		6BA85C0B88FEC0E26E549B1A3E63CC1C /* Pods-DemoStoriesSDK_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DemoStoriesSDK_Tests.modulemap"; sourceTree = "<group>"; };
@@ -214,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				46F0F19CE63BEC206C4CE8D95D293F53 /* Images.xcassets */,
+				6B37D838231E43FD00F7CF7B /* Fonts */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -265,6 +286,7 @@
 			children = (
 				C9E2110B056F49D1859A7DA475E875BA /* LayerExtension.swift */,
 				B27AC92A2317E47E00110B52 /* NSLockingExtension.swift */,
+				6B37D847231E502A00F7CF7B /* UIFontExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -303,6 +325,20 @@
 				7926DD9894004E2885CF7521CB5FA476 /* StoriesSDK */,
 			);
 			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		6B37D838231E43FD00F7CF7B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				6B37D83A231E441A00F7CF7B /* Graphik Kinopoisk LC-Bold Italic.otf */,
+				6B37D839231E441A00F7CF7B /* Graphik Kinopoisk LC-Bold.otf */,
+				6B37D83D231E441B00F7CF7B /* Graphik Kinopoisk LC-Light.otf */,
+				6B37D83E231E441B00F7CF7B /* Graphik Kinopoisk LC-Medium.otf */,
+				6B37D83B231E441B00F7CF7B /* Graphik Kinopoisk LC-Regular.otf */,
+				6B37D83F231E441B00F7CF7B /* Graphik Kinopoisk LC-Semibold Italic.otf */,
+				6B37D83C231E441B00F7CF7B /* Graphik Kinopoisk LC-Semibold.otf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		740999EB80B4FC2419182E337961FBB1 /* Products */ = {
@@ -495,6 +531,7 @@
 		C0DD9D004CF84CDEC4F944484E2C2BE1 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				6B37D849231E59BF00F7CF7B /* Constants.swift */,
 				2E7FEFDA6EE51A8197B52E3C2815B301 /* Extensions */,
 				E5B26E3039F523686E01F1E78AF09B4F /* Classes */,
 				1658FCF6979D1FFC3F77D4218D9D5F65 /* Enums and types */,
@@ -529,6 +566,7 @@
 			children = (
 				8186616A598FD810D23B87344D6D500C /* PauseTimer.swift */,
 				B27AC92C2317E49700110B52 /* SafeDictionary.swift */,
+				6B37D84B231E706600F7CF7B /* SafeArray.swift */,
 				6B115C802318163A006FB92F /* ShortTapGestureRecognizer.swift */,
 			);
 			path = Classes;
@@ -691,12 +729,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				B27AC94A2317E5F400110B52 /* Preview3.jpeg in Resources */,
+				6B37D845231E441B00F7CF7B /* Graphik Kinopoisk LC-Medium.otf in Resources */,
 				B27AC94E2317E5F400110B52 /* Preview0.jpeg in Resources */,
 				B27AC94B2317E5F400110B52 /* Preview2.jpeg in Resources */,
 				B27AC94D2317E5F400110B52 /* Preview1.jpeg in Resources */,
 				0947A2DE966B1E04550FF43523AE50CA /* Images.xcassets in Resources */,
 				B27AC9742317E7C500110B52 /* stories.json in Resources */,
+				6B37D841231E441B00F7CF7B /* Graphik Kinopoisk LC-Bold Italic.otf in Resources */,
+				6B37D843231E441B00F7CF7B /* Graphik Kinopoisk LC-Semibold.otf in Resources */,
+				6B37D840231E441B00F7CF7B /* Graphik Kinopoisk LC-Bold.otf in Resources */,
+				6B37D842231E441B00F7CF7B /* Graphik Kinopoisk LC-Regular.otf in Resources */,
+				6B37D844231E441B00F7CF7B /* Graphik Kinopoisk LC-Light.otf in Resources */,
 				B27AC94C2317E5F400110B52 /* Preview4.jpeg in Resources */,
+				6B37D846231E441B00F7CF7B /* Graphik Kinopoisk LC-Semibold Italic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,6 +771,7 @@
 				B27AC92B2317E47E00110B52 /* NSLockingExtension.swift in Sources */,
 				CE0155F6C20BD7B715CC7B463EB2C12C /* BaseCollectionViewAdapter.swift in Sources */,
 				A136B91BE50F54E4E39D4FF8D85AA2A0 /* CollectionViewItemsSizeProvider.swift in Sources */,
+				6B37D848231E502B00F7CF7B /* UIFontExtension.swift in Sources */,
 				B27AC9652317E67200110B52 /* FullScreenViewController.swift in Sources */,
 				B27AC9672317E67200110B52 /* StoryAnimatedTransitioning.swift in Sources */,
 				B27AC9482317E5F400110B52 /* CarouselCollectionViewAdapter.swift in Sources */,
@@ -745,6 +791,7 @@
 				B27AC96F2317E6AD00110B52 /* SlideViewModel.swift in Sources */,
 				B27AC9682317E67200110B52 /* FullScreenAnimatedTransitioning.swift in Sources */,
 				B27AC9552317E5F400110B52 /* StoriePreviewCell.swift in Sources */,
+				6B37D84A231E59BF00F7CF7B /* Constants.swift in Sources */,
 				B27AC9522317E5F400110B52 /* CarouselPreviewConfiguration.swift in Sources */,
 				6B69A1A7231D216500CBAA41 /* KinopoiskSlideView.swift in Sources */,
 				B27AC9292317E43A00110B52 /* CacheService.swift in Sources */,
@@ -760,6 +807,7 @@
 				2EA84DA7051E92A96D704A3D9CB7873E /* StoriesSDK-dummy.m in Sources */,
 				2D22C4E55CA0DC677BC52D0EDB69B305 /* StoryManager.swift in Sources */,
 				B27AC9732317E7C500110B52 /* ApiClient.swift in Sources */,
+				6B37D84C231E706600F7CF7B /* SafeArray.swift in Sources */,
 				B27AC92D2317E49700110B52 /* SafeDictionary.swift in Sources */,
 				6B115C812318163A006FB92F /* ShortTapGestureRecognizer.swift in Sources */,
 				B27AC9352317E58400110B52 /* StoryScreenPresenter.swift in Sources */,

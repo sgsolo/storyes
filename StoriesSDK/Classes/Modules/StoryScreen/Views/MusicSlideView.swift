@@ -4,22 +4,22 @@ import AVFoundation
 
 class MusicSlideView: UIView, SlideViewInput {
 	
-	let leftRightButtonMargin: CGFloat = 68
-	let baseLeftRightMargin: CGFloat = 16
-	let listenButtonHeight: CGFloat = 40
+	private let leftRightButtonMargin: CGFloat = 68
+	private let baseLeftRightMargin: CGFloat = 16
+	private let listenButtonHeight: CGFloat = 40
 	
-	let backgroundImageView = UIImageView()
-	let backgroundImageViewTopGradientContainer = UIView()
-	let listenButton = UIButton()
-	let trackLabel = UILabel()
-	let actorLabel = UILabel()
-	let textLabel = UILabel()
-	let subtitleLabel = UILabel()
-	let headerLabel = UILabel()
-	let rubricLabel = UILabel()
-	var playerLayer: AVPlayerLayer?
-	var gradientLayer: CAGradientLayer?
-	var topGradientLayer: CAGradientLayer?
+	private let backgroundImageView = UIImageView()
+	private let backgroundImageViewTopGradientContainer = UIView()
+	private let listenButton = UIButton()
+	private let trackLabel = UILabel()
+	private let actorLabel = UILabel()
+	private let textLabel = UILabel()
+	private let subtitleLabel = UILabel()
+	private let headerLabel = UILabel()
+	private let rubricLabel = UILabel()
+	private var playerLayer: AVPlayerLayer?
+	private var gradientLayer: CAGradientLayer?
+	private var topGradientLayer: CAGradientLayer?
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)

@@ -36,7 +36,7 @@ public class YStoriesManager: YStoriesManagerInput {
         self.user = user
         self.experiments = experiments
         self.storiesManagerOutput = storiesManagerOutput
-        
+        UIFont.loadAllFonts
         makeCaruselViewController()
     }
     

@@ -4,22 +4,22 @@ import AVFoundation
 
 class KinopoiskSlideView: UIView, SlideViewInput {
 	
-	let baseLeftRightMargin: CGFloat = 24
-	let listenButtonHeight: CGFloat = 48
+	private let baseLeftRightMargin: CGFloat = 24
+	private let listenButtonHeight: CGFloat = 48
 	
-	let backgroundImageView = UIImageView()
-	let frontImageView = UIImageView()
-	let listenButton = UIButton()
-	let ticketsButton = UIButton()
-	let bookmarkButton = UIButton()
-	let trackLabel = UILabel()
-	let textLabel = UILabel()
-	let headerLabel = UILabel()
-	let rubricLabel = UILabel()
-	var playerLayer: AVPlayerLayer?
-	var gradientLayer: CAGradientLayer?
-	var textLabelBottomConstraint: NSLayoutConstraint?
-	var frontImageBottomConstraint: NSLayoutConstraint?
+	private let backgroundImageView = UIImageView()
+	private let frontImageView = UIImageView()
+	private let bottomButton = UIButton()
+	private let ticketsButton = UIButton()
+	private let bookmarkButton = UIButton()
+	private let trackLabel = UILabel()
+	private let textLabel = UILabel()
+	private let headerLabel = UILabel()
+	private let rubricLabel = UILabel()
+	private var playerLayer: AVPlayerLayer?
+	private var gradientLayer: CAGradientLayer?
+	private var textLabelBottomConstraint: NSLayoutConstraint?
+	private var frontImageBottomConstraint: NSLayoutConstraint?
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -60,12 +60,13 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 					self.backgroundImageView.image = UIImage(data: data)
 				}
 			}
+			frontImageView.image = nil
 			textLabel.isHidden = false
 			headerLabel.isHidden = false
 			rubricLabel.isHidden = false
 			if let frontImageUrl = model.frontImageUrl {
 				if let data = try? Data(contentsOf: frontImageUrl) {
-					self.frontImageView.image = UIImage(data: data)
+					frontImageView.image = UIImage(data: data)
 					textLabel.isHidden = true
 					headerLabel.isHidden = true
 					rubricLabel.isHidden = true
@@ -87,36 +88,36 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		ticketsButton.isHidden = true
 		bookmarkButton.isHidden = true
 		if model.buttonType ?? 1 == 5 {
-			listenButton.isHidden = true
+			bottomButton.isHidden = true
 			ticketsButton.isHidden = false
 			bookmarkButton.isHidden = false
 			
 			textLabelBottomConstraint?.isActive = false
-			textLabelBottomConstraint = textLabel.bottomAnchor.constraint(equalTo: self.listenButton.topAnchor, constant: -32)
+			textLabelBottomConstraint = textLabel.bottomAnchor.constraint(equalTo: self.bottomButton.topAnchor, constant: -32)
 			textLabelBottomConstraint?.isActive = true
 			
 			frontImageBottomConstraint?.isActive = false
-			frontImageBottomConstraint = frontImageView.bottomAnchor.constraint(equalTo: self.listenButton.topAnchor, constant: -32)
+			frontImageBottomConstraint = frontImageView.bottomAnchor.constraint(equalTo: self.bottomButton.topAnchor, constant: -32)
 			frontImageBottomConstraint?.isActive = true
 		} else if let buttonText = model.buttonText {
-			listenButton.isHidden = false
-			listenButton.setTitle(buttonText, for: .normal)
+			bottomButton.isHidden = false
+			bottomButton.setTitle(buttonText, for: .normal)
 			configureButtonWithType(type: model.buttonType ?? 1)
 			textLabelBottomConstraint?.isActive = false
-			textLabelBottomConstraint = textLabel.bottomAnchor.constraint(equalTo: self.listenButton.topAnchor, constant: -32)
+			textLabelBottomConstraint = textLabel.bottomAnchor.constraint(equalTo: self.bottomButton.topAnchor, constant: -32)
 			textLabelBottomConstraint?.isActive = true
 			
 			frontImageBottomConstraint?.isActive = false
-			frontImageBottomConstraint = frontImageView.bottomAnchor.constraint(equalTo: self.listenButton.topAnchor, constant: -32)
+			frontImageBottomConstraint = frontImageView.bottomAnchor.constraint(equalTo: self.bottomButton.topAnchor, constant: -32)
 			frontImageBottomConstraint?.isActive = true
 		} else {
-			listenButton.isHidden = true
+			bottomButton.isHidden = true
 			textLabelBottomConstraint?.isActive = false
-			textLabelBottomConstraint = textLabel.bottomAnchor.constraint(equalTo: self.listenButton.bottomAnchor)
+			textLabelBottomConstraint = textLabel.bottomAnchor.constraint(equalTo: self.bottomButton.bottomAnchor)
 			textLabelBottomConstraint?.isActive = true
 			
 			frontImageBottomConstraint?.isActive = false
-			frontImageBottomConstraint = frontImageView.bottomAnchor.constraint(equalTo: self.listenButton.bottomAnchor)
+			frontImageBottomConstraint = frontImageView.bottomAnchor.constraint(equalTo: self.bottomButton.bottomAnchor)
 			frontImageBottomConstraint?.isActive = true
 		}
 		self.setNeedsLayout()
@@ -142,19 +143,19 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	}
 	
 	private func addListenButton() {
-		self.addSubview(listenButton)
-		listenButton.layer.cornerRadius = 4
-		listenButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+		self.addSubview(bottomButton)
+		bottomButton.layer.cornerRadius = 4
+		bottomButton.titleLabel?.font = UIFont.kinopoiskFont(ofSize: 15, weight: .semibold)
 		
-		listenButton.translatesAutoresizingMaskIntoConstraints = false
-		listenButton.heightAnchor.constraint(equalToConstant: listenButtonHeight).isActive = true
+		bottomButton.translatesAutoresizingMaskIntoConstraints = false
+		bottomButton.heightAnchor.constraint(equalToConstant: listenButtonHeight).isActive = true
 		if isIphoneX {
-			listenButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -69).isActive = true
+			bottomButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -69).isActive = true
 		} else {
-			listenButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48).isActive = true
+			bottomButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48).isActive = true
 		}
-		listenButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: baseLeftRightMargin).isActive = true
-		listenButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -baseLeftRightMargin).isActive = true
+		bottomButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: baseLeftRightMargin).isActive = true
+		bottomButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -baseLeftRightMargin).isActive = true
 	}
 	
 	private func addFrontImageView() {
@@ -162,7 +163,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		frontImageView.contentMode = .scaleAspectFit
 		
 		frontImageView.translatesAutoresizingMaskIntoConstraints = false
-		frontImageBottomConstraint = frontImageView.bottomAnchor.constraint(equalTo: self.listenButton.topAnchor, constant: -32)
+		frontImageBottomConstraint = frontImageView.bottomAnchor.constraint(equalTo: self.bottomButton.topAnchor, constant: -32)
 		frontImageBottomConstraint?.isActive = true
 		frontImageView.heightAnchor.constraint(equalToConstant: 194).isActive = true
 		frontImageView.widthAnchor.constraint(equalToConstant: 265).isActive = true
@@ -172,7 +173,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	private func addTicketsAndBookmarkButton() {
 		self.addSubview(ticketsButton)
 		ticketsButton.layer.cornerRadius = 4
-		ticketsButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+		ticketsButton.titleLabel?.font = UIFont.kinopoiskFont(ofSize: 15, weight: .semibold)
 		ticketsButton.setTitleColor(UIColor(red: 51/255.0, green: 51/255.0, blue: 51/255.0, alpha: 1) , for: .normal)
 		ticketsButton.backgroundColor = UIColor(white: 1, alpha: 0.8)
 		ticketsButton.setTitle("Расписание и билеты", for: .normal)
@@ -202,42 +203,42 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	}
 	
 	private func configureButtonWithType(type: Int) {
-		listenButton.titleEdgeInsets = .zero
-		listenButton.setImage(nil, for: .normal)
+		bottomButton.titleEdgeInsets = .zero
+		bottomButton.setImage(nil, for: .normal)
 		switch type {
 		case 1:
-			listenButton.setTitleColor(UIColor(red: 51/255.0, green: 51/255.0, blue: 51/255.0, alpha: 1) , for: .normal)
-			listenButton.backgroundColor = UIColor(white: 1, alpha: 0.8)
+			bottomButton.setTitleColor(UIColor(red: 51/255.0, green: 51/255.0, blue: 51/255.0, alpha: 1) , for: .normal)
+			bottomButton.backgroundColor = UIColor(white: 1, alpha: 0.8)
 		case 2:
-			listenButton.setTitleColor(UIColor(white: 1, alpha: 0.8) , for: .normal)
-			listenButton.backgroundColor = UIColor(white: 1, alpha: 0.08)
+			bottomButton.setTitleColor(UIColor(white: 1, alpha: 0.8) , for: .normal)
+			bottomButton.backgroundColor = UIColor(white: 1, alpha: 0.08)
 		case 3:
 			let bundle = Bundle(for: YStoriesManager.self)
-			listenButton.setImage(UIImage(named: "bookmarkWhite", in: bundle, compatibleWith: nil), for: .normal)
-			listenButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
-			listenButton.setTitleColor(.white, for: .normal)
-			listenButton.backgroundColor = UIColor(red: 1, green: 102/255.0, blue: 0, alpha: 1)
+			bottomButton.setImage(UIImage(named: "bookmarkWhite", in: bundle, compatibleWith: nil), for: .normal)
+			bottomButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
+			bottomButton.setTitleColor(.white, for: .normal)
+			bottomButton.backgroundColor = UIColor(red: 1, green: 102/255.0, blue: 0, alpha: 1)
 		case 4:
 			let bundle = Bundle(for: YStoriesManager.self)
-			listenButton.setImage(UIImage(named: "bookmarkBlack", in: bundle, compatibleWith: nil), for: .normal)
-			listenButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
-			listenButton.setTitleColor(UIColor(red: 51/255.0, green: 51/255.0, blue: 51/255.0, alpha: 1) , for: .normal)
-			listenButton.backgroundColor = UIColor(white: 1, alpha: 0.8)
+			bottomButton.setImage(UIImage(named: "bookmarkBlack", in: bundle, compatibleWith: nil), for: .normal)
+			bottomButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
+			bottomButton.setTitleColor(UIColor(red: 51/255.0, green: 51/255.0, blue: 51/255.0, alpha: 1) , for: .normal)
+			bottomButton.backgroundColor = UIColor(white: 1, alpha: 0.8)
 		default:
-			listenButton.setTitleColor(UIColor(red: 51/255.0, green: 51/255.0, blue: 51/255.0, alpha: 1) , for: .normal)
-			listenButton.backgroundColor = UIColor(white: 1, alpha: 0.1)
+			bottomButton.setTitleColor(UIColor(red: 51/255.0, green: 51/255.0, blue: 51/255.0, alpha: 1) , for: .normal)
+			bottomButton.backgroundColor = UIColor(white: 1, alpha: 0.1)
 		}
 	}
 	
 	private func addTextLabel() {
 		self.addSubview(textLabel)
 		textLabel.numberOfLines = 0
-		textLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+		textLabel.font = UIFont.kinopoiskFont(ofSize: 20, weight: .medium)
 		textLabel.textColor = UIColor(white: 1, alpha: 0.8)
 		
 		textLabel.translatesAutoresizingMaskIntoConstraints = false
 		textLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: baseLeftRightMargin).isActive = true
-		textLabelBottomConstraint = textLabel.bottomAnchor.constraint(equalTo: self.listenButton.topAnchor, constant: -32)
+		textLabelBottomConstraint = textLabel.bottomAnchor.constraint(equalTo: self.bottomButton.topAnchor, constant: -32)
 		textLabelBottomConstraint?.isActive = true
 		textLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -baseLeftRightMargin).isActive = true
 	}
@@ -245,7 +246,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	private func addHeaderLabel() {
 		self.addSubview(headerLabel)
 		headerLabel.numberOfLines = 0
-		headerLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+		headerLabel.font = UIFont.kinopoiskFont(ofSize: 28, weight: .bold)
 		headerLabel.textColor = .white
 		
 		headerLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -256,7 +257,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	
 	private func addRubricLabel() {
 		self.addSubview(rubricLabel)
-		rubricLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+		rubricLabel.font = UIFont.kinopoiskFont(ofSize: 15, weight: .semibold)
 		rubricLabel.textColor = UIColor(red: 1, green: 102/255.0, blue: 0, alpha: 1)
 		
 		rubricLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -267,9 +268,8 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	
 	private func addTrackLabel() {
 		self.addSubview(trackLabel)
-		trackLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+		trackLabel.font = UIFont.kinopoiskFont(ofSize: 15, weight: .semibold)
 		trackLabel.textColor = UIColor(white: 1, alpha: 0.8)
-		
 		
 		trackLabel.translatesAutoresizingMaskIntoConstraints = false
 		trackLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: baseLeftRightMargin).isActive = true
@@ -303,11 +303,4 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		self.backgroundImageView.layer.insertSublayer(gradientLayer, at: 0)
 		self.gradientLayer = gradientLayer
 	}
-}
-
-var isIphoneX: Bool {
-	if #available(iOS 11.0, *) {
-		return UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0 > 0
-	}
-	return false
 }
