@@ -68,7 +68,6 @@ class CacheService: CacheServiceInput {
 			}
 			return viewModel
 		}
-		return nil
 	}
 	
 	func getUrlWith(stringUrl: String) -> URL? {
