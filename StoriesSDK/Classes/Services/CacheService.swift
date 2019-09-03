@@ -12,7 +12,7 @@ protocol CacheServiceInput {
 class CacheService: CacheServiceInput {
 	static let shared = CacheService()
 	private let fileManager = FileManager.default
-	private lazy var mainDirectoryUrl: URL = {
+	private lazy var cachesDirectoryUrl: URL = {
 		let documentsUrl = self.fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
 		return documentsUrl
 	}()
@@ -96,7 +96,7 @@ class CacheService: CacheServiceInput {
 	func cacheDirectoryFor(_ url: URL) -> URL {
 		let fileURL = url.path
 		let valueAddingPercentEncoding = fileURL.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
-		let file = self.mainDirectoryUrl.appendingPathComponent(valueAddingPercentEncoding)
+		let file = self.cachesDirectoryUrl.appendingPathComponent(valueAddingPercentEncoding)
 		return file
 	}
 }

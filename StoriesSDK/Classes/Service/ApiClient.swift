@@ -172,9 +172,8 @@ class ApiClient {
 			failure?(NSError(domain: "Invalid URL \(urlString)", code: 0, userInfo: nil))
 			return
 		}
-		let destinationUrl = self.cacheManager.cacheDirectoryFor(url)
 		
-		if let destinationUrl = self.cacheManager.getUrlWith(stringUrl: destinationUrl.absoluteString) {
+		if let destinationUrl = self.cacheManager.getUrlWith(stringUrl: url.absoluteString) {
 			DispatchQueue.main.async {
 				success?(destinationUrl)
 			}
@@ -186,18 +185,14 @@ class ApiClient {
 			if let semaphore = ApiClient.tasks[url] {
 				semaphore.wait()
 				semaphore.signal()
-				
-				self.cacheManager.getUrlWith(stringUrl: destinationUrl.absoluteString,
-											 success: { destinationUrl in
-												DispatchQueue.main.async {
-													success?(destinationUrl)
-												}},
-											 failure: { error in
-												DispatchQueue.main.async {
+				DispatchQueue.main.async {
+					self.cacheManager.getUrlWith(stringUrl: url.absoluteString,
+												 success: { destinationUrl in
+													success?(destinationUrl) },
+												 failure: { error in
 													print(error)
-													failure?(error)
-												}
-				})
+													failure?(error) })
+				}
 				return
 			}
 			ApiClient.tasks[url] = DispatchSemaphore(value: 0)
@@ -218,16 +213,16 @@ class ApiClient {
 					}
 					return
 				}
-				do {
-					try self.cacheManager.saveToCacheIfNeeded(destinationUrl, currentLocation: location)
-					DispatchQueue.main.async {
-						success?(destinationUrl)
-					}
-					print(location)
-				} catch {
-					DispatchQueue.main.async {
-						print(error)
-						failure?(error)
+				if !Thread.isMainThread {
+					DispatchQueue.main.sync {
+						do {
+							let destinationUrl = self.cacheManager.cacheDirectoryFor(url)
+							try self.cacheManager.saveToCacheIfNeeded(destinationUrl, currentLocation: location)
+							success?(destinationUrl)
+						} catch {
+							print(error)
+							failure?(error)
+						}
 					}
 				}
 			}
