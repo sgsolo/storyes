@@ -2,7 +2,7 @@ import UIKit
 import StoriesSDK
 
 class ViewController: UIViewController {
-    #warning("Temporary: just for UI testing")
+//    #warning("Temporary: just for UI testing")
     var storiesCarousel: UIViewController!
     var carosuelModule: UIViewController!
     var storiesManager: YStoriesManager!
