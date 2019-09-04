@@ -13,11 +13,8 @@ public final class FullScreenAssembly {
 	public static func setup(_ viewController: FullScreenViewController, storiesService: StoriesServiceInput, delegate: FullScreenModuleOutput) -> FullScreenModuleInput {
 		let presenter = FullScreenPresenter()
 		presenter.storiesService = storiesService
-		let adapter = FullScreenCollectionViewAdapter()
-		adapter.output = viewController
 		
 		viewController.presenter = presenter
-		viewController.collectionViewAdapter = adapter
 		presenter.view = viewController
 		presenter.output = delegate
 		return presenter

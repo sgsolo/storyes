@@ -5,7 +5,6 @@ class StoriePreviewCell: UICollectionViewCell, RegistrableComponent {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .lightGray
         layer.borderWidth = 2
         layer.cornerRadius = 7
         configureImageView()

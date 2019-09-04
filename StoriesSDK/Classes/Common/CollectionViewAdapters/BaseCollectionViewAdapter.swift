@@ -1,12 +1,12 @@
 import UIKit
 
 struct CollectionSectionData {
-	var objects: [Any]
+    var objects: [Any]
     var header: Any?
     var footer: Any?
     
     init(objects: [Any], header: Any? = nil, footer: Any? = nil) {
-		self.objects = objects
+        self.objects = objects
         self.header = header
         self.footer = footer
     }
@@ -20,7 +20,7 @@ protocol BaseCollectionViewAdpaterInput: class {
 
 protocol BaseCollectionViewAdapterOutput: class {
     func didSelectCollectionCell(at indexPath: IndexPath)
-	func didScroll()
+    func didScroll()
     func didEndScrollingAnimation()
     func didEndDragging(willDecelerate: Bool)
     func didEndDecelerating()
@@ -28,9 +28,9 @@ protocol BaseCollectionViewAdapterOutput: class {
 
 extension BaseCollectionViewAdapterOutput {
     func didSelectCollectionCell(at indexPath: IndexPath) {}
-	func didScroll() {}
+    func didScroll() {}
     func didEndScrollingAnimation() {}
-	func willBeginDecelerating() {}
+    func willBeginDecelerating() {}
     func didEndDragging(willDecelerate: Bool) {}
     func didEndDecelerating() {}
 }
@@ -110,11 +110,11 @@ extension BaseCollectionViewAdapter: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return self.collectionSections.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.collectionSections[section].objects.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item = self.collectionSections[indexPath.section].objects[indexPath.row]
         
@@ -131,10 +131,10 @@ extension BaseCollectionViewAdapter: UICollectionViewDataSource {
         }
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: viewClass.identifier, for: indexPath)
         
-		if kind == UICollectionElementKindSectionHeader,
+        if kind == UICollectionElementKindSectionHeader,
             let object = self.collectionSections[indexPath.section].header {
             (view as? ConfigurableComponent)?.configure(with: object)
-		} else if kind == UICollectionElementKindSectionFooter,
+        } else if kind == UICollectionElementKindSectionFooter,
             let object = self.collectionSections[indexPath.section].footer {
             (view as? ConfigurableComponent)?.configure(with: object)
         }
@@ -147,11 +147,11 @@ extension BaseCollectionViewAdapter: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.output?.didSelectCollectionCell(at: indexPath)
     }
-	
-	func scrollViewDidScroll(_ scrollView: UIScrollView) {
-		self.output?.didScroll()
-	}
-	
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.output?.didScroll()
+    }
+    
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         self.output?.didEndScrollingAnimation()
     }
@@ -163,11 +163,11 @@ extension BaseCollectionViewAdapter: UICollectionViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.output?.didEndDecelerating()
     }
-	
-	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-		let item = self.collectionSections[indexPath.section].objects[indexPath.row]
-		(cell as? DisplayableComponent)?.prepareForDisplay(with: item)
-	}
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let item = self.collectionSections[indexPath.section].objects[indexPath.row]
+        (cell as? DisplayableComponent)?.prepareForDisplay(with: item)
+    }
 }
 
 extension BaseCollectionViewAdapter: UICollectionViewDelegateFlowLayout {
@@ -180,7 +180,7 @@ extension BaseCollectionViewAdapter: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-		guard let viewClass = self.supplementaryViewClass(for: IndexPath(item: 0, section: section), kind: UICollectionElementKindSectionFooter) as? CollectionViewItemsSizeProvider.Type  else {
+        guard let viewClass = self.supplementaryViewClass(for: IndexPath(item: 0, section: section), kind: UICollectionElementKindSectionFooter) as? CollectionViewItemsSizeProvider.Type  else {
             return .zero
         }
         
@@ -188,7 +188,7 @@ extension BaseCollectionViewAdapter: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-		guard let viewClass = self.supplementaryViewClass(for: IndexPath(item: 0, section: section), kind: UICollectionElementKindSectionHeader) as? CollectionViewItemsSizeProvider.Type else {
+        guard let viewClass = self.supplementaryViewClass(for: IndexPath(item: 0, section: section), kind: UICollectionElementKindSectionHeader) as? CollectionViewItemsSizeProvider.Type else {
             return .zero
         }
         
