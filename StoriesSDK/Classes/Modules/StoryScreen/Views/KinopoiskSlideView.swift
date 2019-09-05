@@ -24,7 +24,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.addBackgroundImageView()
-		self.addListenButton()
+		self.addBottomButton()
 		self.addFrontImageView()
 		self.addTicketsAndBookmarkButton()
 		self.addTrackLabel()
@@ -142,7 +142,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		}
 	}
 	
-	private func addListenButton() {
+	private func addBottomButton() {
 		self.addSubview(bottomButton)
 		bottomButton.layer.cornerRadius = 4
 		bottomButton.titleLabel?.font = UIFont.kinopoiskFont(ofSize: 15, weight: .semibold)
