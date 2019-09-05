@@ -1,6 +1,7 @@
 import UIKit
 
 protocol FullScreenViewInput: class {
+	func addBackgroundView()
 	func addPanGestureRecognizer()
 	func showStory(storyModel: StoryModel, direction: Direction)
 	func showInitialStory(storyModel: StoryModel)
@@ -23,10 +24,15 @@ public final class FullScreenViewController: UIViewController {
 	var direction: Direction = .leftToRight
 	var fromVC: StoryScreenViewController?
 	var fromModuleInput: StoryScreenModuleInput?
+	var backgroundView = UIView()
+	var isInteractiveDismiss = false
 	
 	override public func loadView() {
 		super.loadView()
+		self.modalPresentationStyle = .overCurrentContext
+		self.view.backgroundColor = .clear
 		presenter.loadView()
+		
 	}
 	
 	override public var preferredStatusBarStyle: UIStatusBarStyle {
@@ -36,8 +42,19 @@ public final class FullScreenViewController: UIViewController {
 
 extension FullScreenViewController: FullScreenViewInput {
 	
+	func addBackgroundView() {
+		self.view.addSubview(backgroundView)
+		backgroundView.backgroundColor = .black
+		backgroundView.translatesAutoresizingMaskIntoConstraints = false
+		backgroundView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+		backgroundView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+		backgroundView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+		backgroundView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+	}
+	
 	func addPanGestureRecognizer() {
 		let pan = UIPanGestureRecognizer(target: self, action: #selector(handleGesture(_:)))
+//		pan.delegate
 		view.addGestureRecognizer(pan)
 	}
 	
@@ -47,7 +64,6 @@ extension FullScreenViewController: FullScreenViewInput {
 		moduleInput.storyModel = storyModel
 		self.addChildViewController(controller)
 		controller.view.frame = self.view.frame
-		controller.view.backgroundColor = .black
 		self.view.addSubview(controller.view)
 		controller.didMove(toParentViewController: self)
 		fromVC = controller
@@ -107,22 +123,56 @@ extension FullScreenViewController {
 		guard let gestureView = gesture.view else { return }
 		let translate = gesture.translation(in: gestureView)
 		let percent = abs(translate.x) / gestureView.bounds.size.width
+		var percentY = translate.y / gestureView.bounds.size.height
+		percentY = percentY >= 0 ? percentY : 0
 		
 		if gesture.state == .began {
 			let velocity = gesture.velocity(in: gesture.view)
-			direction = velocity.x > 0 ? .leftToRight : .rightToLeft
-			presenter.panGestureRecognizerBegan(direction: direction)
+			if velocity.y > abs(velocity.x) {
+				isInteractiveDismiss = true
+				fromModuleInput?.pauseStoryScreen()
+				fromModuleInput?.isTransitionInProgress = true
+			} else {
+				isInteractiveDismiss = false
+				direction = velocity.x > 0 ? .leftToRight : .rightToLeft
+				presenter.panGestureRecognizerBegan(direction: direction)
+			}
 		} else if gesture.state == .changed {
-			interactionController?.updateInteractiveTransition(percentComplete: percent)
+			if isInteractiveDismiss {
+				let scaleXY = 1 - (percentY / 10)
+				let translatedByY = (self.view.bounds.size.height / 2) * percentY
+				fromVC?.view.transform = CGAffineTransform(scaleX: scaleXY, y: scaleXY).translatedBy(x: 0, y: translatedByY)
+				backgroundView.backgroundColor = backgroundView.backgroundColor?.withAlphaComponent(1 - (percentY / 2))
+			} else {
+				interactionController?.updateInteractiveTransition(percentComplete: percent)
+			}
 		} else if gesture.state == .ended || gesture.state == .cancelled {
 			let velocity = gesture.velocity(in: gesture.view)
-			let cond = direction == .leftToRight ? velocity.x > 0 : velocity.x < 0
-			if (percent > 0.5 && velocity.x == 0) || cond {
-				interactionController?.finishInteractiveTransition()
+			if isInteractiveDismiss {
+				if percentY > 0.3 {
+					fromModuleInput?.stopAnimation()
+					fromModuleInput?.invalidateTimer()
+					self.backgroundView.backgroundColor = self.backgroundView.backgroundColor?.withAlphaComponent(0)
+					presenter.closeButtonDidTap()
+				} else {
+					UIView.animate(withDuration: 0.25, animations: {
+						self.fromVC?.view.transform = .identity
+						self.backgroundView.backgroundColor = .black
+					}, completion: { _ in
+						self.fromModuleInput?.isTransitionInProgress = false
+						self.fromModuleInput?.resumeStoryScreen()
+						self.fromModuleInput?.runStoryActivityIfNeeded()
+					})
+				}
 			} else {
-				interactionController?.cancelInteractiveTransition()
+				let cond = direction == .leftToRight ? velocity.x > 0 : velocity.x < 0
+				if (percent > 0.5 && velocity.x == 0) || cond {
+					interactionController?.finishInteractiveTransition()
+				} else {
+					interactionController?.cancelInteractiveTransition()
+				}
+				interactionController = nil
 			}
-			interactionController = nil
 		}
 	}
 	

@@ -49,9 +49,12 @@ public class FullScreenDismissedAnimation: NSObject, UIViewControllerAnimatedTra
 		guard let fromViewController = transitionContext.viewController(forKey: .from),
 			let toViewController = transitionContext.viewController(forKey: .to),
 			let toSnapshotView = toViewController.view.snapshotView(afterScreenUpdates: true),
-			let fromSnapshotView = fromViewController.view.snapshotView(afterScreenUpdates: true) else { return }
+			let fullScreenViewController = fromViewController as? FullScreenViewController,
+			let storyViewController = fullScreenViewController.fromVC,
+			let fromSnapshotView = storyViewController.view.snapshotView(afterScreenUpdates: true) else { return }
 		transitionContext.containerView.addSubview(toSnapshotView)
 		transitionContext.containerView.addSubview(fromSnapshotView)
+		fromSnapshotView.frame = storyViewController.view.frame
 		fromSnapshotView.layer.masksToBounds = true
 		fromSnapshotView.alpha = 1
 		

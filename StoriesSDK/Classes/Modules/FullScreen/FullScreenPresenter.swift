@@ -13,6 +13,7 @@ class FullScreenPresenter {
 
 extension FullScreenPresenter: FullScreenViewOutput {
 	func loadView() {
+		view.addBackgroundView()
 		view.addPanGestureRecognizer()
 	}
 
