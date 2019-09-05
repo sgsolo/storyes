@@ -12,7 +12,7 @@ class FullScreenPresenter {
 }
 
 extension FullScreenPresenter: FullScreenViewOutput {
-	func loadView() {
+	func viewDidLoad() {
 		view.addBackgroundView()
 		view.addSwipeGestureRecognizer()
 		view.addHideGestureRecognizer()

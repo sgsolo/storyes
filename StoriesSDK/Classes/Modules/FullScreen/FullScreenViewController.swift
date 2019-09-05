@@ -10,7 +10,7 @@ protocol FullScreenViewInput: class {
 }
 
 protocol FullScreenViewOutput: class {
-	func loadView()
+	func viewDidLoad()
 	func panGestureRecognizerBegan(direction: Direction)
 	func interactiveTransitionDidEnd(direction: Direction)
 	
@@ -30,11 +30,11 @@ public final class FullScreenViewController: UIViewController {
 	var hideGesture = UIPanGestureRecognizer()
 	var swipeGesture = UIPanGestureRecognizer()
 	
-	override public func loadView() {
-		super.loadView()
+	override public func viewDidLoad() {
+		super.viewDidLoad()
 		self.modalPresentationStyle = .overCurrentContext
 		self.view.backgroundColor = .clear
-		presenter.loadView()
+		presenter.viewDidLoad()
 	}
 	
 	override public var preferredStatusBarStyle: UIStatusBarStyle {
