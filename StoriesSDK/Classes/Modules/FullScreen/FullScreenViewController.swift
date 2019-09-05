@@ -26,7 +26,6 @@ public final class FullScreenViewController: UIViewController {
 	var fromVC: StoryScreenViewController?
 	var fromModuleInput: StoryScreenModuleInput?
 	var backgroundView = UIView()
-	var isInteractiveDismiss = false
 	var hideGesture = UIPanGestureRecognizer()
 	var swipeGesture = UIPanGestureRecognizer()
 	
@@ -135,7 +134,6 @@ extension FullScreenViewController {
 		
 		switch gesture.state {
 		case .began:
-			isInteractiveDismiss = false
 			direction = velocity.x > 0 ? .leftToRight : .rightToLeft
 			presenter.panGestureRecognizerBegan(direction: direction)
 		case .changed:
@@ -161,7 +159,6 @@ extension FullScreenViewController {
 		
 		switch gesture.state {
 		case .began:
-			isInteractiveDismiss = true
 			fromModuleInput?.pauseStoryScreen()
 			fromModuleInput?.isTransitionInProgress = true
 		case .changed:
