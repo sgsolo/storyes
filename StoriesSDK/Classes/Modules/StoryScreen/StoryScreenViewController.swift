@@ -218,7 +218,7 @@ extension StoryScreenViewController: StoryScreenViewInput {
 	func pauseAnimation() {
 		guard let progressAnimator = self.progressPropertyAnimator, progressAnimator.state == .active else { return }
 		self.progressPropertyAnimator?.pauseAnimation()
-		
+		guard let slidePropertyAnimator = self.slidePropertyAnimator, slidePropertyAnimator.state == .active else { return }
 		self.slidePropertyAnimator?.pauseAnimation()
 	}
 	
