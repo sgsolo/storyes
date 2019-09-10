@@ -165,7 +165,6 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	
 	private func addBackgroundImageView() {
 		self.addSubview(backgroundImageView)
-		backgroundImageView.contentMode = .scaleAspectFill
 		backgroundImageView.clipsToBounds = true
 		backgroundImageView.layer.cornerRadius = 8
 		
