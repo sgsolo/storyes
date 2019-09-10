@@ -7,7 +7,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	private let baseLeftRightMargin: CGFloat = 24
 	private let listenButtonHeight: CGFloat = 48
 	
-	private let backgroundImageView = UIImageView()
+	private let backgroundImageView = AnimatedImageView()
 	private let frontImageView = UIImageView()
 	private let bottomButton = UIButton()
 	private let ticketsButton = UIButton()
@@ -20,6 +20,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	private var gradientLayer: CAGradientLayer?
 	private var textLabelBottomConstraint: NSLayoutConstraint?
 	private var frontImageBottomConstraint: NSLayoutConstraint?
+	private var bottomButtonConstraint: NSLayoutConstraint?
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -51,9 +52,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 			if let avPlayer = model.player?.avPlayer {
 				addPlayerLayer(player: avPlayer)
 			}
-		case .track:
-			fallthrough
-		case .image:
+		case .track, .image:
 			playerLayer?.isHidden = true
 			if let imageUrl = model.imageUrl {
 				if let data = try? Data(contentsOf: imageUrl) {
@@ -124,6 +123,46 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		self.layoutIfNeeded()
 	}
 	
+	func performContentAnimation(model: SlideViewModel, needAnimation: Bool, propertyAnimator: UIViewPropertyAnimator?) {
+		switch model.animationType {
+		case .contentFadeIn:
+			bottomButtonConstraint?.constant = 50
+			var alpha: CGFloat = 0
+			bottomButton.alpha = alpha
+			rubricLabel.alpha = alpha
+			headerLabel.alpha = alpha
+			textLabel.alpha = alpha
+			frontImageView.alpha = alpha
+			self.layoutIfNeeded()
+			alpha = 1
+			bottomButtonConstraint?.constant = isIphoneX ? -69 : -48
+			if needAnimation {
+				propertyAnimator?.addAnimations {
+					self.layoutIfNeeded()
+					self.bottomButton.alpha = alpha
+					self.rubricLabel.alpha = alpha
+					self.headerLabel.alpha = alpha
+					self.textLabel.alpha = alpha
+					self.frontImageView.alpha = alpha
+				}
+			}
+		case .backgroundAnimationLeftToRight:
+			backgroundImageView.animationMode = .left
+			if needAnimation {
+				propertyAnimator?.addAnimations {
+					self.backgroundImageView.animationMode = .right
+				}
+			}
+		case .backgroundAnimationZoomIn:
+			backgroundImageView.animationMode = .scaleAspectFill
+			if needAnimation {
+				propertyAnimator?.addAnimations {
+					self.backgroundImageView.animationMode = .scale
+				}
+			}
+		}
+	}
+	
 	private func addBackgroundImageView() {
 		self.addSubview(backgroundImageView)
 		backgroundImageView.contentMode = .scaleAspectFill
@@ -145,15 +184,16 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	private func addBottomButton() {
 		self.addSubview(bottomButton)
 		bottomButton.layer.cornerRadius = 4
-		bottomButton.titleLabel?.font = UIFont.kinopoiskFont(ofSize: 15, weight: .semibold)
+		bottomButton.titleLabel?.font = .kinopoiskFont(ofSize: 15, weight: .semibold)
 		
 		bottomButton.translatesAutoresizingMaskIntoConstraints = false
 		bottomButton.heightAnchor.constraint(equalToConstant: listenButtonHeight).isActive = true
 		if isIphoneX {
-			bottomButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -69).isActive = true
+			bottomButtonConstraint = bottomButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -69)
 		} else {
-			bottomButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48).isActive = true
+			bottomButtonConstraint = bottomButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48)
 		}
+		bottomButtonConstraint?.isActive = true
 		bottomButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: baseLeftRightMargin).isActive = true
 		bottomButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -baseLeftRightMargin).isActive = true
 	}
@@ -173,7 +213,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	private func addTicketsAndBookmarkButton() {
 		self.addSubview(ticketsButton)
 		ticketsButton.layer.cornerRadius = 4
-		ticketsButton.titleLabel?.font = UIFont.kinopoiskFont(ofSize: 15, weight: .semibold)
+		ticketsButton.titleLabel?.font = .kinopoiskFont(ofSize: 15, weight: .semibold)
 		ticketsButton.setTitleColor(UIColor(red: 51/255.0, green: 51/255.0, blue: 51/255.0, alpha: 1) , for: .normal)
 		ticketsButton.backgroundColor = UIColor(white: 1, alpha: 0.8)
 		ticketsButton.setTitle("Расписание и билеты", for: .normal)
@@ -181,11 +221,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		ticketsButton.translatesAutoresizingMaskIntoConstraints = false
 		ticketsButton.heightAnchor.constraint(equalToConstant: listenButtonHeight).isActive = true
 		ticketsButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: baseLeftRightMargin).isActive = true
-		if isIphoneX {
-			ticketsButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -69).isActive = true
-		} else {
-			ticketsButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48).isActive = true
-		}
+		ticketsButton.bottomAnchor.constraint(equalTo: self.bottomButton.bottomAnchor).isActive = true
 
 		bookmarkButton.layer.cornerRadius = 4
 		let bundle = Bundle(for: YStoriesManager.self)
@@ -199,7 +235,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		bookmarkButton.widthAnchor.constraint(equalToConstant: listenButtonHeight).isActive = true
 		bookmarkButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -baseLeftRightMargin).isActive = true
 		bookmarkButton.leftAnchor.constraint(equalTo: self.ticketsButton.rightAnchor, constant: 8).isActive = true
-		bookmarkButton.centerYAnchor.constraint(equalTo: self.ticketsButton.centerYAnchor).isActive = true
+		bookmarkButton.bottomAnchor.constraint(equalTo: self.ticketsButton.bottomAnchor).isActive = true
 	}
 	
 	private func configureButtonWithType(type: Int) {
@@ -233,7 +269,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	private func addTextLabel() {
 		self.addSubview(textLabel)
 		textLabel.numberOfLines = 0
-		textLabel.font = UIFont.kinopoiskFont(ofSize: 20, weight: .medium)
+		textLabel.font = .kinopoiskFont(ofSize: 20, weight: .medium)
 		textLabel.textColor = UIColor(white: 1, alpha: 0.8)
 		
 		textLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -246,7 +282,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	private func addHeaderLabel() {
 		self.addSubview(headerLabel)
 		headerLabel.numberOfLines = 0
-		headerLabel.font = UIFont.kinopoiskFont(ofSize: 28, weight: .bold)
+		headerLabel.font = .kinopoiskFont(ofSize: 28, weight: .bold)
 		headerLabel.textColor = .white
 		
 		headerLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -257,7 +293,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	
 	private func addRubricLabel() {
 		self.addSubview(rubricLabel)
-		rubricLabel.font = UIFont.kinopoiskFont(ofSize: 15, weight: .semibold)
+		rubricLabel.font = .kinopoiskFont(ofSize: 15, weight: .semibold)
 		rubricLabel.textColor = UIColor(red: 1, green: 102/255.0, blue: 0, alpha: 1)
 		
 		rubricLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -268,7 +304,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	
 	private func addTrackLabel() {
 		self.addSubview(trackLabel)
-		trackLabel.font = UIFont.kinopoiskFont(ofSize: 15, weight: .semibold)
+		trackLabel.font = .kinopoiskFont(ofSize: 15, weight: .semibold)
 		trackLabel.textColor = UIColor(white: 1, alpha: 0.8)
 		
 		trackLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -300,7 +336,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 			UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor
 		]
 		
-		self.backgroundImageView.layer.insertSublayer(gradientLayer, at: 0)
+		self.backgroundImageView.layer.addSublayer(gradientLayer)
 		self.gradientLayer = gradientLayer
 	}
 }

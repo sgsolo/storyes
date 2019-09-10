@@ -23,6 +23,7 @@ extension StoryScreenPresenter: StoryScreenViewOutput {
 	
 	func viewWillAppear(_ animated: Bool) {
 		view.updateProgressView(storyModel: storyModel, needProgressAnimation: false)
+		updateAnimationOnSlide(needAnimation: false)
 		showSlide()
 		pauseTimer()
 	}
@@ -81,6 +82,7 @@ extension StoryScreenPresenter {
 		
 		isContentDownloaded = false
 		self.view.updateProgressView(storyModel: self.storyModel, needProgressAnimation: false)
+		updateAnimationOnSlide(needAnimation: false)
 		
 		self.invalidateTimer()
 		self.player?.stop()
@@ -123,6 +125,14 @@ extension StoryScreenPresenter {
 		self.slideSwitchTimer.scheduledTimer(withTimeInterval: TimeInterval(slideModel.duration), repeats: false, block: { [weak self] timer in
 			self?.showNextSlide()
 		})
+	}
+	
+	private func updateAnimationOnSlide(needAnimation: Bool) {
+		guard storyModel.dataSlides.count > storyModel.currentIndex else { return }
+		let slideModel = self.storyModel.dataSlides[self.storyModel.currentIndex]
+		if let viewModel = cacheManager.getViewModel(slideModel: slideModel) {
+			view.updateAnimationOnSlide(model: viewModel, needAnimation: needAnimation)
+		}
 	}
 	
 	func pauseAnimation() {
@@ -175,6 +185,7 @@ extension StoryScreenPresenter {
 	private func runStoryActivity(slideModel: SlideModel) {
 		self.runTimerForSlide(slideModel: slideModel)
 		self.view.updateProgressView(storyModel: self.storyModel, needProgressAnimation: true)
+		updateAnimationOnSlide(needAnimation: true)
 		self.playPlayer()
 	}
 	

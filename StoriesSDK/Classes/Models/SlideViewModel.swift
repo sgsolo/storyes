@@ -5,6 +5,12 @@ enum SlideViewContentType {
 	case image
 }
 
+enum AnimationType: Int {
+	case contentFadeIn
+	case backgroundAnimationLeftToRight
+	case backgroundAnimationZoomIn
+}
+
 struct SlideViewModel {
 	var type: SlideViewContentType = .image
 	var player: Player?
@@ -25,6 +31,9 @@ struct SlideViewModel {
 	var buttonText: String?
 	var buttonType: Int?
 	
+	var duration: Int = 0
+	var animationType = AnimationType.backgroundAnimationZoomIn
+	
 	mutating func fillFromSlideModel(_ slideModel: SlideModel) {
 		self.isBounded = slideModel.isBounded
 		self.text = slideModel.text
@@ -37,5 +46,7 @@ struct SlideViewModel {
 		
 		self.buttonText = slideModel.buttonText
 		self.buttonType = slideModel.buttonType
+		
+		self.duration = slideModel.duration
 	}
 }

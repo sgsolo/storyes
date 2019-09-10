@@ -87,6 +87,10 @@ class MusicSlideView: UIView, SlideViewInput {
 		self.layoutIfNeeded()
 	}
 	
+	func performContentAnimation(model: SlideViewModel, needAnimation: Bool, propertyAnimator: UIViewPropertyAnimator?) {
+		
+	}
+	
 	private func addBackgroundImageView() {
 		self.addSubview(backgroundImageView)
 		backgroundImageView.contentMode = .scaleAspectFill
