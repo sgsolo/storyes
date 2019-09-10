@@ -87,7 +87,6 @@ extension FullScreenViewController: FullScreenViewInput {
 		
 		fromModuleInput.pauseStoryScreen()
 		fromModuleInput.isTransitionInProgress = true
-		fromModuleInput.stopAnimation()
 		fromModuleInput.invalidateTimer()
 		
 		fromVC.willMove(toParentViewController: nil)
@@ -100,6 +99,7 @@ extension FullScreenViewController: FullScreenViewInput {
 			fromVC.view.removeFromSuperview()
 			fromVC.removeFromParentViewController()
 			fromVC.endAppearanceTransition()
+			fromModuleInput.stopAnimation()
 			
 			controller.endAppearanceTransition()
 			controller.didMove(toParentViewController: self)
