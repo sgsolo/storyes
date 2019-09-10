@@ -126,24 +126,14 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	func performContentAnimation(model: SlideViewModel, needAnimation: Bool, propertyAnimator: UIViewPropertyAnimator?) {
 		switch model.animationType {
 		case .contentFadeIn:
+			setAlphaForAnimatedViews(alpha: 0)
 			bottomButtonConstraint?.constant = 50
-			var alpha: CGFloat = 0
-			bottomButton.alpha = alpha
-			rubricLabel.alpha = alpha
-			headerLabel.alpha = alpha
-			textLabel.alpha = alpha
-			frontImageView.alpha = alpha
 			self.layoutIfNeeded()
-			alpha = 1
 			bottomButtonConstraint?.constant = isIphoneX ? -69 : -48
 			if needAnimation {
 				propertyAnimator?.addAnimations {
 					self.layoutIfNeeded()
-					self.bottomButton.alpha = alpha
-					self.rubricLabel.alpha = alpha
-					self.headerLabel.alpha = alpha
-					self.textLabel.alpha = alpha
-					self.frontImageView.alpha = alpha
+					self.setAlphaForAnimatedViews(alpha: 1)
 				}
 			}
 		case .backgroundAnimationLeftToRight:
@@ -160,7 +150,17 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 					self.backgroundImageView.animationMode = .scale
 				}
 			}
+		default:
+			break
 		}
+	}
+	
+	private func setAlphaForAnimatedViews(alpha: CGFloat) {
+		bottomButton.alpha = alpha
+		rubricLabel.alpha = alpha
+		headerLabel.alpha = alpha
+		textLabel.alpha = alpha
+		frontImageView.alpha = alpha
 	}
 	
 	private func addBackgroundImageView() {

@@ -8,7 +8,7 @@ class MusicSlideView: UIView, SlideViewInput {
 	private let baseLeftRightMargin: CGFloat = 16
 	private let listenButtonHeight: CGFloat = 40
 	
-	private let backgroundImageView = UIImageView()
+	private let backgroundImageView = AnimatedImageView()
 	private let backgroundImageViewTopGradientContainer = UIView()
 	private let listenButton = UIButton()
 	private let trackLabel = UILabel()
@@ -20,6 +20,7 @@ class MusicSlideView: UIView, SlideViewInput {
 	private var playerLayer: AVPlayerLayer?
 	private var gradientLayer: CAGradientLayer?
 	private var topGradientLayer: CAGradientLayer?
+	private var bottomButtonConstraint: NSLayoutConstraint?
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -88,7 +89,43 @@ class MusicSlideView: UIView, SlideViewInput {
 	}
 	
 	func performContentAnimation(model: SlideViewModel, needAnimation: Bool, propertyAnimator: UIViewPropertyAnimator?) {
-		
+		switch model.animationType {
+		case .contentFadeIn:
+			self.setAlphaForAnimatedViews(alpha: 0)
+			bottomButtonConstraint?.constant = 50
+			self.layoutIfNeeded()
+			bottomButtonConstraint?.constant = -48
+			if needAnimation {
+				propertyAnimator?.addAnimations {
+					self.layoutIfNeeded()
+					self.setAlphaForAnimatedViews(alpha: 1)
+				}
+			}
+		case .backgroundAnimationLeftToRight:
+			backgroundImageView.animationMode = .left
+			if needAnimation {
+				propertyAnimator?.addAnimations {
+					self.backgroundImageView.animationMode = .right
+				}
+			}
+		case .backgroundAnimationZoomIn:
+			backgroundImageView.animationMode = .scaleAspectFill
+			if needAnimation {
+				propertyAnimator?.addAnimations {
+					self.backgroundImageView.animationMode = .scale
+				}
+			}
+		default:
+			break
+		}
+	}
+	
+	private func setAlphaForAnimatedViews(alpha: CGFloat) {
+		self.listenButton.alpha = alpha
+		self.rubricLabel.alpha = alpha
+		self.headerLabel.alpha = alpha
+		self.subtitleLabel.alpha = alpha
+		self.textLabel.alpha = alpha
 	}
 	
 	private func addBackgroundImageView() {
@@ -138,7 +175,8 @@ class MusicSlideView: UIView, SlideViewInput {
 		listenButton.heightAnchor.constraint(equalToConstant: listenButtonHeight).isActive = true
 		listenButton.widthAnchor.constraint(equalToConstant: 240).isActive = true
 		listenButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-		listenButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48).isActive = true
+		bottomButtonConstraint = listenButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48)
+		bottomButtonConstraint?.isActive = true
 		
 		listenButton.backgroundColor = .white
 	}

@@ -11,11 +11,15 @@ final class AnimatedImageView: UIView {
 	
 	var image: UIImage? {
 		get { return imageView.image }
-		set { imageView.image = newValue }
+		set {
+			imageView.image = newValue
+			layoutImageView()
+		}
 	}
 	private let imageView = UIImageView()
 	
 	init() {
+		self.animationMode = .scaleAspectFill
 		super.init(frame: .zero)
 		addSubview(imageView)
 	}
@@ -29,7 +33,7 @@ final class AnimatedImageView: UIView {
 		layoutImageView()
 	}
 	
-	var animationMode: AnimationMode = .scaleAspectFill {
+	var animationMode: AnimationMode {
 		didSet { layoutImageView() }
 	}
 	
@@ -63,9 +67,9 @@ final class AnimatedImageView: UIView {
 		
 		switch animationMode {
 		case .scaleAspectFill: layoutAspectFill()
-		case .scale:          layoutScale()
-		case .left:            layoutLeft()
-		case .right:           layoutRight()
+		case .scale: layoutScale()
+		case .left: layoutLeft()
+		case .right: layoutRight()
 		}
 	}
 	

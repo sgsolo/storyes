@@ -63,12 +63,15 @@ public struct SlideModel: Codable {
 	var buttonText: String?
 	var buttonType: Int?
 	
+	var animationType: Int?
+	
 	enum CodingKeys: String, CodingKey {
 		case track, title, title2, video
 		case description
 		case image, frontImage, coverImage, buttonURL, buttonColor, buttonTextColor
 		case text, subtitle, header, rubric, trackText, actor, buttonText
 		case buttonType
+		case animationType
 		case isBounded
 	}
 }
