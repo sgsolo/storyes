@@ -54,13 +54,13 @@ extension FullScreenViewController: FullScreenViewInput {
 	}
 	
 	func addSwipeGestureRecognizer() {
-		swipeGesture = UIPanGestureRecognizer(target: self, action: #selector(handlSwipeGesture))
+		swipeGesture = UIPanGestureRecognizer(target: self, action: #selector(handleSwipeGesture))
 		swipeGesture.delegate = self
 		view.addGestureRecognizer(swipeGesture)
 	}
 	
 	func addHideGestureRecognizer() {
-		hideGesture = UIPanGestureRecognizer(target: self, action: #selector(handlHideGesture))
+		hideGesture = UIPanGestureRecognizer(target: self, action: #selector(handleHideGesture))
 		hideGesture.delegate = self
 		view.addGestureRecognizer(hideGesture)
 	}
@@ -126,7 +126,7 @@ extension FullScreenViewController: StoryScreenModuleOutput {
 }
 
 extension FullScreenViewController {
-	@objc func handlSwipeGesture(_ gesture: UIPanGestureRecognizer) {
+	@objc func handleSwipeGesture(_ gesture: UIPanGestureRecognizer) {
 		guard let gestureView = gesture.view else { return }
 		let translate = gesture.translation(in: gestureView)
 		let percent = abs(translate.x) / gestureView.bounds.size.width
@@ -151,7 +151,7 @@ extension FullScreenViewController {
 		}
 	}
 	
-	@objc func handlHideGesture(_ gesture: UIPanGestureRecognizer) {
+	@objc func handleHideGesture(_ gesture: UIPanGestureRecognizer) {
 		guard let gestureView = gesture.view else { return }
 		let translate = gesture.translation(in: gestureView)
 		var percentY = translate.y / gestureView.bounds.size.height
