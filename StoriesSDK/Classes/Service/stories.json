@@ -597,6 +597,586 @@
 					  "buttonType": 3
 				  }
 			  ]
+		  },
+		  
+		  {
+			  "storyid": "123456789",
+			  "type": "story-item",
+			  "data": {
+				  "service": "music",
+				  "category": "recommended",
+				  "promo": false,
+				  "position": 1,
+				  "status": 1,
+				  "header": "Новинки Недели",
+				  "image": "http://dl4.joxi.net/drive/2019/08/26/0029/2138/1910874/74/ad952bc723.png"
+			  },
+			  "dataSlides": [
+				  {
+					  "track": {
+						  "id": "123456789",
+						  "title": "Громче и злей!",
+						  "durationMs": 330470,
+						  "storageDir": "2be1fae6.155774",
+						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+						  "fileSize": 123456,
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video2.mov",
+						  "artists": [
+							  {
+								  "id": 375233,
+								  "name": "Maria João Pires"
+							  },
+							  {
+								  "id": 22233,
+								  "name": "Людвиг ван Бетховен"
+							  }
+						  ]
+					  },
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://avatars.yandex.net/get-music-feed-promotion/27702/5d53db0bdec010541929bc00-landing.image/orig",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": true,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Black Bull",
+					  "header": "Kiri Variations",
+					  "rubric": "ПЛЕЙЛИСТ",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 1,
+					  
+					  "animationType": 1
+				  },
+				  {
+					  "track": {
+						  "id": "123456789",
+						  "title": "Громче и злей!",
+						  "durationMs": 330470,
+						  "storageDir": "2be1fae6.155774",
+						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+						  "fileSize": 123456,
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video.mov",
+						  "artists": [
+							  {
+								  "id": 375233,
+								  "name": "Maria João Pires"
+							  },
+							  {
+								  "id": 22233,
+								  "name": "Людвиг ван Бетховен"
+							  }
+						  ]
+					  },
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://avatars.yandex.net/get-music-content/98892/3aab564a.p.975699/m1000x1000",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": true,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Новый трек 2типа людей",
+					  "header": "Макс Корж разбирается в характерах",
+					  "rubric": "CИНГЛ",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 2,
+					  
+					  "animationType": 1
+				  },
+				  {
+					  "track": {
+						  "id": "123456789",
+						  "title": "Громче и злей!",
+						  "durationMs": 330470,
+						  "storageDir": "2be1fae6.155774",
+						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+						  "fileSize": 123456,
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video3.mov",
+						  "artists": [
+							  {
+								  "id": 375233,
+								  "name": "Maria João Pires"
+							  },
+							  {
+								  "id": 22233,
+								  "name": "Людвиг ван Бетховен"
+							  }
+						  ]
+					  },
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://upload.wikimedia.org/wikipedia/ru/8/86/Taylor-Swift-Reputation.jpg",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": true,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Clark",
+					  "header": "Kiri Variations",
+					  "rubric": "NEW ALBUM",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 3,
+					  
+					  "animationType": 1
+				  }
+			  ]
+		  },
+		  
+		  {
+			  "storyid": "123456789",
+			  "type": "story-item",
+			  "data": {
+				  "service": "music",
+				  "category": "recommended",
+				  "promo": false,
+				  "position": 1,
+				  "status": 1,
+				  "header": "Новинки Недели",
+				  "image": "http://dl4.joxi.net/drive/2019/08/26/0029/2138/1910874/74/ad952bc723.png"
+			  },
+			  "dataSlides": [
+				  {
+					  "track": {
+						  "id": "123456789",
+						  "title": "Громче и злей!",
+						  "durationMs": 330470,
+						  "storageDir": "2be1fae6.155774",
+						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+						  "fileSize": 123456,
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video2.mov",
+						  "artists": [
+							  {
+								  "id": 375233,
+								  "name": "Maria João Pires"
+							  },
+							  {
+								  "id": 22233,
+								  "name": "Людвиг ван Бетховен"
+							  }
+						  ]
+					  },
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://avatars.yandex.net/get-music-feed-promotion/27702/5d53db0bdec010541929bc00-landing.image/orig",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": true,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Black Bull",
+					  "header": "Kiri Variations",
+					  "rubric": "ПЛЕЙЛИСТ",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 1,
+					  
+					  "animationType": 2
+				  },
+				  {
+					  "track": {
+						  "id": "123456789",
+						  "title": "Громче и злей!",
+						  "durationMs": 330470,
+						  "storageDir": "2be1fae6.155774",
+						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+						  "fileSize": 123456,
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video.mov",
+						  "artists": [
+							  {
+								  "id": 375233,
+								  "name": "Maria João Pires"
+							  },
+							  {
+								  "id": 22233,
+								  "name": "Людвиг ван Бетховен"
+							  }
+						  ]
+					  },
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://avatars.yandex.net/get-music-content/98892/3aab564a.p.975699/m1000x1000",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": true,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Новый трек 2типа людей",
+					  "header": "Макс Корж разбирается в характерах",
+					  "rubric": "CИНГЛ",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 2,
+					  
+					  "animationType": 2
+				  },
+				  {
+					  "track": {
+						  "id": "123456789",
+						  "title": "Громче и злей!",
+						  "durationMs": 330470,
+						  "storageDir": "2be1fae6.155774",
+						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+						  "fileSize": 123456,
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video3.mov",
+						  "artists": [
+							  {
+								  "id": 375233,
+								  "name": "Maria João Pires"
+							  },
+							  {
+								  "id": 22233,
+								  "name": "Людвиг ван Бетховен"
+							  }
+						  ]
+					  },
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://upload.wikimedia.org/wikipedia/ru/8/86/Taylor-Swift-Reputation.jpg",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": true,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Clark",
+					  "header": "Kiri Variations",
+					  "rubric": "NEW ALBUM",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 3,
+					  
+					  "animationType": 2
+				  }
+			  ]
+		  },
+		  
+		  {
+			  "storyid": "123456789",
+			  "type": "story-item",
+			  "data": {
+				  "service": "music",
+				  "category": "recommended",
+				  "promo": false,
+				  "position": 1,
+				  "status": 1,
+				  "header": "Новинки Недели",
+				  "image": "http://dl4.joxi.net/drive/2019/08/26/0029/2138/1910874/74/ad952bc723.png"
+			  },
+			  "dataSlides": [
+				  {
+					  "track": {
+						  "id": "123456789",
+						  "title": "Громче и злей!",
+						  "durationMs": 330470,
+						  "storageDir": "2be1fae6.155774",
+						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+						  "fileSize": 123456,
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video2.mov",
+						  "artists": [
+							  {
+								  "id": 375233,
+								  "name": "Maria João Pires"
+							  },
+							  {
+								  "id": 22233,
+								  "name": "Людвиг ван Бетховен"
+							  }
+						  ]
+					  },
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://avatars.yandex.net/get-music-feed-promotion/27702/5d53db0bdec010541929bc00-landing.image/orig",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": true,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Black Bull",
+					  "header": "Kiri Variations",
+					  "rubric": "ПЛЕЙЛИСТ",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 1,
+					  
+					  "animationType": 3
+				  },
+				  {
+					  "track": {
+						  "id": "123456789",
+						  "title": "Громче и злей!",
+						  "durationMs": 330470,
+						  "storageDir": "2be1fae6.155774",
+						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+						  "fileSize": 123456,
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video.mov",
+						  "artists": [
+							  {
+								  "id": 375233,
+								  "name": "Maria João Pires"
+							  },
+							  {
+								  "id": 22233,
+								  "name": "Людвиг ван Бетховен"
+							  }
+						  ]
+					  },
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://avatars.yandex.net/get-music-content/98892/3aab564a.p.975699/m1000x1000",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": true,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Новый трек 2типа людей",
+					  "header": "Макс Корж разбирается в характерах",
+					  "rubric": "CИНГЛ",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 2,
+					  
+					  "animationType": 3
+				  },
+				  {
+					  "track": {
+						  "id": "123456789",
+						  "title": "Громче и злей!",
+						  "durationMs": 330470,
+						  "storageDir": "2be1fae6.155774",
+						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+						  "fileSize": 123456,
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video3.mov",
+						  "artists": [
+							  {
+								  "id": 375233,
+								  "name": "Maria João Pires"
+							  },
+							  {
+								  "id": 22233,
+								  "name": "Людвиг ван Бетховен"
+							  }
+						  ]
+					  },
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://upload.wikimedia.org/wikipedia/ru/8/86/Taylor-Swift-Reputation.jpg",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": true,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Clark",
+					  "header": "Kiri Variations",
+					  "rubric": "NEW ALBUM",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 3,
+					  
+					  "animationType": 3
+				  }
+			  ]
+		  },
+		  
+		  {
+			  "storyid": "123456789",
+			  "type": "story-item",
+			  "data": {
+				  "service": "music",
+				  "category": "recommended",
+				  "promo": false,
+				  "position": 1,
+				  "status": 1,
+				  "header": "Новинки Недели",
+				  "image": "http://dl4.joxi.net/drive/2019/08/26/0029/2138/1910874/74/ad952bc723.png"
+			  },
+			  "dataSlides": [
+				  {
+					  "track": {
+						  "id": "123456789",
+						  "title": "Громче и злей!",
+						  "durationMs": 330470,
+						  "storageDir": "2be1fae6.155774",
+						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+						  "fileSize": 123456,
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video2.mov",
+						  "artists": [
+							  {
+								  "id": 375233,
+								  "name": "Maria João Pires"
+							  },
+							  {
+								  "id": 22233,
+								  "name": "Людвиг ван Бетховен"
+							  }
+						  ]
+					  },
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://avatars.yandex.net/get-music-feed-promotion/27702/5d53db0bdec010541929bc00-landing.image/orig",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": true,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Black Bull",
+					  "header": "Kiri Variations",
+					  "rubric": "ПЛЕЙЛИСТ",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 1,
+					  
+					  "animationType": 1
+				  },
+				  {
+					  "track": {
+						  "id": "123456789",
+						  "title": "Громче и злей!",
+						  "durationMs": 330470,
+						  "storageDir": "2be1fae6.155774",
+						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+						  "fileSize": 123456,
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video.mov",
+						  "artists": [
+							  {
+								  "id": 375233,
+								  "name": "Maria João Pires"
+							  },
+							  {
+								  "id": 22233,
+								  "name": "Людвиг ван Бетховен"
+							  }
+						  ]
+					  },
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://avatars.yandex.net/get-music-content/98892/3aab564a.p.975699/m1000x1000",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": true,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Новый трек 2типа людей",
+					  "header": "Макс Корж разбирается в характерах",
+					  "rubric": "CИНГЛ",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 2,
+					  
+					  "animationType": 2
+				  },
+				  {
+					  "track": {
+						  "id": "123456789",
+						  "title": "Громче и злей!",
+						  "durationMs": 330470,
+						  "storageDir": "2be1fae6.155774",
+						  "ogImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+						  "fileSize": 123456,
+						  "trackUrl": "https://i3twtest.s3-eu-west-1.amazonaws.com/video3.mov",
+						  "artists": [
+							  {
+								  "id": 375233,
+								  "name": "Maria João Pires"
+							  },
+							  {
+								  "id": 22233,
+								  "name": "Людвиг ван Бетховен"
+							  }
+						  ]
+					  },
+					  "title": "Новинки недели",
+					  "title2": "От редакции Яндекс.Музыки",
+					  "description": "Редакция собрала для вас новинки недели",
+					  "image": "https://upload.wikimedia.org/wikipedia/ru/8/86/Taylor-Swift-Reputation.jpg",
+					  "coverImage": "//avatars.yandex.net/get-music-content/163479/70bec95a.a.7968662-1/200x200",
+					  "buttonURL": 1,
+					  "buttonColor": "#000000",
+					  "buttonTextColor": "#000000",
+					  
+					  "isBounded": true,
+					  "text": "The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+					  "subtitle": "Clark",
+					  "header": "Kiri Variations",
+					  "rubric": "NEW ALBUM",
+					  
+					  "trackText": "Forebode Pluck",
+					  "actor": "Clark",
+					  
+					  "buttonText": "Listen",
+					  "buttonType": 3,
+					  
+					  "animationType": 3
+				  }
+			  ]
 		  }
         ]
       }
