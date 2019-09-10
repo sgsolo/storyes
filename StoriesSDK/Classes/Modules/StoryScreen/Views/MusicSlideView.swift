@@ -169,7 +169,7 @@ class MusicSlideView: UIView, SlideViewInput {
 	private func addListenButton() {
 		self.addSubview(listenButton)
 		listenButton.layer.cornerRadius = listenButtonHeight / 2
-		listenButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+		listenButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
 		
 		listenButton.translatesAutoresizingMaskIntoConstraints = false
 		listenButton.heightAnchor.constraint(equalToConstant: listenButtonHeight).isActive = true
@@ -289,7 +289,7 @@ class MusicSlideView: UIView, SlideViewInput {
 	
 	private func addTrackLabel() {
 		self.addSubview(trackLabel)
-		trackLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+		trackLabel.font = .systemFont(ofSize: 16, weight: .medium)
 		trackLabel.textColor = .white
 		
 		
@@ -302,7 +302,7 @@ class MusicSlideView: UIView, SlideViewInput {
 	private func addActorLabel() {
 		self.addSubview(actorLabel)
 		actorLabel.alpha = 0.5
-		actorLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+		actorLabel.font = .systemFont(ofSize: 16, weight: .medium)
 		actorLabel.textColor = .white
 		
 		actorLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -334,7 +334,7 @@ class MusicSlideView: UIView, SlideViewInput {
 		gradientLayer.endPoint = CGPoint(x: 0.75, y: 0.5)
 		gradientLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
 
-		self.backgroundImageView.layer.insertSublayer(gradientLayer, at: 0)
+		self.backgroundImageView.layer.addSublayer(gradientLayer)
 		self.gradientLayer = gradientLayer
 	}
 	
