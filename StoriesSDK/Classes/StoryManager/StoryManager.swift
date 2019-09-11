@@ -38,12 +38,11 @@ public class YStoriesManager: YStoriesManagerInput {
         self.experiments = experiments
         self.storiesManagerOutput = storiesManagerOutput
         UIFont.loadAllFonts
-        makeCaruselViewController()
+        makeCarouselViewController(for: targetApp)
     }
     
-    func makeCaruselViewController() {
-        let config = CarouselPreviewConfiguration(carouselWidth: UIScreen.main.bounds.width)
-        self.carosuelModule = CarouselPreviewAssembly.setup(withConfig: config, delegate: self)
+    func makeCarouselViewController(for targetApp: SupportedApp) {
+        self.carosuelModule = CarouselPreviewAssembly.setup(for: targetApp, delegate: self)
         caruselViewController = self.carosuelModule?.view
     }
 }

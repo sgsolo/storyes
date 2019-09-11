@@ -6,15 +6,25 @@ protocol CarouselPreviewCollectionViewAdapterOutput: BaseCollectionViewAdapterOu
 }
 
 final class CarouselCollectionViewAdapter: BaseCollectionViewAdapter, CarouselPreviewCollectionViewAdapterInput {
-    private let cellSize: CGSize
+    private var collectionViewConfiguration: CarouselPreviewConfiguration
+    private var cellSize = CGSize.zero
     
     init(with configuration: CarouselPreviewConfiguration) {
-        cellSize = CarouselPreviewSizeCalculator.cellSize(carouselConfiguration: configuration)
+        collectionViewConfiguration = configuration
         super.init()
-        self.cellClasses = [StoriePreviewCell.self]
+        switch configuration.targetApp {
+        case .kinopoisk:
+            self.cellClasses = [KinopoiskCarouselCell.self]
+        case .music:
+            self.cellClasses = [MusicCarouselCell.self]
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionViewConfiguration.carouselWidth != collectionView.bounds.width {
+            collectionViewConfiguration.carouselWidth = collectionView.bounds.width
+            cellSize = CarouselPreviewSizeCalculator.cellSize(carouselConfiguration: collectionViewConfiguration)
+        }
         return cellSize
     }
 }

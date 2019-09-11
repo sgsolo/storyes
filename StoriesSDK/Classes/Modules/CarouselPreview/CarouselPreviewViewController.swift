@@ -48,6 +48,7 @@ extension CarouselPreviewViewController {
         layout.minimumLineSpacing = config.cellsSpacing
         layout.sectionInset = config.sectionInset
         carouselPreview = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        carouselPreview.delaysContentTouches = false
     }
     
     private func configureTitleLabel() {
@@ -72,8 +73,13 @@ extension CarouselPreviewViewController {
         carouselPreview.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         carouselPreview.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         carouselPreview.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16).isActive = true
+    }
+    
+    public override func updateViewConstraints() {
+        configuration.carouselWidth = view.bounds.width
         let cellHeight = CarouselPreviewSizeCalculator.cellSize(carouselConfiguration: configuration).height
         carouselPreview.heightAnchor.constraint(equalToConstant: cellHeight).isActive = true
+        super.updateViewConstraints()
     }
 }
 

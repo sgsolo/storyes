@@ -7,8 +7,14 @@ struct CarouselPreviewSizeCalculator {
             numberOfVisibleSpacing += 1
         }
         let allVisibleCellsWidthWithoutSpacings = config.carouselWidth - sectionInset - config.visibleWidthOfPartialCell - (cellsSpacing * CGFloat(numberOfVisibleSpacing))
-        let cellWidth = allVisibleCellsWidthWithoutSpacings / CGFloat(config.numberOfVisibleCells)
-        let cellHeight = cellWidth * config.cellHeightToWidthAspectRatio
-        return CGSize(width: cellWidth, height: cellHeight)
+        let cellWidth = (allVisibleCellsWidthWithoutSpacings / CGFloat(config.numberOfVisibleCells)).rounded()
+        var cellHeight: CGFloat = 0.0
+        switch config.cellApectRatio {
+        case .heightToWidth(let ratio):
+            cellHeight = cellWidth * ratio
+        case .widthToHeight(let ratio):
+            cellHeight = cellWidth / ratio
+        }
+        return CGSize(width: cellWidth, height: cellHeight.rounded())
     }
 }

@@ -72,6 +72,10 @@
 		B27AC96F2317E6AD00110B52 /* SlideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC96D2317E6AD00110B52 /* SlideViewModel.swift */; };
 		B27AC9732317E7C500110B52 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9712317E7C500110B52 /* ApiClient.swift */; };
 		B27AC9742317E7C500110B52 /* stories.json in Resources */ = {isa = PBXBuildFile; fileRef = B27AC9722317E7C500110B52 /* stories.json */; };
+		B2D82B622328E4FF00D84981 /* MusicCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D82B612328E4FF00D84981 /* MusicCarouselCell.swift */; };
+		B2D82B642328FF7300D84981 /* KinopoiskCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D82B632328FF7300D84981 /* KinopoiskCarouselCell.swift */; };
+		B2D82B6623293C3700D84981 /* UIColor+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D82B6523293C3700D84981 /* UIColor+Style.swift */; };
+		B2D82B6A23293D8A00D84981 /* CarouselConfigurationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D82B6923293D8A00D84981 /* CarouselConfigurationFactory.swift */; };
 		C314A80388C5C3B02BAFB83BEAD7EE82 /* DisplayableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156594702ADA317FF36CCFC0F501E781 /* DisplayableComponent.swift */; };
 		CE0155F6C20BD7B715CC7B463EB2C12C /* BaseCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391E7D8E3B94E51955CFA3D0FF2C28C5 /* BaseCollectionViewAdapter.swift */; };
 		D5060C9B4EF5CA12A5F5691F06BB698D /* PauseTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8186616A598FD810D23B87344D6D500C /* PauseTimer.swift */; };
@@ -174,6 +178,10 @@
 		B27AC96D2317E6AD00110B52 /* SlideViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideViewModel.swift; sourceTree = "<group>"; };
 		B27AC9712317E7C500110B52 /* ApiClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		B27AC9722317E7C500110B52 /* stories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stories.json; sourceTree = "<group>"; };
+		B2D82B612328E4FF00D84981 /* MusicCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicCarouselCell.swift; sourceTree = "<group>"; };
+		B2D82B632328FF7300D84981 /* KinopoiskCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinopoiskCarouselCell.swift; sourceTree = "<group>"; };
+		B2D82B6523293C3700D84981 /* UIColor+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Style.swift"; sourceTree = "<group>"; };
+		B2D82B6923293D8A00D84981 /* CarouselConfigurationFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselConfigurationFactory.swift; sourceTree = "<group>"; };
 		B31834D8BB41D8A89E2C6DD47664F550 /* Pods-DemoStoriesSDK-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DemoStoriesSDK-acknowledgements.markdown"; sourceTree = "<group>"; };
 		B66B85851704E0165265A884086B5417 /* Pods-DemoStoriesSDK_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DemoStoriesSDK_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		C11C21137E492AC8FE1DDA959DF5F050 /* Pods-DemoStoriesSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DemoStoriesSDK.modulemap"; sourceTree = "<group>"; };
@@ -244,13 +252,14 @@
 		130EE3F5CB92CFD5CA91602D008E56C2 /* CarouselPreview */ = {
 			isa = PBXGroup;
 			children = (
+				B2D82B6823293D6500D84981 /* Config */,
+				B2D82B6723293D2100D84981 /* Cells */,
 				B27AC9372317E5F300110B52 /* CarouselCollectionViewAdapter.swift */,
 				B27AC9422317E5F400110B52 /* CarouselPreviewAssembly.swift */,
 				B27AC93F2317E5F300110B52 /* CarouselPreviewPresentrer.swift */,
 				B27AC9452317E5F400110B52 /* CarouselPreviewSizeCalculator.swift */,
 				B27AC9462317E5F400110B52 /* CarouselPreviewViewController.swift */,
 				B27AC9432317E5F400110B52 /* Models */,
-				B27AC9472317E5F400110B52 /* StoriePreviewCell.swift */,
 				B27AC9382317E5F300110B52 /* tmp */,
 				B27AC9402317E5F300110B52 /* View Models */,
 			);
@@ -289,6 +298,7 @@
 				C9E2110B056F49D1859A7DA475E875BA /* LayerExtension.swift */,
 				B27AC92A2317E47E00110B52 /* NSLockingExtension.swift */,
 				6B37D847231E502A00F7CF7B /* UIFontExtension.swift */,
+				B2D82B6523293C3700D84981 /* UIColor+Style.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -459,7 +469,6 @@
 		B27AC9432317E5F400110B52 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B27AC9442317E5F400110B52 /* CarouselPreviewConfiguration.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -509,6 +518,25 @@
 			);
 			name = Service;
 			path = StoriesSDK/Classes/Service;
+			sourceTree = "<group>";
+		};
+		B2D82B6723293D2100D84981 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B27AC9472317E5F400110B52 /* StoriePreviewCell.swift */,
+				B2D82B612328E4FF00D84981 /* MusicCarouselCell.swift */,
+				B2D82B632328FF7300D84981 /* KinopoiskCarouselCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		B2D82B6823293D6500D84981 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				B27AC9442317E5F400110B52 /* CarouselPreviewConfiguration.swift */,
+				B2D82B6923293D8A00D84981 /* CarouselConfigurationFactory.swift */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		B6519748F5574D349CD969E59BA6BE6A /* Modules */ = {
@@ -793,10 +821,12 @@
 				B27AC9272317E3C500110B52 /* Player.swift in Sources */,
 				B27AC96F2317E6AD00110B52 /* SlideViewModel.swift in Sources */,
 				B27AC9682317E67200110B52 /* FullScreenAnimatedTransitioning.swift in Sources */,
+				B2D82B6623293C3700D84981 /* UIColor+Style.swift in Sources */,
 				B27AC9552317E5F400110B52 /* StoriePreviewCell.swift in Sources */,
 				6B37D84A231E59BF00F7CF7B /* Constants.swift in Sources */,
 				B27AC9522317E5F400110B52 /* CarouselPreviewConfiguration.swift in Sources */,
 				6B69A1A7231D216500CBAA41 /* KinopoiskSlideView.swift in Sources */,
+				B2D82B642328FF7300D84981 /* KinopoiskCarouselCell.swift in Sources */,
 				B27AC9292317E43A00110B52 /* CacheService.swift in Sources */,
 				D5060C9B4EF5CA12A5F5691F06BB698D /* PauseTimer.swift in Sources */,
 				102D538E4A253B4CBFE5F1D025C21457 /* RegistrableComponent.swift in Sources */,
@@ -805,6 +835,8 @@
 				0EFB89A1D73FBB54A81033E80D24ACD7 /* RegistrableSupplementaryViewComponent.swift in Sources */,
 				B27AC9692317E67200110B52 /* StoryInteractiveTransitioning.swift in Sources */,
 				232F3AA9319FE430520801D738338D5D /* ReusableComponent.swift in Sources */,
+				B2D82B622328E4FF00D84981 /* MusicCarouselCell.swift in Sources */,
+				B2D82B6A23293D8A00D84981 /* CarouselConfigurationFactory.swift in Sources */,
 				B27AC9642317E67200110B52 /* LoaderView.swift in Sources */,
 				B27AC9332317E58400110B52 /* StoryScreenViewController.swift in Sources */,
 				6B26F17D23276F5F003AE619 /* AnimatedImageView.swift in Sources */,
