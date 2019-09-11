@@ -23,7 +23,7 @@ class MockStoriesPreviewData {
             title: attrString("Thomas Mraz вернулся"),
             image: UIImage(named: "Preview4.jpeg", in: bundle, compatibleWith: nil) ?? UIImage(),
             isViewed: true)
-        return [obj0,obj1,obj2,obj3,obj4]
+        return [obj0,obj1,obj2,obj3,obj4,obj4,obj4,obj4,obj4]
     }
     
     static func attrString(_ str: String) -> NSAttributedString {

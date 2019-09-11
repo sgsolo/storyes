@@ -6,6 +6,7 @@ protocol StoryScreenViewInput: class {
 	func addGestureRecognizers()
 	func addCloseButton()
 	func updateProgressView(storyModel: StoryModel, needProgressAnimation: Bool)
+	func updateAnimationOnSlide(model: SlideViewModel, needAnimation: Bool)
 	func pauseAnimation()
 	func resumeAnimation()
 	func stopAnimation()
@@ -35,7 +36,8 @@ protocol StoryScreenViewOutput: class {
 class StoryScreenViewController: UIViewController {
 	
 	var presenter: StoryScreenViewOutput!
-	var progressAnimator: UIViewPropertyAnimator?
+	var progressPropertyAnimator: UIViewPropertyAnimator?
+	var slidePropertyAnimator: UIViewPropertyAnimator?
 	var loadingView = LoaderView()
 	
 	private lazy var slideView: SlideViewInput = {
@@ -50,6 +52,7 @@ class StoryScreenViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.view.backgroundColor = .clear
 		presenter.viewDidLoad()
 	}
 	
@@ -106,6 +109,15 @@ extension StoryScreenViewController: StoryScreenViewInput {
 	func updateProgressView(storyModel: StoryModel, needProgressAnimation: Bool) {
 		configureProgressView(with: storyModel)
 		updateProgressView(with: storyModel, needProgressAnimation: needProgressAnimation)
+	}
+	
+	func updateAnimationOnSlide(model: SlideViewModel, needAnimation: Bool) {
+		slidePropertyAnimator?.stopAnimation(true)
+		slidePropertyAnimator?.finishAnimation(at: .current)
+		slidePropertyAnimator = nil
+		slidePropertyAnimator = UIViewPropertyAnimator(duration: TimeInterval(model.animationDuration), curve: .linear, animations: {})
+		slideView.performContentAnimation(model: model, needAnimation: needAnimation, propertyAnimator: slidePropertyAnimator)
+		slidePropertyAnimator?.startAnimation()
 	}
 	
 	func addSlideView() {
@@ -194,18 +206,25 @@ extension StoryScreenViewController: StoryScreenViewInput {
 	}
 	
 	func stopAnimation() {
-		progressAnimator?.stopAnimation(true)
-		progressAnimator?.finishAnimation(at: .end)
-		progressAnimator = nil
+		progressPropertyAnimator?.stopAnimation(true)
+		progressPropertyAnimator?.finishAnimation(at: .current)
+		progressPropertyAnimator = nil
+		
+		slidePropertyAnimator?.stopAnimation(true)
+		slidePropertyAnimator?.finishAnimation(at: .current)
+		slidePropertyAnimator = nil
 	}
 	
 	func pauseAnimation() {
-		guard let progressAnimator = self.progressAnimator, progressAnimator.state == .active else { return }
-		self.progressAnimator?.pauseAnimation()
+		guard let progressAnimator = self.progressPropertyAnimator, progressAnimator.state == .active else { return }
+		self.progressPropertyAnimator?.pauseAnimation()
+		guard let slidePropertyAnimator = self.slidePropertyAnimator, slidePropertyAnimator.state == .active else { return }
+		self.slidePropertyAnimator?.pauseAnimation()
 	}
 	
 	func resumeAnimation() {
-		self.progressAnimator?.startAnimation()
+		self.progressPropertyAnimator?.startAnimation()
+		self.slidePropertyAnimator?.startAnimation()
 	}
 	
 	func showErrorAlert(error: Error) {
@@ -266,17 +285,16 @@ extension StoryScreenViewController {
 			case .inProgress:
 				view.progressViewWidthConstraint?.constant = 0
 				view.layoutIfNeeded()
-				progressAnimator?.stopAnimation(true)
-				progressAnimator?.finishAnimation(at: .end)
-				progressAnimator = nil
+				progressPropertyAnimator?.stopAnimation(true)
+				progressPropertyAnimator?.finishAnimation(at: .current)
+				progressPropertyAnimator = nil
 				if storyModel.dataSlides.count > index, needProgressAnimation {
 					let slideModel = storyModel.dataSlides[index]
-					progressAnimator = UIViewPropertyAnimator(duration: TimeInterval(slideModel.duration), curve: .linear) {
+					progressPropertyAnimator = UIViewPropertyAnimator(duration: TimeInterval(slideModel.duration), curve: .linear) {
 						view.progressViewWidthConstraint?.constant = progressViewWidth
-						
 						view.layoutIfNeeded()
 					}
-					progressAnimator?.startAnimation()
+					progressPropertyAnimator?.startAnimation()
 				}
 			case .watched:
 				view.progressViewWidthConstraint?.constant = progressViewWidth

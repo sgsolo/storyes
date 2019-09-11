@@ -8,7 +8,7 @@ class MusicSlideView: UIView, SlideViewInput {
 	private let baseLeftRightMargin: CGFloat = 16
 	private let listenButtonHeight: CGFloat = 40
 	
-	private let backgroundImageView = UIImageView()
+	private let backgroundImageView = AnimatedImageView()
 	private let backgroundImageViewTopGradientContainer = UIView()
 	private let listenButton = UIButton()
 	private let trackLabel = UILabel()
@@ -20,6 +20,7 @@ class MusicSlideView: UIView, SlideViewInput {
 	private var playerLayer: AVPlayerLayer?
 	private var gradientLayer: CAGradientLayer?
 	private var topGradientLayer: CAGradientLayer?
+	private var bottomButtonConstraint: NSLayoutConstraint?
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -87,9 +88,48 @@ class MusicSlideView: UIView, SlideViewInput {
 		self.layoutIfNeeded()
 	}
 	
+	func performContentAnimation(model: SlideViewModel, needAnimation: Bool, propertyAnimator: UIViewPropertyAnimator?) {
+		switch model.animationType {
+		case .contentFadeIn:
+			self.setAlphaForAnimatedViews(alpha: 0)
+			bottomButtonConstraint?.constant = 50
+			self.layoutIfNeeded()
+			bottomButtonConstraint?.constant = -48
+			if needAnimation {
+				propertyAnimator?.addAnimations {
+					self.layoutIfNeeded()
+					self.setAlphaForAnimatedViews(alpha: 1)
+				}
+			}
+		case .backgroundAnimationLeftToRight:
+			backgroundImageView.animationMode = .left
+			if needAnimation {
+				propertyAnimator?.addAnimations {
+					self.backgroundImageView.animationMode = .right
+				}
+			}
+		case .backgroundAnimationZoomIn:
+			backgroundImageView.animationMode = .scaleAspectFill
+			if needAnimation {
+				propertyAnimator?.addAnimations {
+					self.backgroundImageView.animationMode = .scale
+				}
+			}
+		default:
+			break
+		}
+	}
+	
+	private func setAlphaForAnimatedViews(alpha: CGFloat) {
+		self.listenButton.alpha = alpha
+		self.rubricLabel.alpha = alpha
+		self.headerLabel.alpha = alpha
+		self.subtitleLabel.alpha = alpha
+		self.textLabel.alpha = alpha
+	}
+	
 	private func addBackgroundImageView() {
 		self.addSubview(backgroundImageView)
-		backgroundImageView.contentMode = .scaleAspectFill
 		backgroundImageView.clipsToBounds = true
 		backgroundImageView.layer.cornerRadius = 12
 		
@@ -128,13 +168,14 @@ class MusicSlideView: UIView, SlideViewInput {
 	private func addListenButton() {
 		self.addSubview(listenButton)
 		listenButton.layer.cornerRadius = listenButtonHeight / 2
-		listenButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+		listenButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
 		
 		listenButton.translatesAutoresizingMaskIntoConstraints = false
 		listenButton.heightAnchor.constraint(equalToConstant: listenButtonHeight).isActive = true
 		listenButton.widthAnchor.constraint(equalToConstant: 240).isActive = true
 		listenButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-		listenButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48).isActive = true
+		bottomButtonConstraint = listenButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48)
+		bottomButtonConstraint?.isActive = true
 		
 		listenButton.backgroundColor = .white
 	}
@@ -247,7 +288,7 @@ class MusicSlideView: UIView, SlideViewInput {
 	
 	private func addTrackLabel() {
 		self.addSubview(trackLabel)
-		trackLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+		trackLabel.font = .systemFont(ofSize: 16, weight: .medium)
 		trackLabel.textColor = .white
 		
 		
@@ -260,7 +301,7 @@ class MusicSlideView: UIView, SlideViewInput {
 	private func addActorLabel() {
 		self.addSubview(actorLabel)
 		actorLabel.alpha = 0.5
-		actorLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+		actorLabel.font = .systemFont(ofSize: 16, weight: .medium)
 		actorLabel.textColor = .white
 		
 		actorLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -292,7 +333,7 @@ class MusicSlideView: UIView, SlideViewInput {
 		gradientLayer.endPoint = CGPoint(x: 0.75, y: 0.5)
 		gradientLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
 
-		self.backgroundImageView.layer.insertSublayer(gradientLayer, at: 0)
+		self.backgroundImageView.layer.addSublayer(gradientLayer)
 		self.gradientLayer = gradientLayer
 	}
 	
