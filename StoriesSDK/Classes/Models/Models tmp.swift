@@ -1,19 +1,10 @@
 
-// MARK: - Result
-public struct StoryesJson: Codable {
+struct StoryesJson: Codable {
 	let client: String
 	let stories: [StoryModel]
 }
 
-// MARK: - Blocks
-public struct Blocks: Codable {
-	let id, type, typeForFrom, title: String
-	let uid: String
-	let entities: [StoryModel]
-}
-
-// MARK: - Entity
-public struct StoryModel: Codable {
+struct StoryModel: Codable {
 	var currentIndex = 0
 	let storyId, entityType: String
 	let data: DataClass
@@ -23,16 +14,14 @@ public struct StoryModel: Codable {
 	}
 }
 
-// MARK: - DataClass
-public struct DataClass: Codable {
+struct DataClass: Codable {
 	let service, category: String
 	let status: Bool
 	let header, image: String
 	let dataSlides: [SlideModel]
 }
 
-// MARK: - DataSlide
-public struct SlideModel: Codable {
+struct SlideModel: Codable {
 	let slideDuration: Int?
 	var duration: Int {
 		if let slideDuration = slideDuration {
@@ -72,8 +61,7 @@ public struct SlideModel: Codable {
 	}
 }
 
-// MARK: - Track
-public struct Track: Codable {
+struct Track: Codable {
 	let trackName: String?
 	let trackArtist: String?
 	let durationMs: Int?
@@ -86,7 +74,7 @@ public struct Track: Codable {
 	}
 }
 
-public struct Video: Codable {
+struct Video: Codable {
 	let storageDir: String?
 	
 	enum CodingKeys: String, CodingKey {

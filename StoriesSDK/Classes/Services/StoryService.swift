@@ -1,6 +1,6 @@
 import UIKit
 
-public protocol StoriesServiceInput {
+protocol StoriesServiceInput {
     var stories: StoriesModel? { get }
     func getStories(success: Success?, failure: Failure?)
     func getTrack(_ urlString: String, success: Success?, failure: Failure?)
@@ -9,7 +9,7 @@ public protocol StoriesServiceInput {
     func addDownloadQueue(slideModel: SlideModel)
 }
 
-public typealias StoriesModel = [StoryModel]
+typealias StoriesModel = [StoryModel]
 
 struct Story {
     var storyIndex: Int = 0 {
