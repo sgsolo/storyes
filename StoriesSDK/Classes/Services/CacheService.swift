@@ -33,7 +33,7 @@ class CacheService: CacheServiceInput {
 	func getViewModel(slideModel: SlideModel) -> SlideViewModel? {
 		var viewModel = SlideViewModel()
 		viewModel.fillFromSlideModel(slideModel)
-		if let video = slideModel.video, let videoUrl = video.videoUrl {
+		if let video = slideModel.video, let videoUrl = video.storageDir, let _ = URL(string: videoUrl) {
 			viewModel.type = .video
 			if let url = self.getUrlWith(stringUrl: videoUrl) {
 				viewModel.videoUrl = url
@@ -42,7 +42,7 @@ class CacheService: CacheServiceInput {
 			}
 			return viewModel
 		} else {
-			if let imageUrlString = slideModel.image {
+			if let imageUrlString = slideModel.image, let _ = URL(string: imageUrlString) {
 				viewModel.type = .image
 				if let url = self.getUrlWith(stringUrl: imageUrlString) {
 					viewModel.imageUrl = url
@@ -50,7 +50,7 @@ class CacheService: CacheServiceInput {
 					return nil
 				}
 			}
-			if let frontImageUrlString = slideModel.frontImage {
+			if let frontImageUrlString = slideModel.frontImage, let _ = URL(string: frontImageUrlString) {
 				viewModel.type = .image
 				if let url = self.getUrlWith(stringUrl: frontImageUrlString) {
 					viewModel.frontImageUrl = url
@@ -58,7 +58,7 @@ class CacheService: CacheServiceInput {
 					return nil
 				}
 			}
-			if let track = slideModel.track, let trackUrl = track.trackUrl {
+			if let track = slideModel.track, let trackUrl = track.storageDir, let _ = URL(string: trackUrl) {
 				viewModel.type = .track
 				if let url = self.getUrlWith(stringUrl: trackUrl) {
 					viewModel.trackUrl = url

@@ -1,13 +1,8 @@
 
-// MARK: - Welcome
-public struct StoryesJson: Codable {
-	let result: Result
-}
-
 // MARK: - Result
-public struct Result: Codable {
+public struct StoryesJson: Codable {
 	let client: String
-	let blocks: Blocks
+	let stories: [StoryModel]
 }
 
 // MARK: - Blocks
@@ -20,95 +15,82 @@ public struct Blocks: Codable {
 // MARK: - Entity
 public struct StoryModel: Codable {
 	var currentIndex = 0
-	let storyid, type: String
+	let storyId, entityType: String
 	let data: DataClass
-	let dataSlides: [SlideModel]
 	
 	enum CodingKeys: String, CodingKey {
-		case storyid, type, data
-		case dataSlides
+		case storyId, entityType, data
 	}
 }
 
 // MARK: - DataClass
 public struct DataClass: Codable {
 	let service, category: String
-	let promo: Bool
-	let position, status: Int
+	let status: Bool
 	let header, image: String
+	let dataSlides: [SlideModel]
 }
 
 // MARK: - DataSlide
 public struct SlideModel: Codable {
-	let duration = 6
+	let slideDuration: Int?
+	var duration: Int {
+		if let slideDuration = slideDuration {
+			return slideDuration
+		}
+		return 6
+	}
 	var player: Player?
 	let track: Track?
 	let video: Video?
 	let image: String?
 	let frontImage: String?
-	let title, title2, description: String
 	let coverImage: String?
-	let buttonURL: Int
-	let buttonColor, buttonTextColor: String
+	let buttonURL: String?
 	
-	var isBounded: Bool = false
-	var text: String?
-	var subtitle: String?
-	var header: String?
-	var rubric: String?
+	var contentStyle: Bool = false
+	var description: String?
+	var title3: String?
+	var title2: String?
+	var title: String?
 	
 	var trackText: String?
 	var actor: String?
 	
 	var buttonText: String?
-	var buttonType: Int?
+	var buttonStyle: Int?
 	
 	var animationType: Int?
 	
 	enum CodingKeys: String, CodingKey {
-		case track, title, title2, video
-		case description
-		case image, frontImage, coverImage, buttonURL, buttonColor, buttonTextColor
-		case text, subtitle, header, rubric, trackText, actor, buttonText
-		case buttonType
-		case animationType
-		case isBounded
+		case track, video
+		case image, frontImage, coverImage, buttonURL
+		case description, title3, title2, title, trackText, actor, buttonText
+		case buttonStyle
+		case animationType, slideDuration
+		case contentStyle
 	}
 }
 
 // MARK: - Track
 public struct Track: Codable {
-	let id, title: String
-	let durationMs: Int
-	let storageDir, ogImage: String
-	let fileSize: Int
-	let trackUrl: String?
-	let artists: [Artist]
+	let trackName: String?
+	let trackArtist: String?
+	let durationMs: Int?
+	let storageDir: String?
 	
 	enum CodingKeys: String, CodingKey {
-		case id, title, trackUrl
+		case trackName, trackArtist
 		case durationMs
-		case storageDir, ogImage, fileSize, artists
+		case storageDir
 	}
 }
 
 public struct Video: Codable {
-	let id, title: String
-	let durationMs: Int
-	let storageDir, ogImage: String
-	let fileSize: Int
-	let videoUrl: String?
-	let artists: [Artist]
+	let storageDir: String?
 	
 	enum CodingKeys: String, CodingKey {
-		case id, title, videoUrl
-		case durationMs
-		case storageDir, ogImage, fileSize, artists
+		case storageDir
 	}
 }
 
-// MARK: - Artist
-public struct Artist: Codable {
-	let id: Int
-	let name: String
-}

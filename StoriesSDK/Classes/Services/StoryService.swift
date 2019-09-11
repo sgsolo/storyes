@@ -33,7 +33,7 @@ class StoriesService: StoriesServiceInput {
             guard let data = data as? Data else { return }
             do {
                 let stories = try JSONDecoder().decode(StoryesJson.self, from: data)
-                self.stories = stories.result.blocks.entities
+                self.stories = stories.stories
                 success?(stories)
             }
             catch {
@@ -59,7 +59,7 @@ class StoriesService: StoriesServiceInput {
         viewModel.fillFromSlideModel(slideModel)
         let dispatchGroup = DispatchGroup()
         var networkError: Error?
-        if let video = slideModel.video, let videoUrl = video.videoUrl {
+        if let video = slideModel.video, let videoUrl = video.storageDir, let _ = URL(string: videoUrl) {
             viewModel.type = .video
             dispatchGroup.enter()
             getTrack(videoUrl, success: { videoUrl in
@@ -72,7 +72,7 @@ class StoriesService: StoriesServiceInput {
                 dispatchGroup.leave()
             })
         } else {
-            if let imageUrlString = slideModel.image {
+            if let imageUrlString = slideModel.image, let _ = URL(string: imageUrlString) {
                 viewModel.type = .image
                 dispatchGroup.enter()
                 getTrack(imageUrlString, success: { imageUrl in
@@ -85,7 +85,7 @@ class StoriesService: StoriesServiceInput {
                     dispatchGroup.leave()
                 })
             }
-			if let frontImage = slideModel.frontImage {
+			if let frontImage = slideModel.frontImage, let _ = URL(string: frontImage) {
 				dispatchGroup.enter()
 				getTrack(frontImage, success: { frontImageUrl in
 					if let frontImageUrl = frontImageUrl as? URL {
@@ -97,7 +97,7 @@ class StoriesService: StoriesServiceInput {
 					dispatchGroup.leave()
 				})
 			}
-            if let track = slideModel.track, let trackUrl = track.trackUrl {
+            if let track = slideModel.track, let trackUrl = track.storageDir, let _ = URL(string: trackUrl) {
                 viewModel.type = .track
                 dispatchGroup.enter()
                 getTrack(trackUrl, success: { localTrackUrl in
@@ -122,14 +122,14 @@ class StoriesService: StoriesServiceInput {
     }
     
     func preDownloadStory(storyModel: StoryModel) {
-        storyModel.dataSlides.forEach { slideModel in
+        storyModel.data.dataSlides.forEach { slideModel in
             getData(slideModel, success: nil, failure: nil)
         }
     }
     
     func preDownloadStories() {
         self.stories?.forEach { storyModel in
-            storyModel.dataSlides.forEach { slideModel in
+            storyModel.data.dataSlides.forEach { slideModel in
                 getData(slideModel, success: nil, failure: nil)
             }
         }

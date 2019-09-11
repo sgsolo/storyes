@@ -237,7 +237,7 @@ extension StoryScreenViewController: StoryScreenViewInput {
 extension StoryScreenViewController {
 	private func configureProgressView(with storyModel: StoryModel) {
 		var arrangedSubviews: [UIView] = []
-		for i in 0 ..< storyModel.dataSlides.count {
+		for i in 0 ..< storyModel.data.dataSlides.count {
 			var state: ProgressState
 			let currentIndex = storyModel.currentIndex
 			if i < currentIndex {
@@ -277,8 +277,8 @@ extension StoryScreenViewController {
 		progressStackView?.arrangedSubviews.enumerated().forEach { index ,view in
 			guard let view = view as? ProgressTabView else { return }
 			var progressViewWidth = self.view.bounds.width - (ProgressTabView.leftRightInset * 2)
-			progressViewWidth -= ProgressTabView.cellSpacing * CGFloat(storyModel.dataSlides.count - 1)
-			progressViewWidth /= CGFloat(storyModel.dataSlides.count)
+			progressViewWidth -= ProgressTabView.cellSpacing * CGFloat(storyModel.data.dataSlides.count - 1)
+			progressViewWidth /= CGFloat(storyModel.data.dataSlides.count)
 			switch view.progressState {
 			case .notWatched:
 				view.progressViewWidthConstraint?.constant = 0
@@ -288,8 +288,8 @@ extension StoryScreenViewController {
 				progressPropertyAnimator?.stopAnimation(true)
 				progressPropertyAnimator?.finishAnimation(at: .current)
 				progressPropertyAnimator = nil
-				if storyModel.dataSlides.count > index, needProgressAnimation {
-					let slideModel = storyModel.dataSlides[index]
+				if storyModel.data.dataSlides.count > index, needProgressAnimation {
+					let slideModel = storyModel.data.dataSlides[index]
 					progressPropertyAnimator = UIViewPropertyAnimator(duration: TimeInterval(slideModel.duration), curve: .linear) {
 						view.progressViewWidthConstraint?.constant = progressViewWidth
 						view.layoutIfNeeded()
