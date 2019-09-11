@@ -35,11 +35,8 @@ struct SlideViewModel {
 			return _buttonText
 		}
 		set {
-			if let newValue = newValue, !newValue.isEmpty {
-				_buttonText = newValue
-			} else {
-				_buttonText = nil
-			}
+			guard let newValue = newValue, !newValue.isEmpty else { return }
+			_buttonText = newValue
 		}
 	}
 	var buttonStyle: Int?
