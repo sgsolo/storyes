@@ -9,6 +9,10 @@ struct StoryModel: Codable {
 	let storyId: String
 	let entityType: String
 	let data: StoryData
+	
+	enum CodingKeys: String, CodingKey {
+		case storyId, entityType, data
+	}
 }
 
 struct StoryData: Codable {
@@ -37,10 +41,7 @@ struct SlideModel: Codable {
 	var description: String?
 	var title3: String?
 	var title2: String?
-	var title: String?
-	
-	var trackText: String?
-	var actor: String?
+	var title: String
 	
 	var buttonText: String?
 	var buttonStyle: Int?
@@ -50,7 +51,7 @@ struct SlideModel: Codable {
 	enum CodingKeys: String, CodingKey {
 		case track, video
 		case image, frontImage, buttonURL
-		case description, title3, title2, title, trackText, actor, buttonText
+		case description, title3, title2, title, buttonText
 		case buttonStyle
 		case animationType, slideDuration
 		case contentStyle

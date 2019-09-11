@@ -66,8 +66,8 @@ struct SlideViewModel {
 		self.header = slideModel.title2
 		self.rubric = slideModel.title
 		
-		self.track = slideModel.trackText
-		self.actor = slideModel.actor
+		self.track = slideModel.track?.trackName
+		self.actor = slideModel.track?.trackArtist
 		
 		self.buttonText = slideModel.buttonText
 		self.buttonStyle = slideModel.buttonStyle
