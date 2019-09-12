@@ -56,7 +56,7 @@ class ApiClient {
 		return URLSession(configuration: configuration)
 	}()
 
-	static var playerSession: URLSession = {
+	static var downloadSession: URLSession = {
 		let configuration = URLSessionConfiguration.default
 		configuration.timeoutIntervalForRequest = 120
 		configuration.timeoutIntervalForResource = 120
@@ -191,7 +191,7 @@ class ApiClient {
 			}
 			ApiClient.tasks[url] = DispatchSemaphore(value: 0)
 			
-			let task = ApiClient.playerSession.downloadTask(with: url) { location, response, error in
+			let task = ApiClient.downloadSession.downloadTask(with: url) { location, response, error in
 				defer {
 					let semaphore = ApiClient.tasks[url]
 					ApiClient.tasks[url] = nil
