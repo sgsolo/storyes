@@ -19,15 +19,15 @@ public class CarouselPreviewViewController: UIViewController {
     private var carouselPreviewAdapter: CarouselCollectionViewAdapter!
     private var configuration: CarouselPreviewConfiguration
     private let titleLabel = UILabel()
-    private var carouselPreview: UICollectionView!
+    private(set) var carouselPreview: UICollectionView!
     
-    var backgroundView: UIView? {
+    lazy var backgroundView: UIView? = {
         return nil
-    }
+    }()
     
-    var loadingView: UIView? {
+    lazy var loadingView: UIView? = {
         return nil
-    }
+    }()
     
     var titleAttributes: [NSAttributedStringKey: Any] {
         return [:]
@@ -76,6 +76,18 @@ public class CarouselPreviewViewController: UIViewController {
             break
         }
         return CGSize(width: view.bounds.width, height: height)
+    }
+    
+    func showLoadingView() {
+        carouselPreview.alpha = 0.0
+        guard let loadingView = loadingView as? LoadingView else {
+            carouselPreview.isHidden = false
+            return
+        }
+        loadingView.config = configuration
+        loadingView.frame = carouselPreview.frame
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
     }
 }
 
