@@ -224,6 +224,7 @@ extension StoryScreenViewController: StoryScreenViewInput {
 	
 	func resumeAnimation() {
 		self.progressPropertyAnimator?.startAnimation()
+		guard self.slidePropertyAnimator?.state == .active else { return }
 		self.slidePropertyAnimator?.startAnimation()
 	}
 	
