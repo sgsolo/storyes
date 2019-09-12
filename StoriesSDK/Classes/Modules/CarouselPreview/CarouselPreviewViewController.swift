@@ -38,6 +38,22 @@ public class CarouselPreviewViewController: UIViewController {
         configureCarouselPreview()
         presenter.viewDidLoad()
     }
+    
+    override public var preferredContentSize: CGSize {
+        get { return _preferredContentSize }
+        set { super.preferredContentSize = newValue }
+    }
+    
+    private var _preferredContentSize: CGSize {
+        var height = carouselPreview.frame.maxY
+        switch configuration.targetApp {
+        case .kinopoisk:
+            height += 19.0
+        default:
+            break
+        }
+        return CGSize(width: view.bounds.width, height: height)
+    }
 }
 
 // MARK: - UI creation & configuration
@@ -73,6 +89,8 @@ extension CarouselPreviewViewController {
         carouselPreview.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         carouselPreview.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         carouselPreview.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16).isActive = true
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
     
     public override func updateViewConstraints() {

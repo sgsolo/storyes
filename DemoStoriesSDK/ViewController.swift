@@ -24,10 +24,15 @@ class ViewController: UIViewController {
         storiesCarousel.view.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         storiesCarousel.view.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         storiesCarousel.view.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
-        storiesCarousel.view.heightAnchor.constraint(equalToConstant: 500).isActive = true
         storiesCarousel.view.isUserInteractionEnabled = false
         
         storiesManager.loadStories()
+    }
+    
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        let h = storiesCarousel.preferredContentSize.height
+        storiesCarousel.view.heightAnchor.constraint(equalToConstant: h).isActive = true
     }
 	
 	func addCloseButton() {
