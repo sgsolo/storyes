@@ -3,7 +3,7 @@ import UIKit
 protocol StoriesServiceInput {
     var stories: StoriesModel? { get }
     func getStories(success: Success?, failure: Failure?)
-    func getTrack(_ urlString: String, success: Success?, failure: Failure?)
+    func getData(_ url: URL, success: Success?, failure: Failure?)
     func preDownloadStory(storyModel: StoryModel)
     func preDownloadStories()
     func addDownloadQueue(slideModel: SlideModel)
@@ -46,12 +46,8 @@ class StoriesService: StoriesServiceInput {
         })
     }
     
-    func getTrack(_ urlString: String, success: Success?, failure: Failure?) {
-        apiClient.getTrack(urlString, success: success, failure: failure)
-    }
-    
-    func getImage(_ urlString: String, success: Success?, failure: Failure?) {
-        apiClient.getImage(urlString, success: success, failure: failure)
+    func getData(_ url: URL, success: Success?, failure: Failure?) {
+        apiClient.getData(url, success: success, failure: failure)
     }
     
     func getData(_ slideModel: SlideModel, success: Success?, failure: Failure?) {
@@ -59,10 +55,10 @@ class StoriesService: StoriesServiceInput {
         viewModel.fillFromSlideModel(slideModel)
         let dispatchGroup = DispatchGroup()
         var networkError: Error?
-        if let video = slideModel.video, let videoUrl = video.storageDir, let _ = URL(string: videoUrl) {
+		if let storageDir = slideModel.video?.storageDir, let videoUrl = URL(string: storageDir) {
             viewModel.type = .video
             dispatchGroup.enter()
-            getTrack(videoUrl, success: { videoUrl in
+            getData(videoUrl, success: { videoUrl in
                 if let videoUrl = videoUrl as? URL {
                     viewModel.videoUrl = videoUrl
                 }
@@ -72,10 +68,10 @@ class StoriesService: StoriesServiceInput {
                 dispatchGroup.leave()
             })
         } else {
-            if let imageUrlString = slideModel.image, let _ = URL(string: imageUrlString) {
+            if let imageUrlString = slideModel.image, let imageUrl = URL(string: imageUrlString) {
                 viewModel.type = .image
                 dispatchGroup.enter()
-                getTrack(imageUrlString, success: { imageUrl in
+                getData(imageUrl, success: { imageUrl in
                     if let imageUrl = imageUrl as? URL {
                         viewModel.imageUrl = imageUrl
                     }
@@ -85,9 +81,9 @@ class StoriesService: StoriesServiceInput {
                     dispatchGroup.leave()
                 })
             }
-			if let frontImage = slideModel.frontImage, let _ = URL(string: frontImage) {
+			if let frontImage = slideModel.frontImage, let frontImageUrl = URL(string: frontImage) {
 				dispatchGroup.enter()
-				getTrack(frontImage, success: { frontImageUrl in
+				getData(frontImageUrl, success: { frontImageUrl in
 					if let frontImageUrl = frontImageUrl as? URL {
 						viewModel.frontImageUrl = frontImageUrl
 					}
@@ -97,10 +93,10 @@ class StoriesService: StoriesServiceInput {
 					dispatchGroup.leave()
 				})
 			}
-            if let track = slideModel.track, let trackUrl = track.storageDir, let _ = URL(string: trackUrl) {
+            if let storageDir = slideModel.track?.storageDir, let trackUrl = URL(string: storageDir) {
                 viewModel.type = .track
                 dispatchGroup.enter()
-                getTrack(trackUrl, success: { localTrackUrl in
+                getData(trackUrl, success: { localTrackUrl in
                     if let localTrackUrl = localTrackUrl as? URL {
                         viewModel.trackUrl = localTrackUrl
                     }
