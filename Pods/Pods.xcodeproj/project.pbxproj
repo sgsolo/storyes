@@ -37,6 +37,8 @@
 		9B65A39C3044E8A989F66CE183AFC75A /* Pods-DemoStoriesSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = ECF9975B26AEAA6BC84B2F333AE48C73 /* Pods-DemoStoriesSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A136B91BE50F54E4E39D4FF8D85AA2A0 /* CollectionViewItemsSizeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19A98A5C64E8449C3A028124E4DE24 /* CollectionViewItemsSizeProvider.swift */; };
 		ABF20371012FFE951E16F7D0AE6C8473 /* Pods-DemoStoriesSDK_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FEDC90F34EA94F07C56EB63CC25021E /* Pods-DemoStoriesSDK_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B245AB80232A191D0047E6A2 /* KPCarouselViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B245AB7F232A191D0047E6A2 /* KPCarouselViewController.swift */; };
+		B245AB82232A1FF90047E6A2 /* MusicCarouselPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B245AB81232A1FF90047E6A2 /* MusicCarouselPreview.swift */; };
 		B27AC9272317E3C500110B52 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9262317E3C500110B52 /* Player.swift */; };
 		B27AC9292317E43A00110B52 /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9282317E43A00110B52 /* CacheService.swift */; };
 		B27AC92B2317E47E00110B52 /* NSLockingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC92A2317E47E00110B52 /* NSLockingExtension.swift */; };
@@ -143,6 +145,8 @@
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A3F5C205036F2850A1F97F29FC31BCBF /* RegistrableSupplementaryViewComponent.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RegistrableSupplementaryViewComponent.swift; sourceTree = "<group>"; };
 		AA4906D81D4F6DC321FF43317F85F728 /* Pods_DemoStoriesSDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoStoriesSDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B245AB7F232A191D0047E6A2 /* KPCarouselViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPCarouselViewController.swift; sourceTree = "<group>"; };
+		B245AB81232A1FF90047E6A2 /* MusicCarouselPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicCarouselPreview.swift; sourceTree = "<group>"; };
 		B27AC9262317E3C500110B52 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		B27AC9282317E43A00110B52 /* CacheService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
 		B27AC92A2317E47E00110B52 /* NSLockingExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLockingExtension.swift; sourceTree = "<group>"; };
@@ -259,6 +263,8 @@
 				B27AC93F2317E5F300110B52 /* CarouselPreviewPresentrer.swift */,
 				B27AC9452317E5F400110B52 /* CarouselPreviewSizeCalculator.swift */,
 				B27AC9462317E5F400110B52 /* CarouselPreviewViewController.swift */,
+				B245AB81232A1FF90047E6A2 /* MusicCarouselPreview.swift */,
+				B245AB7F232A191D0047E6A2 /* KPCarouselViewController.swift */,
 				B27AC9432317E5F400110B52 /* Models */,
 				B27AC9382317E5F300110B52 /* tmp */,
 				B27AC9402317E5F300110B52 /* View Models */,
@@ -813,6 +819,7 @@
 				B27AC96A2317E67200110B52 /* ProgressTabView.swift in Sources */,
 				B27AC9532317E5F400110B52 /* CarouselPreviewSizeCalculator.swift in Sources */,
 				B27AC9502317E5F400110B52 /* StoriePreviewModel.swift in Sources */,
+				B245AB82232A1FF90047E6A2 /* MusicCarouselPreview.swift in Sources */,
 				B27AC9512317E5F400110B52 /* CarouselPreviewAssembly.swift in Sources */,
 				6B69A1A3231D20D200CBAA41 /* SlideViewInput.swift in Sources */,
 				B27AC9542317E5F400110B52 /* CarouselPreviewViewController.swift in Sources */,
@@ -845,6 +852,7 @@
 				B27AC9732317E7C500110B52 /* ApiClient.swift in Sources */,
 				6B37D84C231E706600F7CF7B /* SafeArray.swift in Sources */,
 				B27AC92D2317E49700110B52 /* SafeDictionary.swift in Sources */,
+				B245AB80232A191D0047E6A2 /* KPCarouselViewController.swift in Sources */,
 				6B115C812318163A006FB92F /* ShortTapGestureRecognizer.swift in Sources */,
 				B27AC9352317E58400110B52 /* StoryScreenPresenter.swift in Sources */,
 				01F16B4604063EE68E06B1EEF1C02E44 /* StoryService.swift in Sources */,

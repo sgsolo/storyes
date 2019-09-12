@@ -21,6 +21,18 @@ public class CarouselPreviewViewController: UIViewController {
     private let titleLabel = UILabel()
     private var carouselPreview: UICollectionView!
     
+    var backgroundView: UIView? {
+        return nil
+    }
+    
+    var loadingView: UIView? {
+        return nil
+    }
+    
+    var titleAttributes: [NSAttributedStringKey: Any] {
+        return [:]
+    }
+    
     // MARK: - Lifecycle & overriden
     init(with configuration: CarouselPreviewConfiguration) {
         self.configuration = configuration
@@ -34,9 +46,20 @@ public class CarouselPreviewViewController: UIViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        addBackgroundView()
         configureTitleLabel()
         configureCarouselPreview()
         presenter.viewDidLoad()
+    }
+    
+    func addBackgroundView() {
+        guard let bgView = backgroundView else {
+            return
+        }
+        bgView.frame = view.bounds
+        bgView.translatesAutoresizingMaskIntoConstraints = false
+        bgView.autoresizingMask = UIView.AutoresizingMask(arrayLiteral: .flexibleHeight, .flexibleWidth)
+        view.addSubview(bgView)
     }
     
     override public var preferredContentSize: CGSize {
@@ -68,16 +91,14 @@ extension CarouselPreviewViewController {
     }
     
     private func configureTitleLabel() {
-        titleLabel.font = .systemFont(ofSize: 18.0, weight: .bold)
         titleLabel.backgroundColor = .clear
-        titleLabel.textColor = .black
-        titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 1
         view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        titleLabel.text = "Истории"
+        titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        view.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 16).isActive = true
+        titleLabel.attributedText = NSAttributedString(string: "Истории", attributes: titleAttributes)
     }
     
     private func configureCarouselPreview() {
