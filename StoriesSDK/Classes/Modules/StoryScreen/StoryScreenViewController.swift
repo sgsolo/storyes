@@ -115,7 +115,8 @@ extension StoryScreenViewController: StoryScreenViewInput {
 		slidePropertyAnimator?.stopAnimation(true)
 		slidePropertyAnimator?.finishAnimation(at: .current)
 		slidePropertyAnimator = nil
-		slidePropertyAnimator = UIViewPropertyAnimator(duration: TimeInterval(model.animationDuration), curve: .linear, animations: {})
+		let curve: UIViewAnimationCurve = model.animationType == .contentFadeIn ? .easeOut : .linear
+		slidePropertyAnimator = UIViewPropertyAnimator(duration: TimeInterval(model.animationDuration), curve: curve, animations: {})
 		slideView.performContentAnimation(model: model, needAnimation: needAnimation, propertyAnimator: slidePropertyAnimator)
 		slidePropertyAnimator?.startAnimation()
 	}

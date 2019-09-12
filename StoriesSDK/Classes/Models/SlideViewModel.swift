@@ -1,4 +1,6 @@
 
+import Foundation
+
 enum SlideViewContentType {
 	case video
 	case track
@@ -42,16 +44,16 @@ struct SlideViewModel {
 	var buttonStyle: Int?
 	
 	var slideDuration: Int = 0
-	var animationDuration: Int {
+	var animationDuration: Float {
 		switch animationType {
 		case .none:
 			return 0
 		case .contentFadeIn:
-			return 1
+			return 0.25
 		case .backgroundAnimationLeftToRight:
-			return slideDuration
+			return Float(slideDuration)
 		case .backgroundAnimationZoomIn:
-			return slideDuration
+			return Float(slideDuration)
 		}
 	}
 	var animationType = AnimationType.none
