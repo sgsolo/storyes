@@ -29,8 +29,17 @@ struct SlideViewModel {
 	var track: String?
 	var actor: String?
 	
-	var buttonText: String?
-	var buttonType: Int?
+	private var _buttonText: String?
+	var buttonText: String? {
+		get {
+			return _buttonText
+		}
+		set {
+			guard let newValue = newValue, !newValue.isEmpty else { return }
+			_buttonText = newValue
+		}
+	}
+	var buttonStyle: Int?
 	
 	var slideDuration: Int = 0
 	var animationDuration: Int {
@@ -48,17 +57,17 @@ struct SlideViewModel {
 	var animationType = AnimationType.none
 	
 	mutating func fillFromSlideModel(_ slideModel: SlideModel) {
-		self.isBounded = slideModel.isBounded
-		self.text = slideModel.text
-		self.subtitle = slideModel.subtitle
-		self.header = slideModel.header
-		self.rubric = slideModel.rubric
+		self.isBounded = slideModel.contentStyle
+		self.text = slideModel.description
+		self.subtitle = slideModel.title3
+		self.header = slideModel.title2
+		self.rubric = slideModel.title
 		
-		self.track = slideModel.trackText
-		self.actor = slideModel.actor
+		self.track = slideModel.track?.trackName
+		self.actor = slideModel.track?.trackArtist
 		
 		self.buttonText = slideModel.buttonText
-		self.buttonType = slideModel.buttonType
+		self.buttonStyle = slideModel.buttonStyle
 		
 		self.slideDuration = slideModel.duration
 		

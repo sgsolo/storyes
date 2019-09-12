@@ -86,7 +86,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		
 		ticketsButton.isHidden = true
 		bookmarkButton.isHidden = true
-		if model.buttonType ?? 1 == 5 {
+		if model.buttonStyle ?? 1 == 5 {
 			bottomButton.isHidden = true
 			ticketsButton.isHidden = false
 			bookmarkButton.isHidden = false
@@ -101,7 +101,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		} else if let buttonText = model.buttonText {
 			bottomButton.isHidden = false
 			bottomButton.setTitle(buttonText, for: .normal)
-			configureButtonWithType(type: model.buttonType ?? 1)
+			configureButtonWithType(type: model.buttonStyle ?? 1)
 			textLabelBottomConstraint?.isActive = false
 			textLabelBottomConstraint = textLabel.bottomAnchor.constraint(equalTo: self.bottomButton.topAnchor, constant: -32)
 			textLabelBottomConstraint?.isActive = true

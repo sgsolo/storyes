@@ -20,6 +20,7 @@ public enum SupportedApp: String {
 public class YStoriesManager: YStoriesManagerInput {
 	
 	static var targetApp: SupportedApp = .music
+	public static var needUseMockData = false
 	
     public var caruselViewController: UIViewController?
     private var carosuelModule: CarouselPreviewModule?

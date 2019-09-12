@@ -35,13 +35,29 @@
                                     <action selector="tapOnMusic:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Z4A-PL-GBP"/>
                                 </connections>
                             </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="X2j-mP-asr">
+                                <rect key="frame" x="163" y="422" width="51" height="31"/>
+                                <connections>
+                                    <action selector="tapOnUseMockData:" destination="vXZ-lx-hvc" eventType="valueChanged" id="OkX-OV-c9E"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Использовать моки" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bz2-MQ-tcW">
+                                <rect key="frame" x="108.5" y="393" width="158" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="JQD-Ao-jCr" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="258" id="6ub-Xf-Sx1"/>
+                            <constraint firstItem="bz2-MQ-tcW" firstAttribute="top" secondItem="oVu-ko-RHl" secondAttribute="bottom" constant="25" id="Hea-fP-MsN"/>
                             <constraint firstItem="oVu-ko-RHl" firstAttribute="top" secondItem="JQD-Ao-jCr" secondAttribute="bottom" constant="30" id="S26-To-3xi"/>
                             <constraint firstItem="oVu-ko-RHl" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="TfG-LZ-IYC"/>
+                            <constraint firstItem="bz2-MQ-tcW" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="U1R-hh-11g"/>
                             <constraint firstItem="JQD-Ao-jCr" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="fVP-uF-DOw"/>
+                            <constraint firstItem="X2j-mP-asr" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="hFf-oy-61L"/>
+                            <constraint firstItem="X2j-mP-asr" firstAttribute="top" secondItem="bz2-MQ-tcW" secondAttribute="bottom" constant="8" id="mg6-p5-1Tx"/>
                         </constraints>
                     </view>
                 </viewController>

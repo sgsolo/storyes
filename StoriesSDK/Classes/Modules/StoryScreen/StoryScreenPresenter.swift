@@ -35,8 +35,8 @@ extension StoryScreenPresenter: StoryScreenViewOutput {
 	
 	func viewDidAppear(_ animated: Bool) {
 		isViewDidAppear = true
-		if storyModel.dataSlides.count > storyModel.currentIndex {
-			let slideModel = self.storyModel.dataSlides[self.storyModel.currentIndex]
+		if storyModel.data.dataSlides.count > storyModel.currentIndex {
+			let slideModel = self.storyModel.data.dataSlides[self.storyModel.currentIndex]
 			if isContentDownloaded {
 				runStoryActivity(slideModel: slideModel)
 			}
@@ -73,11 +73,11 @@ extension StoryScreenPresenter: StoryScreenViewOutput {
 
 extension StoryScreenPresenter {
 	private func showSlide() {
-		guard storyModel.dataSlides.count > storyModel.currentIndex else { return }
-		let slideModel = self.storyModel.dataSlides[self.storyModel.currentIndex]
+		guard storyModel.data.dataSlides.count > storyModel.currentIndex else { return }
+		let slideModel = self.storyModel.data.dataSlides[self.storyModel.currentIndex]
 		
-		if storyModel.dataSlides.count > storyModel.currentIndex + 1 {
-			storiesService.addDownloadQueue(slideModel: self.storyModel.dataSlides[self.storyModel.currentIndex + 1])
+		if storyModel.data.dataSlides.count > storyModel.currentIndex + 1 {
+			storiesService.addDownloadQueue(slideModel: self.storyModel.data.dataSlides[self.storyModel.currentIndex + 1])
 		}
 		
 		isContentDownloaded = false
@@ -128,8 +128,8 @@ extension StoryScreenPresenter {
 	}
 	
 	private func updateAnimationOnSlide(needAnimation: Bool) {
-		guard storyModel.dataSlides.count > storyModel.currentIndex else { return }
-		let slideModel = self.storyModel.dataSlides[self.storyModel.currentIndex]
+		guard storyModel.data.dataSlides.count > storyModel.currentIndex else { return }
+		let slideModel = self.storyModel.data.dataSlides[self.storyModel.currentIndex]
 		if let viewModel = cacheManager.getViewModel(slideModel: slideModel) {
 			view.updateAnimationOnSlide(model: viewModel, needAnimation: needAnimation)
 		}
@@ -190,8 +190,8 @@ extension StoryScreenPresenter {
 	}
 	
 	func runStoryActivityIfNeeded() {
-		if storyModel.dataSlides.count > storyModel.currentIndex {
-			let slideModel = self.storyModel.dataSlides[self.storyModel.currentIndex]
+		if storyModel.data.dataSlides.count > storyModel.currentIndex {
+			let slideModel = self.storyModel.data.dataSlides[self.storyModel.currentIndex]
 			if isContentDownloaded, !slideSwitchTimer.isTimerScheduled {
 				runStoryActivity(slideModel: slideModel)
 			}
@@ -199,18 +199,18 @@ extension StoryScreenPresenter {
 	}
 	
 	private func showNextSlide() {
-		if storyModel.dataSlides.count > storyModel.currentIndex,
-			storyModel.dataSlides.count > storyModel.currentIndex + 1 {
+		if storyModel.data.dataSlides.count > storyModel.currentIndex,
+			storyModel.data.dataSlides.count > storyModel.currentIndex + 1 {
 			storyModel.currentIndex += 1
 			showSlide()
-		} else if storyModel.dataSlides.count > storyModel.currentIndex,
-			storyModel.dataSlides.count == storyModel.currentIndex + 1 {
+		} else if storyModel.data.dataSlides.count > storyModel.currentIndex,
+			storyModel.data.dataSlides.count == storyModel.currentIndex + 1 {
 			output?.needShowNextStory()
 		}
 	}
 	
 	private func showPrevSlide() {
-		if storyModel.dataSlides.count > storyModel.currentIndex,
+		if storyModel.data.dataSlides.count > storyModel.currentIndex,
 			storyModel.currentIndex - 1 >= 0 {
 			storyModel.currentIndex -= 1
 			showSlide()

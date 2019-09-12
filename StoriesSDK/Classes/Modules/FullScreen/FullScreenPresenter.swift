@@ -103,8 +103,8 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	
 	private func preloadNext() {
 		let nextStoryIndex = currentStory.storyIndex + 1
-		if let stories = storiesService.stories, stories.count > nextStoryIndex, stories[nextStoryIndex].dataSlides.count > 0 {
-			storiesService.addDownloadQueue(slideModel: stories[nextStoryIndex].dataSlides[0])
+		if let stories = storiesService.stories, stories.count > nextStoryIndex, stories[nextStoryIndex].data.dataSlides.count > 0 {
+			storiesService.addDownloadQueue(slideModel: stories[nextStoryIndex].data.dataSlides[0])
 		}
 	}
 	
@@ -113,8 +113,8 @@ extension FullScreenPresenter: FullScreenViewOutput {
 		if let stories = storiesService.stories,
 			stories.count > prevStoryIndex,
 			prevStoryIndex >= 0,
-			stories[prevStoryIndex].dataSlides.count > 0 {
-			storiesService.addDownloadQueue(slideModel: stories[prevStoryIndex].dataSlides[0])
+			stories[prevStoryIndex].data.dataSlides.count > 0 {
+			storiesService.addDownloadQueue(slideModel: stories[prevStoryIndex].data.dataSlides[0])
 		}
 	}
 }

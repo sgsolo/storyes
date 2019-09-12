@@ -15,9 +15,16 @@ protocol ApiClientInput {
 extension ApiClient: ApiClientInput {
 	// TODO: for test
 	public	func getCarusel(success: Success?, failure: Failure?) {
-		//TODO: поправить URL
-		guard let urlRequest = getRequest("https://stackoverflow.com/questions/37580015/how-to-access-file-included-in-app-bundle-in-swift") else { return }
-		dataTask(urlRequest, success: success, failure: failure)
+		guard let urlRequest = getRequest("http://bunker-api-dot.yandex.net/v1/cat?node=/stories/stories-music&version=latest") else { return }
+		//TODO: "MOCK удалить позже"
+		if YStoriesManager.needUseMockData, let path = Bundle(for: ApiClient.self).path(forResource: "stories.json", ofType: nil) {
+			if let data = FileManager.default.contents(atPath: path) {
+				success?(data)
+				return
+			}
+		} else {
+			dataTask(urlRequest, success: success, failure: failure)
+		}
 	}
 
 	public func getTrack(_ urlString: String, success: Success?, failure: Failure?) {
@@ -38,8 +45,6 @@ class ApiClient {
 	private static var tasks = SafeDictionary<URL, DispatchSemaphore>()
 	static var apiSession: URLSession = {
 		let configuration = URLSessionConfiguration.default
-		configuration.httpMaximumConnectionsPerHost = 1
-		configuration.httpShouldUsePipelining = false
 		return URLSession(configuration: configuration)
 	}()
 
@@ -65,8 +70,6 @@ class ApiClient {
 			var urlRequest = URLRequest(url: url)
 			urlRequest.httpMethod = "GET"
 			urlRequest.timeoutInterval = 120
-			urlRequest.cachePolicy = .returnCacheDataElseLoad
-			urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
 			return urlRequest
 		} else {
 			return nil
@@ -90,15 +93,6 @@ class ApiClient {
 	}
 	
 	private func dataTask(_ urlRequest: URLRequest, success: Success?, failure: Failure?) {
-		
-//        #warning("MOCK удалить позже")
-		if let path = Bundle(for: ApiClient.self).path(forResource: "stories.json", ofType: nil) {
-			if let data = FileManager.default.contents(atPath: path) {
-				success?(data)
-				return
-			}
-		}
-		
 		let task = ApiClient.apiSession.dataTask(with: urlRequest) { data, response, error in
 			let httpResponse = response as? HTTPURLResponse
 			if let e = error {

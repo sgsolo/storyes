@@ -80,7 +80,7 @@ class MusicSlideView: UIView, SlideViewInput {
 		if let buttonText = model.buttonText {
 			listenButton.isHidden = false
 			listenButton.setTitle(buttonText, for: .normal)
-			configureButtonWithType(type: model.buttonType ?? 1)
+			configureButtonWithType(type: model.buttonStyle ?? 1)
 		} else {
 			listenButton.isHidden = true
 		}
