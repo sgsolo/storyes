@@ -100,7 +100,7 @@ extension StoryScreenPresenter {
 				guard let self = self, let viewModel = viewModel as? SlideViewModel, index == self.storyModel.currentIndex else { return }
 				self.showSlide(viewModel: viewModel, slideModel: slideModel)
 			}, failure: { [weak self] error in
-				DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 					self?.view.addNetworkErrorView()
 				}
 				print(error)

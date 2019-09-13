@@ -189,10 +189,6 @@ extension StoryScreenViewController: StoryScreenViewInput {
 		loadingView.rightAnchor.constraint(equalTo: slideView.rightAnchor).isActive = true
 		loadingView.topAnchor.constraint(equalTo: slideView.topAnchor).isActive = true
 		loadingView.bottomAnchor.constraint(equalTo: slideView.bottomAnchor).isActive = true
-		loadingView.circleLayer.isHidden = true
-		UIView.animate(withDuration: 1, animations: {
-			self.loadingView.circleLayer.isHidden = false
-		})
 	}
 	
 	func removeLoadingView() {
