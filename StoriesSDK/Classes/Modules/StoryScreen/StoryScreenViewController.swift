@@ -13,6 +13,8 @@ protocol StoryScreenViewInput: class {
 	func showSlide(model: SlideViewModel)
 	func addLoadingView()
 	func removeLoadingView()
+	func addNetworkErrorView()
+	func removeNetworkErrorView()
 	func updateLoadViewFrame()
 	func layoutSlideViewIfNeeded()
 	func showErrorAlert(error: Error)
@@ -31,6 +33,8 @@ protocol StoryScreenViewOutput: class {
 	func tapOnLeftSide()
 	func tapOnRightSide()
 	func closeButtonDidTap()
+	
+	func networkErrorViewDidTapRetryButton()
 }
 
 class StoryScreenViewController: UIViewController {
@@ -38,7 +42,9 @@ class StoryScreenViewController: UIViewController {
 	var presenter: StoryScreenViewOutput!
 	var progressPropertyAnimator: UIViewPropertyAnimator?
 	var slidePropertyAnimator: UIViewPropertyAnimator?
-	var loadingView = LoaderView()
+	let loadingView = LoaderView()
+	let networkErrorView = NetworkErrorView()
+	let closeButton = UIButton(type: .custom)
 	
 	private lazy var slideView: SlideViewInput = {
 		switch YStoriesManager.targetApp {
@@ -155,21 +161,20 @@ extension StoryScreenViewController: StoryScreenViewInput {
 	}
 	
 	func addCloseButton() {
-		let button = UIButton(type: .custom)
 		let bundle = Bundle(for: StoryScreenViewController.self)
-		button.setImage(UIImage(named: "closeIcon", in: bundle, compatibleWith: nil), for: .normal)
-		button.addTarget(self, action: #selector(closeButtonDidTap), for: .touchUpInside)
-		self.view.addSubview(button)
-		button.translatesAutoresizingMaskIntoConstraints = false
-		button.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-		button.heightAnchor.constraint(equalToConstant: 28).isActive = true
-		button.widthAnchor.constraint(equalToConstant: 28).isActive = true
+		closeButton.setImage(UIImage(named: "closeIcon", in: bundle, compatibleWith: nil), for: .normal)
+		closeButton.addTarget(self, action: #selector(closeButtonDidTap), for: .touchUpInside)
+		self.view.addSubview(closeButton)
+		closeButton.translatesAutoresizingMaskIntoConstraints = false
+		closeButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+		closeButton.heightAnchor.constraint(equalToConstant: 28).isActive = true
+		closeButton.widthAnchor.constraint(equalToConstant: 28).isActive = true
 		if YStoriesManager.targetApp == .music {
-			button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 82).isActive = true
+			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 82).isActive = true
 		} else if isIphoneX, YStoriesManager.targetApp == .kinopoisk {
-			button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 91).isActive = true
+			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 91).isActive = true
 		} else {
-			button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 53).isActive = true
+			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 53).isActive = true
 		}
 	}
 
@@ -184,6 +189,10 @@ extension StoryScreenViewController: StoryScreenViewInput {
 		loadingView.rightAnchor.constraint(equalTo: slideView.rightAnchor).isActive = true
 		loadingView.topAnchor.constraint(equalTo: slideView.topAnchor).isActive = true
 		loadingView.bottomAnchor.constraint(equalTo: slideView.bottomAnchor).isActive = true
+		loadingView.circleLayer.isHidden = true
+		UIView.animate(withDuration: 1, animations: {
+			self.loadingView.circleLayer.isHidden = false
+		})
 	}
 	
 	func removeLoadingView() {
@@ -194,7 +203,24 @@ extension StoryScreenViewController: StoryScreenViewInput {
 			self.loadingView.alpha = 1
 			self.loadingView.removeFromSuperview()
 		}
-		
+	}
+	
+	func addNetworkErrorView() {
+		self.view.addSubview(networkErrorView)
+		if let progressStackView = progressStackView {
+			self.view.bringSubview(toFront: progressStackView)
+		}
+		self.view.bringSubview(toFront: closeButton)
+		networkErrorView.delegate = self
+		networkErrorView.translatesAutoresizingMaskIntoConstraints = false
+		networkErrorView.leftAnchor.constraint(equalTo: slideView.leftAnchor).isActive = true
+		networkErrorView.rightAnchor.constraint(equalTo: slideView.rightAnchor).isActive = true
+		networkErrorView.topAnchor.constraint(equalTo: slideView.topAnchor).isActive = true
+		networkErrorView.bottomAnchor.constraint(equalTo: slideView.bottomAnchor).isActive = true
+	}
+	
+	func removeNetworkErrorView() {
+		networkErrorView.removeFromSuperview()
 	}
 	
 	func updateLoadViewFrame() {
@@ -302,5 +328,11 @@ extension StoryScreenViewController {
 				view.progressViewWidthConstraint?.constant = progressViewWidth
 			}
 		}
+	}
+}
+
+extension StoryScreenViewController: NetworkErrorViewDelegate {
+	func didTapRetryButton() {
+		presenter.networkErrorViewDidTapRetryButton()
 	}
 }

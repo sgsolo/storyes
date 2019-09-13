@@ -69,6 +69,10 @@ extension StoryScreenPresenter: StoryScreenViewOutput {
 		view.stopAnimation()
 		output.closeButtonDidTap()
 	}
+	
+	func networkErrorViewDidTapRetryButton() {
+		showSlide()
+	}
 }
 
 extension StoryScreenPresenter {
@@ -87,6 +91,7 @@ extension StoryScreenPresenter {
 		self.invalidateTimer()
 		self.player?.stop()
 		
+		self.view.removeNetworkErrorView()
 		if let viewModel = cacheManager.getViewModel(slideModel: slideModel) {
 			self.showSlide(viewModel: viewModel, slideModel: slideModel)
 		} else {
@@ -95,7 +100,9 @@ extension StoryScreenPresenter {
 				guard let self = self, let viewModel = viewModel as? SlideViewModel, index == self.storyModel.currentIndex else { return }
 				self.showSlide(viewModel: viewModel, slideModel: slideModel)
 			}, failure: { [weak self] error in
-				self?.view.showErrorAlert(error: error)
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+					self?.view.addNetworkErrorView()
+				}
 				print(error)
 			})
 		}
