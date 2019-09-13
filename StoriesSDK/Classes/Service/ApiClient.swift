@@ -60,7 +60,7 @@ class ApiClient {
 		let configuration = URLSessionConfiguration.default
 		configuration.timeoutIntervalForRequest = 120
 		configuration.timeoutIntervalForResource = 120
-		return URLSession(configuration: configuration)
+		return URLSession(configuration: configuration, delegate: ApiClientDelegate(), delegateQueue: nil)
 	}()
 	
 	private func getRequest(_ path: String, _ params: Parametrs? = nil) -> URLRequest? {
@@ -241,5 +241,18 @@ class ApiClient {
 	deinit {
 		print("cancel")
 		taskPool.forEach { $0.cancel() }
+	}
+}
+
+//https://st.yandex-team.ru/MSTORIES-54
+class ApiClientDelegate: NSObject, URLSessionDelegate {
+	func urlSession(_ session: URLSession,
+					didReceive challenge: URLAuthenticationChallenge,
+					completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+		guard let serverTrust = challenge.protectionSpace.serverTrust else {
+				completionHandler(.rejectProtectionSpace, nil)
+				return
+		}
+		completionHandler(.useCredential, URLCredential(trust: serverTrust))
 	}
 }
