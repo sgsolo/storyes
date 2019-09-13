@@ -7,11 +7,10 @@ struct StoryesModel: Codable {
 struct StoryModel: Codable {
 	var currentIndex = 0
 	let storyId: String
-	let entityType: String
 	let data: StoryData
 	
 	enum CodingKeys: String, CodingKey {
-		case storyId, entityType, data
+		case storyId, data
 	}
 }
 
