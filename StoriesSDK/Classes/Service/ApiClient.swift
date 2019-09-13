@@ -8,7 +8,7 @@ typealias Parametrs = Dictionary<String, String>
 protocol ApiClientInput {
 	// TODO: for test
 	func getCarusel(success: Success?, failure: Failure?)
-	func getTrack(_ urlString: String, success: Success?, failure: Failure?)
+	func getData(_ url: URL, success: Success?, failure: Failure?)
 	func getImage(_ urlString: String, success: Success?, failure: Failure?)
 }
 
@@ -27,8 +27,8 @@ extension ApiClient: ApiClientInput {
 		}
 	}
 
-	public func getTrack(_ urlString: String, success: Success?, failure: Failure?) {
-		downloadTask(urlString, success: success, failure: failure)
+	public func getData(_ url: URL, success: Success?, failure: Failure?) {
+		downloadTask(url, success: success, failure: failure)
 	}
 	
 	public func getImage(_ urlString: String, success: Success?, failure: Failure?) {
@@ -56,7 +56,7 @@ class ApiClient {
 		return URLSession(configuration: configuration)
 	}()
 
-	static var playerSession: URLSession = {
+	static var downloadSession: URLSession = {
 		let configuration = URLSessionConfiguration.default
 		configuration.timeoutIntervalForRequest = 120
 		configuration.timeoutIntervalForResource = 120
@@ -161,12 +161,7 @@ class ApiClient {
 		taskPool.append(task)
 	}
 	
-	private func downloadTask(_ urlString: String, success: Success?, failure: Failure?) {
-		guard let url = URL(string: urlString) else {
-			failure?(NSError(domain: "Invalid URL \(urlString)", code: 0, userInfo: nil))
-			return
-		}
-		
+	private func downloadTask(_ url: URL, success: Success?, failure: Failure?) {
 		if let destinationUrl = self.cacheManager.getUrlWith(stringUrl: url.absoluteString) {
 			DispatchQueue.main.async {
 				success?(destinationUrl)
@@ -191,7 +186,7 @@ class ApiClient {
 			}
 			ApiClient.tasks[url] = DispatchSemaphore(value: 0)
 			
-			let task = ApiClient.playerSession.downloadTask(with: url) { location, response, error in
+			let task = ApiClient.downloadSession.downloadTask(with: url) { location, response, error in
 				defer {
 					let semaphore = ApiClient.tasks[url]
 					ApiClient.tasks[url] = nil
