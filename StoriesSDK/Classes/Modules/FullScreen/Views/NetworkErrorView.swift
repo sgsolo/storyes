@@ -37,7 +37,12 @@ class NetworkErrorView: UIView {
 		retryButton.layer.cornerRadius = 4
 		retryButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
 		retryButton.setTitle("Обновить", for: .normal)
-		retryButton.titleLabel?.font = .kinopoiskFont(ofSize: 15, weight: .medium)
+		switch YStoriesManager.targetApp {
+		case .music:
+			retryButton.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
+		case .kinopoisk:
+			retryButton.titleLabel?.font = .kinopoiskFont(ofSize: 15, weight: .medium)
+		}
 		retryButton.setTitleColor(UIColor(red: 51/255.0, green: 51/255.0, blue: 51/255.0, alpha: 1), for: .normal)
 		retryButton.backgroundColor = UIColor(red: 242/255.0, green: 242/255.0, blue: 242/255.0, alpha: 1)
 		retryButton.addTarget(self, action: #selector(didTapRetryButton), for: .touchUpInside)
@@ -52,7 +57,12 @@ class NetworkErrorView: UIView {
 	private func addTitleLabel() {
 		self.addSubview(titleLabel)
 		titleLabel.text = "Отсутствует соединение"
-		titleLabel.font = .kinopoiskFont(ofSize: 15, weight: .bold)
+		switch YStoriesManager.targetApp {
+		case .music:
+			titleLabel.font = .systemFont(ofSize: 15, weight: .bold)
+		case .kinopoisk:
+			titleLabel.font = .kinopoiskFont(ofSize: 15, weight: .bold)
+		}
 		titleLabel.textAlignment = .center
 		titleLabel.textColor = .white
 		
@@ -65,7 +75,12 @@ class NetworkErrorView: UIView {
 		self.addSubview(subtitleLabel)
 		subtitleLabel.numberOfLines = 0
 		subtitleLabel.text = "Проверьте ваше соединение\nи попробуйте еще раз"
-		subtitleLabel.font = .kinopoiskFont(ofSize: 13, weight: .regular)
+		switch YStoriesManager.targetApp {
+		case .music:
+			subtitleLabel.font = .systemFont(ofSize: 13, weight: .regular)
+		case .kinopoisk:
+			subtitleLabel.font = .kinopoiskFont(ofSize: 13, weight: .regular)
+		}
 		subtitleLabel.textAlignment = .center
 		subtitleLabel.textColor = .white
 		subtitleLabel.alpha = 0.6
