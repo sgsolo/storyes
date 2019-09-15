@@ -18,27 +18,37 @@ public enum SupportedApp: String {
 }
 
 public class YStoriesManager: YStoriesManagerInput {
-	
-	static var targetApp: SupportedApp = .music
-	public static var needUseMockData = false
-	
+    public static var needUseMockData = false
+    
+    public static func configure(for targetApp: SupportedApp, with colorTheme: YColorTheme) {
+        self.targetApp = targetApp
+        self.uiStyle = YUIStyleService(
+            with: colorTheme,
+            for: targetApp
+        )
+    }
+    
+    public static func setColorTheme(_ colorTheme: YColorTheme) {
+        self.uiStyle = YUIStyleService(
+            with: colorTheme,
+            for: self.targetApp
+        )
+    }
+    
+    private(set) static var targetApp: SupportedApp = .music
+    private(set) static var uiStyle: YUIStyle = YMusicUIStyleLight()
+    
     public var caruselViewController: UIViewController?
     private var carosuelModule: CarouselPreviewModule?
     private var fullScreenModule: FullScreenModuleInput?
 	
-    private let user: String
-    private let experiments: Dictionary<String, Any>
     private let storiesManagerOutput: YStoriesManagerOutput
     private let storiesService: StoriesServiceInput = StoriesService.shared
     
-    //TODO: добавить тему
-    public init(targetApp: SupportedApp, user: String, experiments: Dictionary<String, Any> /*тема*/, storiesManagerOutput: YStoriesManagerOutput) {
-        YStoriesManager.targetApp = targetApp
-        self.user = user
-        self.experiments = experiments
+    public init(storiesManagerOutput: YStoriesManagerOutput) {
         self.storiesManagerOutput = storiesManagerOutput
         UIFont.loadAllFonts
-        makeCarouselViewController(for: targetApp)
+        makeCarouselViewController(for: YStoriesManager.targetApp)
     }
     
     func makeCarouselViewController(for targetApp: SupportedApp) {

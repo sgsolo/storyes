@@ -2,22 +2,26 @@ import UIKit
 import StoriesSDK
 
 class ViewController: UIViewController {
-//    #warning("Temporary: just for UI testing")
     var storiesCarousel: UIViewController!
     var carosuelModule: UIViewController!
     var storiesManager: YStoriesManager!
-    //    var fullScreen: FullScreenViewController!
     var startFrame: CGRect!
     var endFrame: CGRect!
 	var targetApp: SupportedApp = .music
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		self.view.backgroundColor = .white
 		addCloseButton()
-		
-        storiesManager = YStoriesManager(targetApp: targetApp, user: "user", experiments: [:], storiesManagerOutput: self)
-        
+        let isDark = UserDefaults.standard.bool(forKey: kIsColorThemeDark)
+        let colorTheme = YColorTheme(isDark)
+        applyColorTheme(colorTheme)
+        YStoriesManager.configure(
+            for: targetApp,
+            with: colorTheme
+        )
+        storiesManager = YStoriesManager(
+            storiesManagerOutput: self
+        )
         storiesCarousel = storiesManager.caruselViewController
         view.addSubview(storiesCarousel.view)
         storiesCarousel.view.translatesAutoresizingMaskIntoConstraints = false
@@ -54,6 +58,24 @@ class ViewController: UIViewController {
 	@objc private func closeButtonDidTap() {
 		self.dismiss(animated: true)
 	}
+    
+    // Может быть переопределен в подклассе
+    func applyColorTheme(_ theme: YColorTheme) {
+        switch theme {
+        case .dark:
+            makeDarkUI()
+        case .light:
+            makeLightUI()
+        }
+    }
+    
+    func makeDarkUI() {
+        assertionFailure("Реализовать в подклассе")
+    }
+    
+    func makeLightUI() {
+        assertionFailure("Реализовать в подклассе")
+    }
 }
 
 extension ViewController: YStoriesManagerOutput {

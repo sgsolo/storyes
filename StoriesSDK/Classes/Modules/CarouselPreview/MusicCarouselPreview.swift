@@ -2,7 +2,7 @@ class MusicCarouselPreview: CarouselPreviewViewController {
     override var titleAttributes: [NSAttributedStringKey: Any] {
         return [
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .bold),
-            NSAttributedString.Key.foregroundColor: UIColor.black,
+            NSAttributedString.Key.foregroundColor: YStoriesManager.uiStyle.storiesTitle,
             NSAttributedString.Key.paragraphStyle: paragraph(),
         ]
     }
