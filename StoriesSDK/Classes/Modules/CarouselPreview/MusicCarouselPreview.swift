@@ -1,4 +1,18 @@
 class MusicCarouselPreview: CarouselPreviewViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(colorThemeDidChange),
+            name: YStoriesNotification.colorThemeDidChange,
+            object: nil
+        )
+    }
+    
+    @objc private func colorThemeDidChange() {
+        updateTitle()
+    }
+    
     override var titleAttributes: [NSAttributedStringKey: Any] {
         return [
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0, weight: .bold),

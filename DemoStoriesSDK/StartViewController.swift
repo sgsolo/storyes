@@ -51,7 +51,7 @@ class StartViewController: UIViewController {
     }
     
     private func makeDarkUI() {
-        view.backgroundColor = UIColor.darkBackground
+        view.backgroundColor = UIColor.black
         buttons.forEach {
             $0.setTitleColor(.white, for: .normal)
             $0.backgroundColor = .lightGray
@@ -60,7 +60,7 @@ class StartViewController: UIViewController {
     }
     
     private func makeLightUI() {
-        view.backgroundColor = UIColor.lightBackground
+        view.backgroundColor = UIColor.white
         buttons.forEach {
             $0.setTitleColor($0.tintColor, for: .normal)
             $0.backgroundColor = .clear

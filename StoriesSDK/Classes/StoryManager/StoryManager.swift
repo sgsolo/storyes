@@ -3,6 +3,7 @@ import UIKit
 public protocol YStoriesManagerInput {
     var caruselViewController: UIViewController? { get }
     func loadStories()
+    func colorThemeDidChange(_ toColorTheme: YColorTheme)
 }
 
 public protocol YStoriesManagerOutput {
@@ -78,6 +79,17 @@ extension YStoriesManager {
         }) { [weak self] error in
             self?.storiesManagerOutput.storiesDidLoad(false, error: error)
         }
+    }
+    
+    public func colorThemeDidChange(_ toColorTheme: YColorTheme) {
+        YStoriesManager.uiStyle = YUIStyleService(
+            with: toColorTheme,
+            for: YStoriesManager.targetApp
+        )
+        NotificationCenter.default.post(
+            name: YStoriesNotification.colorThemeDidChange,
+            object: toColorTheme
+        )
     }
 }
 

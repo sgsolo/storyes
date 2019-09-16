@@ -11,7 +11,6 @@ public enum YColorTheme {
 
 // MARK: -
 protocol YUIStyle {
-    var background: UIColor { get }
     var storiesTitle: UIColor { get }
 }
 
@@ -28,9 +27,6 @@ class YUIStyleService {
 }
 
 extension YUIStyleService: YUIStyle {
-    var background: UIColor {
-        return uiStyle.background
-    }
     var storiesTitle: UIColor {
         return uiStyle.storiesTitle
     }
@@ -64,16 +60,13 @@ private enum YUIStyleFactory {
 }
 
 class YMusicUIStyleLight: YUIStyle {
-    public let background = UIColor.lightBackground
     public let storiesTitle = UIColor.black
 }
 
 class YMusicUIStyleDark: YUIStyle {
-    public let background = UIColor.darkBackground
     public let storiesTitle = UIColor.white
 }
 
 class YKinopoiskUIStyle: YUIStyle {
-    public let background = UIColor.darkBackground
     public let storiesTitle = UIColor.white
 }

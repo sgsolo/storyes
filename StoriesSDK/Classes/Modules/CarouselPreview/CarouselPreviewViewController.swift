@@ -18,7 +18,7 @@ public class CarouselPreviewViewController: UIViewController {
     
     private var carouselPreviewAdapter: CarouselCollectionViewAdapter!
     private var configuration: CarouselPreviewConfiguration
-    private let titleLabel = UILabel()
+    private(set) var titleLabel = UILabel()
     private(set) var carouselPreview: UICollectionView!
     
     lazy var backgroundView: UIView? = {
@@ -110,6 +110,10 @@ extension CarouselPreviewViewController {
         titleLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         view.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 16).isActive = true
+        updateTitle()
+    }
+    
+    func updateTitle() {
         titleLabel.attributedText = NSAttributedString(string: "Истории", attributes: titleAttributes)
     }
     
