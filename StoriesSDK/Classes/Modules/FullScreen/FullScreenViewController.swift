@@ -247,7 +247,7 @@ extension FullScreenViewController: UIGestureRecognizerDelegate {
 		let velocity = panGestureRecognizer.velocity(in: panGestureRecognizer.view)
 		if velocity.y > abs(velocity.x), panGestureRecognizer == hideGesture {
 			return true
-		} else if panGestureRecognizer == swipeGesture {
+		} else if panGestureRecognizer == swipeGesture, abs(velocity.x) > abs(velocity.y) {
 			return true
 		}
 		return false
