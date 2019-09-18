@@ -173,15 +173,15 @@ extension StoryScreenViewController: StoryScreenViewInput {
 		self.view.addSubview(closeButton)
 		closeButton.translatesAutoresizingMaskIntoConstraints = false
 		closeButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-		closeButton.heightAnchor.constraint(equalToConstant: 28).isActive = true
-		closeButton.widthAnchor.constraint(equalToConstant: 28).isActive = true
+		closeButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+		closeButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
 		switch YStoriesManager.targetApp {
 		case .music:
-			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 82).isActive = true
+			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 76).isActive = true
 		case .kinopoisk where isIphoneX:
-			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 91).isActive = true
+			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 85).isActive = true
 		case .kinopoisk:
-			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 53).isActive = true
+			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 47).isActive = true
 		}
 	}
 
