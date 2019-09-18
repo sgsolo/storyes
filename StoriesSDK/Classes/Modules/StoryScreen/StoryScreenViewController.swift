@@ -295,13 +295,14 @@ extension StoryScreenViewController {
 		stackView.translatesAutoresizingMaskIntoConstraints = false
 		stackView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
 		stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-		if YStoriesManager.targetApp == .music {
+		switch YStoriesManager.targetApp {
+		case .music:
 			stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 60).isActive = true
 			stackView.heightAnchor.constraint(equalToConstant: 4).isActive = true
-		} else if isIphoneX, YStoriesManager.targetApp == .kinopoisk {
+		case .kinopoisk where isIphoneX:
 			stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 70).isActive = true
 			stackView.heightAnchor.constraint(equalToConstant: 3).isActive = true
-		} else {
+		case .kinopoisk:
 			stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 32).isActive = true
 			stackView.heightAnchor.constraint(equalToConstant: 3).isActive = true
 		}
