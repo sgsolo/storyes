@@ -86,8 +86,6 @@ extension FullScreenViewController: FullScreenViewInput {
 		let controller = StoryScreenViewController()
 		let moduleInput = StoryScreenAssembly.setup(controller, delegate: self)
 		moduleInput.storyModel = storyModel
-		self.addChildViewController(controller)
-		self.view.addSubview(controller.view)
 		
 		fromModuleInput.pauseStoryScreen()
 		fromModuleInput.isTransitionInProgress = true
@@ -99,14 +97,17 @@ extension FullScreenViewController: FullScreenViewInput {
 		
 		let storyAnimatedTransitioning = StoryAnimatedTransitioning(direction: direction)
 		let privateAnimatedTransition = StoryContextTransitioning(from: fromVC, to: controller)
-		privateAnimatedTransition.completeTransition = { _ in
+		privateAnimatedTransition.completeTransition = { [weak self] _ in
+			guard let self = self else { return }
+			self.addChildViewController(controller)
+			self.view.addSubview(controller.view)
+			controller.endAppearanceTransition()
+			controller.didMove(toParentViewController: self)
+			
 			fromVC.view.removeFromSuperview()
 			fromVC.removeFromParentViewController()
 			fromVC.endAppearanceTransition()
 			fromModuleInput.stopAnimation()
-			
-			controller.endAppearanceTransition()
-			controller.didMove(toParentViewController: self)
 			
 			self.fromVC = controller
 			self.fromModuleInput = moduleInput
