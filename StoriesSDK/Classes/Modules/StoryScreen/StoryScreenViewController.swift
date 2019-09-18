@@ -18,6 +18,8 @@ protocol StoryScreenViewInput: class {
 	func updateLoadViewFrame()
 	func layoutSlideViewIfNeeded()
 	func showErrorAlert(error: Error)
+	func restartAnimationForIOS10()
+	func updateAnimationFractionComplete()
 }
 
 protocol StoryScreenViewOutput: class {
@@ -42,10 +44,12 @@ class StoryScreenViewController: UIViewController {
 	var presenter: StoryScreenViewOutput!
 	var progressPropertyAnimator: UIViewPropertyAnimator?
 	var slidePropertyAnimator: UIViewPropertyAnimator?
-	let loadingView = LoaderView()
-	let networkErrorView = NetworkErrorView()
-	let closeButton = UIButton(type: .custom)
-	
+	private let loadingView = LoaderView()
+	private let networkErrorView = NetworkErrorView()
+	private let closeButton = UIButton(type: .custom)
+	private var progressStackView: UIStackView?
+	private var animationBlock: ((CGFloat) -> Void)?
+	private var progressAnimationFractionComplete: CGFloat = 0
 	private lazy var slideView: SlideViewInput = {
 		switch YStoriesManager.targetApp {
 		case .music:
@@ -54,7 +58,6 @@ class StoryScreenViewController: UIViewController {
 			return KinopoiskSlideView()
 		}
 	}()
-	private var progressStackView: UIStackView?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -123,6 +126,9 @@ extension StoryScreenViewController: StoryScreenViewInput {
 		slidePropertyAnimator = nil
 		let curve: UIViewAnimationCurve = model.animationType == .contentFadeIn ? .easeOut : .linear
 		slidePropertyAnimator = UIViewPropertyAnimator(duration: TimeInterval(model.animationDuration), curve: curve, animations: {})
+		if #available(iOS 11.0, *) {
+			slidePropertyAnimator?.pausesOnCompletion = true
+		}
 		slideView.performContentAnimation(model: model, needAnimation: needAnimation, propertyAnimator: slidePropertyAnimator)
 		slidePropertyAnimator?.startAnimation()
 	}
@@ -246,9 +252,12 @@ extension StoryScreenViewController: StoryScreenViewInput {
 	}
 	
 	func resumeAnimation() {
-		self.progressPropertyAnimator?.startAnimation()
-		guard self.slidePropertyAnimator?.state == .active else { return }
-		self.slidePropertyAnimator?.startAnimation()
+		if self.progressPropertyAnimator?.state == .active {
+			self.progressPropertyAnimator?.startAnimation()
+		}
+		if self.slidePropertyAnimator?.state == .active {
+			self.slidePropertyAnimator?.startAnimation()
+		}
 	}
 	
 	func showErrorAlert(error: Error) {
@@ -312,18 +321,46 @@ extension StoryScreenViewController {
 				progressPropertyAnimator?.stopAnimation(true)
 				progressPropertyAnimator?.finishAnimation(at: .current)
 				progressPropertyAnimator = nil
+				self.progressAnimationFractionComplete = 0
 				if storyModel.data.dataSlides.count > index, needProgressAnimation {
 					let slideModel = storyModel.data.dataSlides[index]
-					progressPropertyAnimator = UIViewPropertyAnimator(duration: TimeInterval(slideModel.duration), curve: .linear) {
-						view.progressViewWidthConstraint?.constant = progressViewWidth
-						view.layoutIfNeeded()
+					animationBlock = { [weak self] (fractionComplete: CGFloat) in
+						guard let self = self else { return }
+						let duration = CGFloat(slideModel.duration)
+						self.progressPropertyAnimator = UIViewPropertyAnimator(duration: TimeInterval(duration * (1 - fractionComplete)), curve: .linear) {
+							view.progressViewWidthConstraint?.constant = progressViewWidth
+							view.layoutIfNeeded()
+						}
+						if #available(iOS 11.0, *) {
+							self.progressPropertyAnimator?.pausesOnCompletion = true
+						} else {
+							self.progressPropertyAnimator?.addCompletion { _ in
+								view.progressViewWidthConstraint?.constant = progressViewWidth * self.progressAnimationFractionComplete
+							}
+						}
 					}
+					animationBlock?(0)
 					progressPropertyAnimator?.startAnimation()
 				}
 			case .watched:
 				view.progressViewWidthConstraint?.constant = progressViewWidth
 			}
 		}
+	}
+	
+	func restartAnimationForIOS10() {
+		progressPropertyAnimator?.stopAnimation(true)
+		progressPropertyAnimator?.finishAnimation(at: .current)
+		progressPropertyAnimator = nil
+		if self.progressAnimationFractionComplete > 0 {
+			animationBlock?(self.progressAnimationFractionComplete)
+			progressPropertyAnimator?.startAnimation()
+		}
+	}
+	
+	func updateAnimationFractionComplete() {
+		let progressFractionComplete = self.progressPropertyAnimator?.fractionComplete ?? 0
+		self.progressAnimationFractionComplete += (1 - self.progressAnimationFractionComplete) * progressFractionComplete
 	}
 }
 

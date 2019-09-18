@@ -39,6 +39,10 @@ public final class FullScreenViewController: UIViewController {
 	override public var preferredStatusBarStyle: UIStatusBarStyle {
 		return .lightContent
 	}
+	
+	deinit {
+		fromModuleInput?.stopAnimation()
+	}
 }
 
 extension FullScreenViewController: FullScreenViewInput {
@@ -227,6 +231,8 @@ extension FullScreenViewController {
 				fromModuleInput.isTransitionInProgress = false
 				fromModuleInput.resumeStoryScreen()
 				fromModuleInput.runStoryActivityIfNeeded()
+				
+				moduleInput.stopAnimation()
 			}
 		}
 		interactionController = StoryInteractiveTransitioning(animator: storyAnimatedTransitioning)

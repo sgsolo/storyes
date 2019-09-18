@@ -12,6 +12,10 @@ class StoryScreenPresenter: StoryScreenModuleInput {
 	private var player: Player?
 	private var isViewDidAppear = false
 	private var slideSwitchTimer = PauseTimer()
+	
+	deinit {
+		NotificationCenter.default.removeObserver(self)
+	}
 }
 
 extension StoryScreenPresenter: StoryScreenViewOutput {
@@ -19,6 +23,7 @@ extension StoryScreenPresenter: StoryScreenViewOutput {
 		view.addSlideView()
 		view.addGestureRecognizers()
 		view.addCloseButton()
+		addObserver()
 	}
 	
 	func viewWillAppear(_ animated: Bool) {
@@ -224,5 +229,37 @@ extension StoryScreenPresenter {
 		} else if storyModel.currentIndex == 0 {
 			output?.needShowPrevStory()
 		}
+	}
+	
+	private func addObserver() {
+		NotificationCenter.default.addObserver(self,
+											   selector: #selector(applicationDidEnterBackgroundHandler),
+											   name: NSNotification.Name.UIApplicationWillResignActive,
+											   object: nil)
+		NotificationCenter.default.addObserver(self,
+											   selector: #selector(applicationWillEnterForegroundHandler),
+											   name: NSNotification.Name.UIApplicationDidBecomeActive,
+											   object: nil)
+	}
+	
+	@objc private func applicationDidEnterBackgroundHandler() {
+		updateAnimationFractionComplete()
+		pauseStoryScreen()
+	}
+	
+	@objc private func applicationWillEnterForegroundHandler() {
+		if #available(iOS 11.0, *) {
+		} else {
+			restartAnimationForIOS10()
+		}
+		resumeStoryScreen()
+	}
+	
+	private func updateAnimationFractionComplete() {
+		view.updateAnimationFractionComplete()
+	}
+	
+	private func restartAnimationForIOS10() {
+		view.restartAnimationForIOS10()
 	}
 }
