@@ -175,11 +175,12 @@ extension StoryScreenViewController: StoryScreenViewInput {
 		closeButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
 		closeButton.heightAnchor.constraint(equalToConstant: 28).isActive = true
 		closeButton.widthAnchor.constraint(equalToConstant: 28).isActive = true
-		if YStoriesManager.targetApp == .music {
+		switch YStoriesManager.targetApp {
+		case .music:
 			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 82).isActive = true
-		} else if isIphoneX, YStoriesManager.targetApp == .kinopoisk {
+		case .kinopoisk where isIphoneX:
 			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 91).isActive = true
-		} else {
+		case .kinopoisk:
 			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 53).isActive = true
 		}
 	}
