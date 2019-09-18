@@ -42,8 +42,8 @@ protocol StoryScreenViewOutput: class {
 class StoryScreenViewController: UIViewController {
 	
 	var presenter: StoryScreenViewOutput!
-	var progressPropertyAnimator: UIViewPropertyAnimator?
-	var slidePropertyAnimator: UIViewPropertyAnimator?
+	private var progressPropertyAnimator: UIViewPropertyAnimator?
+	private var slidePropertyAnimator: UIViewPropertyAnimator?
 	private let loadingView = LoaderView()
 	private let networkErrorView = NetworkErrorView()
 	private let closeButton = UIButton(type: .custom)
