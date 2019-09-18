@@ -23,20 +23,17 @@ class ViewController: UIViewController {
             storiesManagerOutput: self
         )
         storiesCarousel = storiesManager.caruselViewController
+        self.addChildViewController(storiesCarousel)
         view.addSubview(storiesCarousel.view)
         storiesCarousel.view.translatesAutoresizingMaskIntoConstraints = false
         storiesCarousel.view.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         storiesCarousel.view.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         storiesCarousel.view.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
-        storiesCarousel.view.isUserInteractionEnabled = false
-        
-        storiesManager.loadStories()
-    }
-    
-    override func updateViewConstraints() {
-        super.updateViewConstraints()
-        let h = storiesCarousel.preferredContentSize.height
+        let h = CarouselPreviewSizeCalculator.carouselHeight(forWidth: view.bounds.width, targetApp: targetApp)
         storiesCarousel.view.heightAnchor.constraint(equalToConstant: h).isActive = true
+        storiesCarousel.view.isUserInteractionEnabled = false
+        storiesCarousel.didMove(toParentViewController: self)
+        storiesManager.loadStories()
     }
 	
 	func addCloseButton() {

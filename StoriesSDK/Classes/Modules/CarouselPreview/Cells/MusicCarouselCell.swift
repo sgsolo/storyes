@@ -20,14 +20,6 @@ class MusicCarouselCell: StoriePreviewCell {
         return 16.0
     }
     
-    override var viewedBorderColor: UIColor {
-        return UIColor.defaultCarouselBorderViewed
-    }
-    
-    override var nonviewedBorderColor: UIColor {
-        return UIColor.musicCarouselBorder
-    }
-    
     override func imageOverlayView() -> UIView {
         let imageOverlayView = UIView()
         imageOverlayView.backgroundColor = .black

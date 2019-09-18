@@ -8,11 +8,11 @@ public protocol CarouselPreviewPresentrerOutput: class {
 }
 
 public final class CarouselPreviewPresentrer {
-    weak var view: CarouselPreviewInput!
+    weak var view: CarouselViewInput!
 	weak var output: CarouselPreviewPresentrerOutput!
 }
 
-extension CarouselPreviewPresentrer: CarouselPreviewOutput {
+extension CarouselPreviewPresentrer: CarouselViewOutput {
     public func viewDidLoad() {
         let mockData = MockStoriesPreviewData.storiesPreviewData()
         let sectionData = CollectionSectionData(objects: mockData)

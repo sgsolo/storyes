@@ -20,14 +20,6 @@ class KinopoiskCarouselCell: StoriePreviewCell {
         return 19.0
     }
     
-    override var viewedBorderColor: UIColor {
-        return UIColor.defaultCarouselBorderViewed
-    }
-    
-    override var nonviewedBorderColor: UIColor {
-        return UIColor.kpCarouselBorder
-    }
-    
     override func imageOverlayView() -> UIView {
         let imageOverlayView = UIView()
         imageOverlayView.clipsToBounds = true

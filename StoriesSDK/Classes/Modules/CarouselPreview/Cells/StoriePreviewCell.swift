@@ -27,14 +27,6 @@ class StoriePreviewCell: UICollectionViewCell, RegistrableComponent {
         return 0.0
     }
     
-    var viewedBorderColor: UIColor {
-        return UIColor.clear
-    }
-    
-    var nonviewedBorderColor: UIColor {
-        return UIColor.clear
-    }
-    
     var titleStringAttributes: [NSAttributedStringKey: Any] {
         return [:]
     }
@@ -92,9 +84,9 @@ extension StoriePreviewCell: ConfigurableComponent {
         titleLabel.attributedText = NSAttributedString(string: object.title.string, attributes: titleStringAttributes)
         imageView.image = object.image
         if object.isViewed {
-            contentView.layer.borderColor = viewedBorderColor.cgColor
+            contentView.layer.borderColor = YStoriesManager.uiStyle.viewedStoryBorderColor.cgColor
         } else {
-            contentView.layer.borderColor = nonviewedBorderColor.cgColor
+            contentView.layer.borderColor = YStoriesManager.uiStyle.nonViewedStoryBorderColor.cgColor
         }
     }
 }

@@ -1,26 +1,27 @@
 import UIKit
 
-protocol CarouselPreviewInput: class {
+protocol CarouselViewInput: class {
     func showData(_ data: [CollectionSectionData])
 	func scrollTo(storyIndex: Int)
 	func getStoryFrame(at storyIndex: Int) -> CGRect
 }
 
-public protocol CarouselPreviewOutput: class {
+public protocol CarouselViewOutput: class {
     func viewDidLoad()
 	func didSelectCollectionCell(at indexPath: IndexPath, frame: CGRect)
 }
 
-public class CarouselPreviewViewController: UIViewController {
+public class StoriesCarouselViewController: UIViewController {
     // MARK: - Properties
-    var presenter: CarouselPreviewOutput!
+    var presenter: CarouselViewOutput!
     var collectionViewAdapter: CarouselPreviewCollectionViewAdapterInput!
     
     private var carouselPreviewAdapter: CarouselCollectionViewAdapter!
-    private var configuration: CarouselPreviewConfiguration
+    private var configuration: CarouselConfiguration
     private(set) var titleLabel = UILabel()
     private(set) var carouselPreview: UICollectionView!
     
+    // MARK: - Properties for overriding in subclass
     lazy var backgroundView: UIView? = {
         return nil
     }()
@@ -34,7 +35,7 @@ public class CarouselPreviewViewController: UIViewController {
     }
     
     // MARK: - Lifecycle & overriden
-    init(with configuration: CarouselPreviewConfiguration) {
+    init(with configuration: CarouselConfiguration) {
         self.configuration = configuration
         super.init(nibName: nil, bundle: nil)
         createCollectionViewWithConfiguration(configuration)
@@ -52,7 +53,7 @@ public class CarouselPreviewViewController: UIViewController {
         presenter.viewDidLoad()
     }
     
-    func addBackgroundView() {
+    private func addBackgroundView() {
         guard let bgView = backgroundView else {
             return
         }
@@ -62,44 +63,27 @@ public class CarouselPreviewViewController: UIViewController {
         view.addSubview(bgView)
     }
     
-    override public var preferredContentSize: CGSize {
-        get { return _preferredContentSize }
-        set { super.preferredContentSize = newValue }
-    }
-    
-    private var _preferredContentSize: CGSize {
-        var height = carouselPreview.frame.maxY
-        switch configuration.targetApp {
-        case .kinopoisk:
-            height += 19.0
-        default:
-            break
-        }
-        return CGSize(width: view.bounds.width, height: height)
-    }
-    
     func showLoadingView() {
         carouselPreview.alpha = 0.0
-        guard let loadingView = loadingView as? LoadingView else {
+        guard let loadingView = loadingView else {
             carouselPreview.isHidden = false
             return
         }
-        loadingView.config = configuration
-        loadingView.frame = carouselPreview.frame
-        loadingView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loadingView)
     }
 }
 
 // MARK: - UI creation & configuration
-extension CarouselPreviewViewController {
-    private func createCollectionViewWithConfiguration(_ config: CarouselPreviewConfiguration) {
+extension StoriesCarouselViewController {
+    private func createCollectionViewWithConfiguration(_ config: CarouselConfiguration) {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = config.cellsSpacing
+        layout.minimumInteritemSpacing = config.cellsSpacing
         layout.sectionInset = config.sectionInset
-        carouselPreview = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        carouselPreview.delaysContentTouches = false
+        carouselPreview = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout
+        )
     }
     
     private func configureTitleLabel() {
@@ -107,14 +91,25 @@ extension CarouselPreviewViewController {
         titleLabel.numberOfLines = 1
         view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
-        view.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 16).isActive = true
+        titleLabel.topAnchor.constraint(
+            equalTo: view.topAnchor
+        ).isActive = true
+        titleLabel.leadingAnchor.constraint(
+            equalTo: view.leadingAnchor,
+            constant: 16
+        ).isActive = true
+        view.trailingAnchor.constraint(
+            equalTo: titleLabel.trailingAnchor,
+            constant: 16
+        ).isActive = true
         updateTitle()
     }
     
     func updateTitle() {
-        titleLabel.attributedText = NSAttributedString(string: "Истории", attributes: titleAttributes)
+        titleLabel.attributedText = NSAttributedString(
+            string: "Истории",
+            attributes: titleAttributes
+        )
     }
     
     private func configureCarouselPreview() {
@@ -123,22 +118,29 @@ extension CarouselPreviewViewController {
         carouselPreview.backgroundColor = .clear
         carouselPreview.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(carouselPreview)
-        carouselPreview.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        carouselPreview.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        carouselPreview.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16).isActive = true
-        view.setNeedsLayout()
-        view.layoutIfNeeded()
+        carouselPreview.leadingAnchor.constraint(
+            equalTo: view.leadingAnchor
+        ).isActive = true
+        carouselPreview.trailingAnchor.constraint(
+            equalTo: view.trailingAnchor
+        ).isActive = true
+        carouselPreview.topAnchor.constraint(
+            equalTo: titleLabel.bottomAnchor,
+            constant: configuration.titleBottomSpacing
+        ).isActive = true
     }
     
     public override func updateViewConstraints() {
-        configuration.carouselWidth = view.bounds.width
-        let cellHeight = CarouselPreviewSizeCalculator.cellSize(carouselConfiguration: configuration).height
-        carouselPreview.heightAnchor.constraint(equalToConstant: cellHeight).isActive = true
+        let height = CarouselPreviewSizeCalculator.collectionViewHeight(
+            forWidth: view.bounds.width,
+            carouselConfiguration: configuration
+        )
+        carouselPreview.heightAnchor.constraint(equalToConstant: height).isActive = true
         super.updateViewConstraints()
     }
 }
 
-extension CarouselPreviewViewController: CarouselPreviewInput {    
+extension StoriesCarouselViewController: CarouselViewInput {    
     func showData(_ data: [CollectionSectionData]) {
         collectionViewAdapter.updateData(with: data)
     }
@@ -163,7 +165,7 @@ extension CarouselPreviewViewController: CarouselPreviewInput {
 	}
 }
 
-extension CarouselPreviewViewController: CarouselPreviewCollectionViewAdapterOutput {
+extension StoriesCarouselViewController: CarouselPreviewCollectionViewAdapterOutput {
 	public func didSelectCollectionCell(at indexPath: IndexPath) {
 		if let cell = self.carouselPreview.cellForItem(at: indexPath) {
 			let frame = cell.convert(cell.bounds, to: nil)

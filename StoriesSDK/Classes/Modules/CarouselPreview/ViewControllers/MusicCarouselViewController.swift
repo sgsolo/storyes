@@ -1,4 +1,4 @@
-class MusicCarouselPreview: CarouselPreviewViewController {
+class MusicCarouselViewController: StoriesCarouselViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(
