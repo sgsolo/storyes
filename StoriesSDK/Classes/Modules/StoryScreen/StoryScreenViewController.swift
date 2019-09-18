@@ -158,12 +158,12 @@ extension StoryScreenViewController: StoryScreenViewInput {
 		leftTapArea.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
 		leftTapArea.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
 		leftTapArea.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-		leftTapArea.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5).isActive = true
+		leftTapArea.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.3).isActive = true
 		
 		rightTapArea.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
 		rightTapArea.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
 		rightTapArea.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-		rightTapArea.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5).isActive = true
+		rightTapArea.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.7).isActive = true
 	}
 	
 	func addCloseButton() {
