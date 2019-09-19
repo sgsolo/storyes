@@ -13,9 +13,9 @@ class ViewController: UIViewController {
 	var targetApp: SupportedApp = .music
 	
 	var playerSwitch = UISwitch()
-	lazy var avPlayer: AVPlayer = {
+	lazy var avPlayer: MusicalPlayer = {
 		let url = Bundle.main.url(forResource: "ImagineDragons-Believer.mp3", withExtension: nil)
-		return AVPlayer(url: url!)
+		return MusicalPlayer(url: url!)
 	}()
 	
     override func viewDidLoad() {
@@ -93,8 +93,10 @@ extension ViewController {
 	@objc private func playerSwitchDidTap(_ sender: UISwitch) {
 		if sender.isOn {
 			avPlayer.play()
+			avPlayer.isPlaying = true
 		} else {
 			avPlayer.pause()
+			avPlayer.isPlaying = false
 		}
 	}
 	
@@ -111,11 +113,13 @@ extension ViewController: YStoriesManagerOutput {
     }
     
     func fullScreenDidTapOnCloseButton(atStoryWith frame: CGRect) {
+		avPlayer.playIfNeeded()
         self.endFrame = frame
         self.presentedViewController?.dismiss(animated: true)
     }
     
     func fullScreenStoriesDidEnd(atStoryWith frame: CGRect) {
+		avPlayer.playIfNeeded()
         self.endFrame = frame
         self.presentedViewController?.dismiss(animated: true)
     }
@@ -133,6 +137,14 @@ extension ViewController: YStoriesManagerOutput {
             self.present(alert, animated: true)
         }
     }
+	
+	func playPlayerIfNeeded() {
+		avPlayer.playIfNeeded()
+	}
+	
+	func stopPlayerIfNeeded() {
+		avPlayer.pause()
+	}
 }
 
 extension ViewController: UIViewControllerTransitioningDelegate {
@@ -145,4 +157,15 @@ extension ViewController: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return FullScreenDismissedAnimation(endFrame: self.endFrame)
     }
+}
+
+
+class MusicalPlayer: AVPlayer {
+	var isPlaying = false
+	
+	func playIfNeeded() {
+		if isPlaying == true {
+			play()
+		}
+	}
 }

@@ -10,6 +10,14 @@ public protocol YStoriesManagerOutput: class {
     func needShowFullScreen(_ fullScreen: FullScreenViewController, from frame: CGRect)
     func fullScreenDidTapOnCloseButton(atStoryWith frame: CGRect)
     func fullScreenStoriesDidEnd(atStoryWith frame: CGRect)
+	
+	func playPlayerIfNeeded()
+	func stopPlayerIfNeeded()
+}
+
+extension YStoriesManagerOutput {
+	func playPlayerIfNeeded() {}
+	func stopPlayerIfNeeded() {}
 }
 
 public enum SupportedApp: String {
@@ -60,6 +68,14 @@ extension YStoriesManager: FullScreenModuleOutput {
         let frame = self.carosuelModule?.input.getStoryFrame(at: storyIndex) ?? CGRect.zero
         storiesManagerOutput?.fullScreenStoriesDidEnd(atStoryWith: frame)
     }
+	
+	public func didShowStoryWithImage() {
+		storiesManagerOutput?.playPlayerIfNeeded()
+	}
+	
+	public func didShowStoryWithVideoOrTrack() {
+		storiesManagerOutput?.stopPlayerIfNeeded()
+	}
 }
 
 extension YStoriesManager {

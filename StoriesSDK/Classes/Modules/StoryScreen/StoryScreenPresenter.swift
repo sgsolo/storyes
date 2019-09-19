@@ -197,8 +197,19 @@ extension StoryScreenPresenter {
 	private func runStoryActivity(slideModel: SlideModel) {
 		self.runTimerForSlide(slideModel: slideModel)
 		self.view.updateProgressView(storyModel: self.storyModel, needProgressAnimation: true)
-		updateAnimationOnSlide(needAnimation: true)
+		self.updateAnimationOnSlide(needAnimation: true)
 		self.playPlayer()
+		guard let viewModel = cacheManager.getViewModel(slideModel: slideModel) else { return }
+		self.notifyOutputIfNeeded(viewModel: viewModel)
+	}
+	
+	private func notifyOutputIfNeeded(viewModel: SlideViewModel) {
+		switch viewModel.type {
+		case .image:
+			output.didShowStoryWithImage()
+		case .video, .track:
+			output.didShowStoryWithVideoOrTrack()
+		}
 	}
 	
 	func runStoryActivityIfNeeded() {
