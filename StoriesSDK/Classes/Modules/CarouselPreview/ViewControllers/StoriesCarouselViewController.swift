@@ -4,14 +4,16 @@ protocol CarouselViewInput: class {
     func showData(_ data: [CollectionSectionData])
 	func scrollTo(storyIndex: Int)
 	func getStoryFrame(at storyIndex: Int) -> CGRect
+    func updateCarousel(index: Int)
+    func showLoadingView()
 }
 
-public protocol CarouselViewOutput: class {
-    func viewDidLoad()
+protocol CarouselViewOutput: class {
+    func viewWillAppear()
 	func didSelectCollectionCell(at indexPath: IndexPath, frame: CGRect)
 }
 
-public class StoriesCarouselViewController: UIViewController {
+class StoriesCarouselViewController: UIViewController, CarouselViewInput {
     // MARK: - Properties
     var presenter: CarouselViewOutput!
     var collectionViewAdapter: CarouselPreviewCollectionViewAdapterInput!
@@ -50,7 +52,11 @@ public class StoriesCarouselViewController: UIViewController {
         addBackgroundView()
         configureTitleLabel()
         configureCarouselPreview()
-        presenter.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.viewWillAppear()
     }
     
     private func addBackgroundView() {
@@ -64,12 +70,11 @@ public class StoriesCarouselViewController: UIViewController {
     }
     
     func showLoadingView() {
-        carouselPreview.alpha = 0.0
-        guard let loadingView = loadingView else {
-            carouselPreview.isHidden = false
-            return
-        }
-        view.addSubview(loadingView)
+        print("Override in subclass if needed")
+    }
+    
+    func showData(_ data: [CollectionSectionData]) {
+        collectionViewAdapter.updateData(with: data)
     }
 }
 
@@ -130,7 +135,7 @@ extension StoriesCarouselViewController {
         ).isActive = true
     }
     
-    public override func updateViewConstraints() {
+    override func updateViewConstraints() {
         let height = CarouselPreviewSizeCalculator.collectionViewHeight(
             forWidth: view.bounds.width,
             carouselConfiguration: configuration
@@ -140,11 +145,7 @@ extension StoriesCarouselViewController {
     }
 }
 
-extension StoriesCarouselViewController: CarouselViewInput {    
-    func showData(_ data: [CollectionSectionData]) {
-        collectionViewAdapter.updateData(with: data)
-    }
-	
+extension StoriesCarouselViewController {
 	func scrollTo(storyIndex: Int) {
 		guard carouselPreview.numberOfSections > 0, carouselPreview.numberOfItems(inSection: 0) > storyIndex else { return }
 		//TODO: нужен ли скролл до зарывающейся ячейки истории?
@@ -163,10 +164,18 @@ extension StoriesCarouselViewController: CarouselViewInput {
 		}
 		return .zero
 	}
+    
+    func updateCarousel(index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+        guard carouselPreview.indexPathsForVisibleItems.contains(indexPath) else {
+            return
+        }
+        carouselPreview.reloadItems(at: [indexPath])
+    }
 }
 
 extension StoriesCarouselViewController: CarouselPreviewCollectionViewAdapterOutput {
-	public func didSelectCollectionCell(at indexPath: IndexPath) {
+    func didSelectCollectionCell(at indexPath: IndexPath) {
 		if let cell = self.carouselPreview.cellForItem(at: indexPath) {
 			let frame = cell.convert(cell.bounds, to: nil)
 			presenter.didSelectCollectionCell(at: indexPath, frame: frame)

@@ -76,6 +76,10 @@ extension YStoriesManager {
     public func loadStories() {
         storiesService.getStories(success: { [weak self] _ in
             self?.storiesManagerOutput.storiesDidLoad(true, error: nil)
+            guard let stories = self?.storiesService.stories else {
+                return
+            }
+            self?.carosuelModule?.input.storiesDidLoad(stories: stories)
         }) { [weak self] error in
             self?.storiesManagerOutput.storiesDidLoad(false, error: error)
         }

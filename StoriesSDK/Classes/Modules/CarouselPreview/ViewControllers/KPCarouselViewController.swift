@@ -17,30 +17,36 @@ class KPCarouselViewController: StoriesCarouselViewController {
         ]
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        showLoadingView()
+    override func showData(_ data: [CollectionSectionData]) {
+        super.showData(data)
+        hideLoadingView()
+    }
+    
+    func hideLoadingView() {
+        carouselPreview.isHidden = false
+        UIView.animate(withDuration: 0.3, animations: {
+            self.loadingView?.alpha = 0.0
+            self.carouselPreview.alpha = 1.0
+        }, completion: { _ in
+            self.loadingView?.removeFromSuperview()
+            self.loadingView = nil
+        })
+    }
+    
+    override func showLoadingView() {
+        guard let loadingView = loadingView as? CarouselLoadingView else {
+            carouselPreview.alpha = 1.0
+            carouselPreview.isHidden = false
+            return
+        }
+        carouselPreview.alpha = 0.0
+        carouselPreview.isHidden = true
+        view.addSubview(loadingView)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         loadingView?.frame = carouselPreview.frame
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        guard let loadingView = loadingView as? CarouselLoadingView else {
-            return
-        }
-        loadingView.startAnimation()
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { [weak self] _ in
-            UIView.animate(withDuration: 0.3, animations: {
-                loadingView.alpha = 0.0
-                self?.carouselPreview.alpha = 1.0
-            }, completion: { _ in
-                loadingView.removeFromSuperview()
-            })
-        }
     }
     
     private func paragraph() -> NSMutableParagraphStyle {

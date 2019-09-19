@@ -46,11 +46,12 @@ class StoriePreviewCell: UICollectionViewCell, RegistrableComponent {
     private func configureImageView() {
         func configureImageOverlayView() {
             let imageOverlayView = self.imageOverlayView()
+            imageOverlayView.translatesAutoresizingMaskIntoConstraints = false
             imageView.addSubview(imageOverlayView)
-            imageOverlayView.leftAnchor.constraint(equalTo: imageView.leftAnchor).isActive = true
+            imageOverlayView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
             imageOverlayView.topAnchor.constraint(equalTo: imageView.topAnchor).isActive = true
-            imageOverlayView.rightAnchor.constraint(equalTo: imageView.rightAnchor).isActive = true
-            imageOverlayView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
+            imageView.trailingAnchor.constraint(equalTo: imageOverlayView.trailingAnchor).isActive = true
+            imageView.bottomAnchor.constraint(equalTo: imageOverlayView.bottomAnchor).isActive = true
             imageOverlayView.layer.cornerRadius = imageCornerRadius
         }
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -68,8 +69,8 @@ class StoriePreviewCell: UICollectionViewCell, RegistrableComponent {
     private func configureTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)
-        titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: titleLabelIndent).isActive = true
-        contentView.rightAnchor.constraint(equalTo: titleLabel.rightAnchor, constant: titleLabelIndent).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: titleLabelIndent).isActive = true
+        contentView.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: titleLabelIndent).isActive = true
         contentView.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: titleLabelIndent).isActive = true
         titleLabel.backgroundColor = .clear
         titleLabel.numberOfLines = 0
@@ -81,7 +82,10 @@ extension StoriePreviewCell: ConfigurableComponent {
         guard let object = object as? StoriePreviewModel else {
             return
         }
-        titleLabel.attributedText = NSAttributedString(string: object.title.string, attributes: titleStringAttributes)
+        titleLabel.attributedText = NSAttributedString(
+            string: object.title,
+            attributes: titleStringAttributes
+        )
         imageView.image = object.image
         if object.isViewed {
             contentView.layer.borderColor = YStoriesManager.uiStyle.viewedStoryBorderColor.cgColor

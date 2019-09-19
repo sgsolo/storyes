@@ -57,12 +57,6 @@
 		B27AC9352317E58400110B52 /* StoryScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9302317E58400110B52 /* StoryScreenPresenter.swift */; };
 		B27AC9362317E58400110B52 /* MusicSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9322317E58400110B52 /* MusicSlideView.swift */; };
 		B27AC9482317E5F400110B52 /* CarouselCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9372317E5F300110B52 /* CarouselCollectionViewAdapter.swift */; };
-		B27AC9492317E5F400110B52 /* MockStoriesPreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9392317E5F300110B52 /* MockStoriesPreviewData.swift */; };
-		B27AC94A2317E5F400110B52 /* Preview3.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B27AC93A2317E5F300110B52 /* Preview3.jpeg */; };
-		B27AC94B2317E5F400110B52 /* Preview2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B27AC93B2317E5F300110B52 /* Preview2.jpeg */; };
-		B27AC94C2317E5F400110B52 /* Preview4.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B27AC93C2317E5F300110B52 /* Preview4.jpeg */; };
-		B27AC94D2317E5F400110B52 /* Preview1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B27AC93D2317E5F300110B52 /* Preview1.jpeg */; };
-		B27AC94E2317E5F400110B52 /* Preview0.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B27AC93E2317E5F300110B52 /* Preview0.jpeg */; };
 		B27AC94F2317E5F400110B52 /* CarouselPreviewPresentrer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC93F2317E5F300110B52 /* CarouselPreviewPresentrer.swift */; };
 		B27AC9502317E5F400110B52 /* StoriePreviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9412317E5F300110B52 /* StoriePreviewModel.swift */; };
 		B27AC9512317E5F400110B52 /* CarouselPreviewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9422317E5F400110B52 /* CarouselPreviewAssembly.swift */; };
@@ -174,12 +168,6 @@
 		B27AC9302317E58400110B52 /* StoryScreenPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryScreenPresenter.swift; sourceTree = "<group>"; };
 		B27AC9322317E58400110B52 /* MusicSlideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicSlideView.swift; sourceTree = "<group>"; };
 		B27AC9372317E5F300110B52 /* CarouselCollectionViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewAdapter.swift; sourceTree = "<group>"; };
-		B27AC9392317E5F300110B52 /* MockStoriesPreviewData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockStoriesPreviewData.swift; sourceTree = "<group>"; };
-		B27AC93A2317E5F300110B52 /* Preview3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Preview3.jpeg; sourceTree = "<group>"; };
-		B27AC93B2317E5F300110B52 /* Preview2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Preview2.jpeg; sourceTree = "<group>"; };
-		B27AC93C2317E5F300110B52 /* Preview4.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Preview4.jpeg; sourceTree = "<group>"; };
-		B27AC93D2317E5F300110B52 /* Preview1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Preview1.jpeg; sourceTree = "<group>"; };
-		B27AC93E2317E5F300110B52 /* Preview0.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Preview0.jpeg; sourceTree = "<group>"; };
 		B27AC93F2317E5F300110B52 /* CarouselPreviewPresentrer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselPreviewPresentrer.swift; sourceTree = "<group>"; };
 		B27AC9412317E5F300110B52 /* StoriePreviewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoriePreviewModel.swift; sourceTree = "<group>"; };
 		B27AC9422317E5F400110B52 /* CarouselPreviewAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselPreviewAssembly.swift; sourceTree = "<group>"; };
@@ -282,7 +270,6 @@
 				B2D82B6823293D6500D84981 /* Config */,
 				B2D82B6723293D2100D84981 /* Cells */,
 				B27AC9432317E5F400110B52 /* Models */,
-				B27AC9382317E5F300110B52 /* tmp */,
 				B27AC9402317E5F300110B52 /* View Models */,
 			);
 			path = CarouselPreview;
@@ -487,19 +474,6 @@
 				6B69A1A6231D216500CBAA41 /* KinopoiskSlideView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		B27AC9382317E5F300110B52 /* tmp */ = {
-			isa = PBXGroup;
-			children = (
-				B27AC9392317E5F300110B52 /* MockStoriesPreviewData.swift */,
-				B27AC93A2317E5F300110B52 /* Preview3.jpeg */,
-				B27AC93B2317E5F300110B52 /* Preview2.jpeg */,
-				B27AC93C2317E5F300110B52 /* Preview4.jpeg */,
-				B27AC93D2317E5F300110B52 /* Preview1.jpeg */,
-				B27AC93E2317E5F300110B52 /* Preview0.jpeg */,
-			);
-			path = tmp;
 			sourceTree = "<group>";
 		};
 		B27AC9402317E5F300110B52 /* View Models */ = {
@@ -808,11 +782,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B27AC94A2317E5F400110B52 /* Preview3.jpeg in Resources */,
 				6B37D845231E441B00F7CF7B /* Graphik Kinopoisk LC-Medium.otf in Resources */,
-				B27AC94E2317E5F400110B52 /* Preview0.jpeg in Resources */,
-				B27AC94B2317E5F400110B52 /* Preview2.jpeg in Resources */,
-				B27AC94D2317E5F400110B52 /* Preview1.jpeg in Resources */,
 				0947A2DE966B1E04550FF43523AE50CA /* Images.xcassets in Resources */,
 				B27AC9742317E7C500110B52 /* stories.json in Resources */,
 				6B37D841231E441B00F7CF7B /* Graphik Kinopoisk LC-Bold Italic.otf in Resources */,
@@ -820,7 +790,6 @@
 				6B37D840231E441B00F7CF7B /* Graphik Kinopoisk LC-Bold.otf in Resources */,
 				6B37D842231E441B00F7CF7B /* Graphik Kinopoisk LC-Regular.otf in Resources */,
 				6B37D844231E441B00F7CF7B /* Graphik Kinopoisk LC-Light.otf in Resources */,
-				B27AC94C2317E5F400110B52 /* Preview4.jpeg in Resources */,
 				6B37D846231E441B00F7CF7B /* Graphik Kinopoisk LC-Semibold Italic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -909,7 +878,6 @@
 				B27AC9352317E58400110B52 /* StoryScreenPresenter.swift in Sources */,
 				01F16B4604063EE68E06B1EEF1C02E44 /* StoryService.swift in Sources */,
 				B27AC94F2317E5F400110B52 /* CarouselPreviewPresentrer.swift in Sources */,
-				B27AC9492317E5F400110B52 /* MockStoriesPreviewData.swift in Sources */,
 				B27AC9632317E67200110B52 /* FullScreenPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

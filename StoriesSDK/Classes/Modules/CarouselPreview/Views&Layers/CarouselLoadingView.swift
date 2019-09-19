@@ -19,10 +19,6 @@ class CarouselLoadingView: UIView {
         super.removeFromSuperview()
     }
     
-    deinit {
-        print("deinit CarouselLoadingView")
-    }
-    
     func startAnimation() {
         let animation = CABasicAnimation(keyPath: "position")
         animation.duration = 1
@@ -54,6 +50,8 @@ class CarouselLoadingView: UIView {
         flickerGradiendLayer.position = CGPoint(x: -(animGradWidth + xDelta), y: bounds.maxY)
         let rotation = CGAffineTransform(rotationAngle: CGFloat(Float.pi / -4.0))
         flickerGradiendLayer.setAffineTransform(rotation)
+        flickerGradiendLayer.removeAllAnimations()
+        startAnimation()
     }
 }
 

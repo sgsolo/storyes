@@ -6,10 +6,8 @@ public typealias Failure = ((Error) -> Void)
 typealias Parametrs = Dictionary<String, String>
 
 protocol ApiClientInput {
-	// TODO: for test
 	func getCarusel(success: Success?, failure: Failure?)
 	func getData(_ url: URL, success: Success?, failure: Failure?)
-	func getImage(_ urlString: String, success: Success?, failure: Failure?)
 }
 
 extension ApiClient: ApiClientInput {
@@ -29,10 +27,6 @@ extension ApiClient: ApiClientInput {
 
 	public func getData(_ url: URL, success: Success?, failure: Failure?) {
 		downloadTask(url, success: success, failure: failure)
-	}
-	
-	public func getImage(_ urlString: String, success: Success?, failure: Failure?) {
-		dataTaskForImage(urlString, success: success, failure: failure)
 	}
 }
 

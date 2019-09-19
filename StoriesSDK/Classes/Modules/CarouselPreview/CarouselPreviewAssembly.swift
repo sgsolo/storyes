@@ -1,11 +1,10 @@
-//#warning("Struct just for CarouselUITesting")
-public struct CarouselPreviewModule {
-    public let view: StoriesCarouselViewController
-    public let input: CarouselPreviewPresentrerInput
+struct CarouselPreviewModule {
+    let view: StoriesCarouselViewController
+    let input: CarouselPreviewPresentrerInput
 }
 
-public struct CarouselPreviewAssembly {
-    public static func setup(for targetApp: SupportedApp, delegate: CarouselPreviewPresentrerOutput) -> CarouselPreviewModule {
+struct CarouselPreviewAssembly {
+    static func setup(for targetApp: SupportedApp, delegate: CarouselPreviewPresentrerOutput) -> CarouselPreviewModule {
         let config = CarouselConfigurationFactory.configForApp(YStoriesManager.targetApp)
         let viewController: StoriesCarouselViewController!
         switch targetApp {
