@@ -35,11 +35,17 @@ class ViewController: UIViewController {
         storiesManager.loadStories()
 		
 		if targetApp == .music {
-			addPlayerButton()
+			addPlayer()
 		}
 		addCloseButton()
     }
-	
+
+	deinit {
+		NotificationCenter.default.removeObserver(self)
+	}
+}
+
+extension ViewController {
 	func addCloseButton() {
 		let button = UIButton(type: .custom)
 		let bundle = Bundle(for: YStoriesManager.self)
@@ -54,6 +60,14 @@ class ViewController: UIViewController {
 		button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 35).isActive = true
 		button.heightAnchor.constraint(equalToConstant: 40).isActive = true
 		button.widthAnchor.constraint(equalToConstant: 40).isActive = true
+	}
+	
+	func addPlayer() {
+		addPlayerButton()
+		NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.avPlayer.currentItem, queue: .main) { [weak self] _ in
+			self?.avPlayer.seek(to: kCMTimeZero)
+			self?.avPlayer.play()
+		}
 	}
 	
 	func addPlayerButton() {
