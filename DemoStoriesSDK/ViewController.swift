@@ -91,12 +91,11 @@ extension ViewController {
 	}
 	
 	@objc private func playerSwitchDidTap(_ sender: UISwitch) {
+		avPlayer.isPlaying = sender.isOn
 		if sender.isOn {
 			avPlayer.play()
-			avPlayer.isPlaying = true
 		} else {
 			avPlayer.pause()
-			avPlayer.isPlaying = false
 		}
 	}
 	
