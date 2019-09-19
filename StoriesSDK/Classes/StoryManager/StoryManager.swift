@@ -5,7 +5,7 @@ public protocol YStoriesManagerInput {
     func loadStories()
 }
 
-public protocol YStoriesManagerOutput {
+public protocol YStoriesManagerOutput: class {
     func storiesDidLoad(_ isSuccess: Bool, error: Error?)
     func needShowFullScreen(_ fullScreen: FullScreenViewController, from frame: CGRect)
     func fullScreenDidTapOnCloseButton(atStoryWith frame: CGRect)
@@ -28,7 +28,7 @@ public class YStoriesManager: YStoriesManagerInput {
 	
     private let user: String
     private let experiments: Dictionary<String, Any>
-    private let storiesManagerOutput: YStoriesManagerOutput
+    weak private var storiesManagerOutput: YStoriesManagerOutput?
     private let storiesService: StoriesServiceInput = StoriesService.shared
     
     //TODO: добавить тему
@@ -52,22 +52,22 @@ extension YStoriesManager: FullScreenModuleOutput {
     public func fullScreenDidTapOnCloseButton(storyIndex: Int) {
         self.carosuelModule?.input.scrollTo(storyIndex: storyIndex)
         let frame = self.carosuelModule?.input.getStoryFrame(at: storyIndex) ?? CGRect.zero
-        storiesManagerOutput.fullScreenDidTapOnCloseButton(atStoryWith: frame)
+        storiesManagerOutput?.fullScreenDidTapOnCloseButton(atStoryWith: frame)
     }
     
     public func fullScreenStoriesDidEnd(storyIndex: Int) {
         self.carosuelModule?.input.scrollTo(storyIndex: storyIndex)
         let frame = self.carosuelModule?.input.getStoryFrame(at: storyIndex) ?? CGRect.zero
-        storiesManagerOutput.fullScreenStoriesDidEnd(atStoryWith: frame)
+        storiesManagerOutput?.fullScreenStoriesDidEnd(atStoryWith: frame)
     }
 }
 
 extension YStoriesManager {
     public func loadStories() {
         storiesService.getStories(success: { [weak self] _ in
-            self?.storiesManagerOutput.storiesDidLoad(true, error: nil)
+            self?.storiesManagerOutput?.storiesDidLoad(true, error: nil)
         }) { [weak self] error in
-            self?.storiesManagerOutput.storiesDidLoad(false, error: error)
+            self?.storiesManagerOutput?.storiesDidLoad(false, error: error)
         }
     }
 }
@@ -77,6 +77,6 @@ extension YStoriesManager: CarouselPreviewPresentrerOutput {
         let fullScreenViewController = FullScreenViewController()
         fullScreenModule = FullScreenAssembly.setup(fullScreenViewController, storiesService: storiesService, delegate: self)
         fullScreenModule?.setSelectedStory(index: index)
-        storiesManagerOutput.needShowFullScreen(fullScreenViewController, from: frame)
+        storiesManagerOutput?.needShowFullScreen(fullScreenViewController, from: frame)
     }
 }
