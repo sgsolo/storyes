@@ -1,5 +1,6 @@
 import UIKit
 import StoriesSDK
+import AVFoundation
 
 class ViewController: UIViewController {
 //    #warning("Temporary: just for UI testing")
@@ -10,14 +11,18 @@ class ViewController: UIViewController {
     var startFrame: CGRect!
     var endFrame: CGRect!
 	var targetApp: SupportedApp = .music
-    
+	
+	var playerSwitch = UISwitch()
+	lazy var avPlayer: AVPlayer = {
+		let url = Bundle.main.url(forResource: "ImagineDragons-Believer.mp3", withExtension: nil)
+		return AVPlayer(url: url!)
+	}()
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 		self.view.backgroundColor = .white
-		addCloseButton()
 		
         storiesManager = YStoriesManager(targetApp: targetApp, user: "user", experiments: [:], storiesManagerOutput: self)
-        
         storiesCarousel = storiesManager.caruselViewController
         view.addSubview(storiesCarousel.view)
         storiesCarousel.view.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +33,11 @@ class ViewController: UIViewController {
         storiesCarousel.view.isUserInteractionEnabled = false
         
         storiesManager.loadStories()
+		
+		if targetApp == .music {
+			addPlayerButton()
+		}
+		addCloseButton()
     }
 	
 	func addCloseButton() {
@@ -44,6 +54,34 @@ class ViewController: UIViewController {
 		button.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 35).isActive = true
 		button.heightAnchor.constraint(equalToConstant: 40).isActive = true
 		button.widthAnchor.constraint(equalToConstant: 40).isActive = true
+	}
+	
+	func addPlayerButton() {
+		self.view.addSubview(playerSwitch)
+		playerSwitch.isOn = false
+		playerSwitch.addTarget(self, action: #selector(playerSwitchDidTap), for: .touchUpInside)
+		playerSwitch.translatesAutoresizingMaskIntoConstraints = false
+		playerSwitch.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+		playerSwitch.topAnchor.constraint(equalTo: storiesCarousel.view.bottomAnchor, constant: 35).isActive = true
+		playerSwitch.heightAnchor.constraint(equalToConstant: 40).isActive = true
+		playerSwitch.widthAnchor.constraint(equalToConstant: 60).isActive = true
+		
+		let label = UILabel()
+		label.text = "Музыкальный плеер"
+		self.view.addSubview(label)
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+		label.topAnchor.constraint(equalTo: storiesCarousel.view.bottomAnchor, constant: 35).isActive = true
+		label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+		label.widthAnchor.constraint(equalToConstant: 2000).isActive = true
+	}
+	
+	@objc private func playerSwitchDidTap(_ sender: UISwitch) {
+		if sender.isOn {
+			avPlayer.play()
+		} else {
+			avPlayer.pause()
+		}
 	}
 	
 	@objc private func closeButtonDidTap() {
