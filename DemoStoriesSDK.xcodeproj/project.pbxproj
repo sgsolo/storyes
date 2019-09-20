@@ -13,6 +13,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		6B282D9F23190AAD00087CCC /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B282D9E23190AAD00087CCC /* StartViewController.swift */; };
+		6BD395EC233367220038FA50 /* ImagineDragons-Believer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6BD395EB233367220038FA50 /* ImagineDragons-Believer.mp3 */; };
 		94D415BC469C9BE49A6A5BEC /* Pods_DemoStoriesSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C6D652C40CB67D7737C6868 /* Pods_DemoStoriesSDK.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		61A5DB7BD6448ADA69F3A5EF /* Pods-DemoStoriesSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoStoriesSDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-DemoStoriesSDK_Tests/Pods-DemoStoriesSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		689B470D4F953CFF3B2AA390 /* Pods-DemoStoriesSDK-DemoStoriesSDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoStoriesSDK-DemoStoriesSDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-DemoStoriesSDK-DemoStoriesSDK_Tests/Pods-DemoStoriesSDK-DemoStoriesSDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6B282D9E23190AAD00087CCC /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		6BD395EB233367220038FA50 /* ImagineDragons-Believer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "ImagineDragons-Believer.mp3"; sourceTree = "<group>"; };
 		77C8848BECB28370478D4504 /* Pods-DemoStoriesSDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoStoriesSDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-DemoStoriesSDK_Tests/Pods-DemoStoriesSDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		C2EDE52135D61381B4041021 /* Pods_DemoStoriesSDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoStoriesSDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3957069C87FF1FF3161BD66 /* Pods-DemoStoriesSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoStoriesSDK.debug.xcconfig"; path = "Target Support Files/Pods-DemoStoriesSDK/Pods-DemoStoriesSDK.debug.xcconfig"; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				6B282D9E23190AAD00087CCC /* StartViewController.swift */,
+				6BD395EB233367220038FA50 /* ImagineDragons-Believer.mp3 */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -198,6 +201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
+				6BD395EC233367220038FA50 /* ImagineDragons-Believer.mp3 in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);

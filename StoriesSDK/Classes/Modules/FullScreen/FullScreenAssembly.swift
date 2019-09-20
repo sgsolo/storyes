@@ -7,6 +7,9 @@ public protocol FullScreenModuleInput: class {
 public protocol FullScreenModuleOutput: class {
 	func fullScreenDidTapOnCloseButton(storyIndex: Int)
 	func fullScreenStoriesDidEnd(storyIndex: Int)
+	
+	func didShowStoryWithImage()
+	func didShowStoryWithVideoOrTrack()
 }
 
 final class FullScreenAssembly {
