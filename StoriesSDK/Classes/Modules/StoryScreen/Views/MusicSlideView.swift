@@ -41,6 +41,13 @@ class MusicSlideView: UIView, SlideViewInput {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+		if listenButton.frame.contains(point), !listenButton.isHidden {
+			return listenButton
+		}
+		return nil
+	}
+	
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		self.gradientLayer?.bounds = self.bounds.insetBy(dx: -0.5 * self.bounds.size.width, dy: -0.5 * self.bounds.size.height)

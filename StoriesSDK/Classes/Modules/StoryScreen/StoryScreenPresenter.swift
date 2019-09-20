@@ -20,8 +20,8 @@ class StoryScreenPresenter: StoryScreenModuleInput {
 
 extension StoryScreenPresenter: StoryScreenViewOutput {
 	func viewDidLoad() {
-		view.addSlideView()
 		view.addGestureRecognizers()
+		view.addSlideView()
 		view.addCloseButton()
 		addObserver()
 	}

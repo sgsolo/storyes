@@ -40,6 +40,13 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+		if bottomButton.frame.contains(point), !bottomButton.isHidden {
+			return bottomButton
+		}
+		return nil
+	}
+	
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		self.gradientLayer?.frame = self.bounds
