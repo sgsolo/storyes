@@ -17,6 +17,9 @@ protocol FullScreenViewOutput: class {
 	func closeButtonDidTap()
 	func needShowPrevStory()
 	func needShowNextStory()
+	
+	func didShowStoryWithImage()
+	func didShowStoryWithVideoOrTrack()
 }
 
 public final class FullScreenViewController: UIViewController {
@@ -38,6 +41,10 @@ public final class FullScreenViewController: UIViewController {
 	
 	override public var preferredStatusBarStyle: UIStatusBarStyle {
 		return .lightContent
+	}
+	
+	deinit {
+		fromModuleInput?.stopAnimation()
 	}
 }
 
@@ -82,8 +89,6 @@ extension FullScreenViewController: FullScreenViewInput {
 		let controller = StoryScreenViewController()
 		let moduleInput = StoryScreenAssembly.setup(controller, delegate: self)
 		moduleInput.storyModel = storyModel
-		self.addChildViewController(controller)
-		self.view.addSubview(controller.view)
 		
 		fromModuleInput.pauseStoryScreen()
 		fromModuleInput.isTransitionInProgress = true
@@ -95,14 +100,17 @@ extension FullScreenViewController: FullScreenViewInput {
 		
 		let storyAnimatedTransitioning = StoryAnimatedTransitioning(direction: direction)
 		let privateAnimatedTransition = StoryContextTransitioning(from: fromVC, to: controller)
-		privateAnimatedTransition.completeTransition = { _ in
+		privateAnimatedTransition.completeTransition = { [weak self] _ in
+			guard let self = self else { return }
+			self.addChildViewController(controller)
+			self.view.addSubview(controller.view)
+			controller.endAppearanceTransition()
+			controller.didMove(toParentViewController: self)
+			
 			fromVC.view.removeFromSuperview()
 			fromVC.removeFromParentViewController()
 			fromVC.endAppearanceTransition()
 			fromModuleInput.stopAnimation()
-			
-			controller.endAppearanceTransition()
-			controller.didMove(toParentViewController: self)
 			
 			self.fromVC = controller
 			self.fromModuleInput = moduleInput
@@ -122,6 +130,14 @@ extension FullScreenViewController: StoryScreenModuleOutput {
 
 	func closeButtonDidTap() {
 		presenter.closeButtonDidTap()
+	}
+	
+	func didShowStoryWithImage() {
+		presenter.didShowStoryWithImage()
+	}
+	
+	func didShowStoryWithVideoOrTrack() {
+		presenter.didShowStoryWithVideoOrTrack()
 	}
 }
 
@@ -227,6 +243,8 @@ extension FullScreenViewController {
 				fromModuleInput.isTransitionInProgress = false
 				fromModuleInput.resumeStoryScreen()
 				fromModuleInput.runStoryActivityIfNeeded()
+				
+				moduleInput.stopAnimation()
 			}
 		}
 		interactionController = StoryInteractiveTransitioning(animator: storyAnimatedTransitioning)
@@ -240,7 +258,7 @@ extension FullScreenViewController: UIGestureRecognizerDelegate {
 		let velocity = panGestureRecognizer.velocity(in: panGestureRecognizer.view)
 		if velocity.y > abs(velocity.x), panGestureRecognizer == hideGesture {
 			return true
-		} else if panGestureRecognizer == swipeGesture {
+		} else if panGestureRecognizer == swipeGesture, abs(velocity.x) > abs(velocity.y) {
 			return true
 		}
 		return false

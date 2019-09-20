@@ -12,6 +12,10 @@ class StoryScreenPresenter: StoryScreenModuleInput {
 	private var player: Player?
 	private var isViewDidAppear = false
 	private var slideSwitchTimer = PauseTimer()
+	
+	deinit {
+		NotificationCenter.default.removeObserver(self)
+	}
 }
 
 extension StoryScreenPresenter: StoryScreenViewOutput {
@@ -19,6 +23,7 @@ extension StoryScreenPresenter: StoryScreenViewOutput {
 		view.addSlideView()
 		view.addGestureRecognizers()
 		view.addCloseButton()
+		addObserver()
 	}
 	
 	func viewWillAppear(_ animated: Bool) {
@@ -69,6 +74,10 @@ extension StoryScreenPresenter: StoryScreenViewOutput {
 		view.stopAnimation()
 		output.closeButtonDidTap()
 	}
+	
+	func networkErrorViewDidTapRetryButton() {
+		showSlide()
+	}
 }
 
 extension StoryScreenPresenter {
@@ -87,6 +96,7 @@ extension StoryScreenPresenter {
 		self.invalidateTimer()
 		self.player?.stop()
 		
+		self.view.removeNetworkErrorView()
 		if let viewModel = cacheManager.getViewModel(slideModel: slideModel) {
 			self.showSlide(viewModel: viewModel, slideModel: slideModel)
 		} else {
@@ -95,7 +105,9 @@ extension StoryScreenPresenter {
 				guard let self = self, let viewModel = viewModel as? SlideViewModel, index == self.storyModel.currentIndex else { return }
 				self.showSlide(viewModel: viewModel, slideModel: slideModel)
 			}, failure: { [weak self] error in
-				self?.view.showErrorAlert(error: error)
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					self?.view.addNetworkErrorView()
+				}
 				print(error)
 			})
 		}
@@ -185,8 +197,19 @@ extension StoryScreenPresenter {
 	private func runStoryActivity(slideModel: SlideModel) {
 		self.runTimerForSlide(slideModel: slideModel)
 		self.view.updateProgressView(storyModel: self.storyModel, needProgressAnimation: true)
-		updateAnimationOnSlide(needAnimation: true)
+		self.updateAnimationOnSlide(needAnimation: true)
 		self.playPlayer()
+		guard let viewModel = cacheManager.getViewModel(slideModel: slideModel) else { return }
+		self.notifyOutputIfNeeded(viewModel: viewModel)
+	}
+	
+	private func notifyOutputIfNeeded(viewModel: SlideViewModel) {
+		switch viewModel.type {
+		case .image:
+			output.didShowStoryWithImage()
+		case .video, .track:
+			output.didShowStoryWithVideoOrTrack()
+		}
 	}
 	
 	func runStoryActivityIfNeeded() {
@@ -217,5 +240,37 @@ extension StoryScreenPresenter {
 		} else if storyModel.currentIndex == 0 {
 			output?.needShowPrevStory()
 		}
+	}
+	
+	private func addObserver() {
+		NotificationCenter.default.addObserver(self,
+											   selector: #selector(applicationDidEnterBackgroundHandler),
+											   name: NSNotification.Name.UIApplicationWillResignActive,
+											   object: nil)
+		NotificationCenter.default.addObserver(self,
+											   selector: #selector(applicationWillEnterForegroundHandler),
+											   name: NSNotification.Name.UIApplicationDidBecomeActive,
+											   object: nil)
+	}
+	
+	@objc private func applicationDidEnterBackgroundHandler() {
+		updateAnimationFractionComplete()
+		pauseStoryScreen()
+	}
+	
+	@objc private func applicationWillEnterForegroundHandler() {
+		if #available(iOS 11.0, *) {
+		} else {
+			restartAnimationForIOS10()
+		}
+		resumeStoryScreen()
+	}
+	
+	private func updateAnimationFractionComplete() {
+		view.updateAnimationFractionComplete()
+	}
+	
+	private func restartAnimationForIOS10() {
+		view.restartAnimationForIOS10()
 	}
 }

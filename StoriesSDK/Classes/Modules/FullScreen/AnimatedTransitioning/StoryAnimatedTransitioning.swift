@@ -11,13 +11,12 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 	
 	init(direction: Direction) {
 		self.direction = direction
-		
 		super.init()
 	}
 	
 	func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-		let inView   = transitionContext.containerView
-		guard let toView   = transitionContext.view(forKey: .to),
+		let inView = transitionContext.containerView
+		guard let toView = transitionContext.view(forKey: .to),
 			let fromView = transitionContext.view(forKey: .from) else { return }
 		
 		let frame = inView.bounds

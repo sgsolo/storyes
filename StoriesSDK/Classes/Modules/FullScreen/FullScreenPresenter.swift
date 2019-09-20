@@ -117,6 +117,14 @@ extension FullScreenPresenter: FullScreenViewOutput {
 			storiesService.addDownloadQueue(slideModel: stories[prevStoryIndex].data.dataSlides[0])
 		}
 	}
+	
+	func didShowStoryWithImage() {
+		output.didShowStoryWithImage()
+	}
+	
+	func didShowStoryWithVideoOrTrack() {
+		output.didShowStoryWithVideoOrTrack()
+	}
 }
 
 extension FullScreenPresenter: FullScreenModuleInput {

@@ -19,6 +19,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	private var playerLayer: AVPlayerLayer?
 	private var gradientLayer: CAGradientLayer?
 	private var textLabelBottomConstraint: NSLayoutConstraint?
+	private var rubricLabelBottomConstraint: NSLayoutConstraint?
 	private var frontImageBottomConstraint: NSLayoutConstraint?
 	private var bottomButtonConstraint: NSLayoutConstraint?
 	
@@ -63,25 +64,31 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 			textLabel.isHidden = false
 			headerLabel.isHidden = false
 			rubricLabel.isHidden = false
-			if let frontImageUrl = model.frontImageUrl {
-				if let data = try? Data(contentsOf: frontImageUrl) {
-					frontImageView.image = UIImage(data: data)
-					textLabel.isHidden = true
-					headerLabel.isHidden = true
-					rubricLabel.isHidden = true
-				}
+			if let frontImageUrl = model.frontImageUrl,
+				let data = try? Data(contentsOf: frontImageUrl) {
+				frontImageView.image = UIImage(data: data)
+				textLabel.isHidden = true
+				headerLabel.isHidden = true
+				rubricLabel.isHidden = true
 			}
 		}
 		
-		textLabel.text = model.text ?? ""
-		headerLabel.text = model.header ?? ""
-		rubricLabel.text = model.rubric ?? ""
-		trackLabel.text = model.track ?? ""
+		textLabel.text = model.text
+		headerLabel.text = model.header
+		rubricLabel.text = model.rubric
+		trackLabel.text = model.track
+		
 		
 		if model.header == nil || model.header == "" {
 			textLabel.textColor = .white
+			rubricLabelBottomConstraint?.isActive = false
+			rubricLabelBottomConstraint = rubricLabel.bottomAnchor.constraint(equalTo: self.headerLabel.topAnchor, constant: 0)
+			rubricLabelBottomConstraint?.isActive = true
 		} else {
 			textLabel.textColor = UIColor(white: 1, alpha: 0.8)
+			rubricLabelBottomConstraint?.isActive = false
+			rubricLabelBottomConstraint = rubricLabel.bottomAnchor.constraint(equalTo: self.headerLabel.topAnchor, constant: -8)
+			rubricLabelBottomConstraint?.isActive = true
 		}
 		
 		ticketsButton.isHidden = true
@@ -297,7 +304,8 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		
 		rubricLabel.translatesAutoresizingMaskIntoConstraints = false
 		rubricLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: baseLeftRightMargin).isActive = true
-		rubricLabel.bottomAnchor.constraint(equalTo: self.headerLabel.topAnchor, constant: -8).isActive = true
+		rubricLabelBottomConstraint = rubricLabel.bottomAnchor.constraint(equalTo: self.headerLabel.topAnchor, constant: -8)
+		rubricLabelBottomConstraint?.isActive = true
 		rubricLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -baseLeftRightMargin).isActive = true
 	}
 	
