@@ -35,6 +35,7 @@ protocol StoryScreenViewOutput: class {
 	func tapOnLeftSide()
 	func tapOnRightSide()
 	func closeButtonDidTap()
+	func didTapOnButton(url: URL)
 	
 	func networkErrorViewDidTapRetryButton()
 }
@@ -135,6 +136,7 @@ extension StoryScreenViewController: StoryScreenViewInput {
 	
 	func addSlideView() {
 		self.view.addSubview(slideView)
+		slideView.delegate = self
 		slideView.translatesAutoresizingMaskIntoConstraints = false
 		slideView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
 		slideView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -369,5 +371,11 @@ extension StoryScreenViewController {
 extension StoryScreenViewController: NetworkErrorViewDelegate {
 	func didTapRetryButton() {
 		presenter.networkErrorViewDidTapRetryButton()
+	}
+}
+
+extension StoryScreenViewController: SlideViewOutput {
+	func didTapOnButton(url: URL) {
+		presenter.didTapOnButton(url: url)
 	}
 }

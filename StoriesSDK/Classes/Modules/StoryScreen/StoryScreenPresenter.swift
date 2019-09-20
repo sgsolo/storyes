@@ -75,6 +75,10 @@ extension StoryScreenPresenter: StoryScreenViewOutput {
 		output.closeButtonDidTap()
 	}
 	
+	func didTapOnButton(url: URL) {
+		output.didTapOnButton(url: url)
+	}
+	
 	func networkErrorViewDidTapRetryButton() {
 		showSlide()
 	}

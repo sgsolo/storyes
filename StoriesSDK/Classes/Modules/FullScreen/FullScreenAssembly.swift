@@ -10,6 +10,8 @@ public protocol FullScreenModuleOutput: class {
 	
 	func didShowStoryWithImage()
 	func didShowStoryWithVideoOrTrack()
+	
+	func didTapOnButton(url: URL, storyIndex: Int)
 }
 
 final class FullScreenAssembly {

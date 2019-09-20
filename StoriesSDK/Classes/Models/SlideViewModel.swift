@@ -42,6 +42,7 @@ struct SlideViewModel {
 		}
 	}
 	var buttonStyle: Int?
+	var buttonURL: URL?
 	
 	var slideDuration: Int = 0
 	var animationDuration: Float {
@@ -70,6 +71,9 @@ struct SlideViewModel {
 		
 		self.buttonText = slideModel.buttonText
 		self.buttonStyle = slideModel.buttonStyle
+		if let buttonURL = slideModel.buttonURL {
+			self.buttonURL = URL(string: buttonURL)
+		}
 		
 		self.slideDuration = slideModel.duration
 		

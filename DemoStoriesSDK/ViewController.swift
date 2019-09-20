@@ -7,7 +7,7 @@ class ViewController: UIViewController {
     var storiesCarousel: UIViewController!
     var carosuelModule: UIViewController!
     var storiesManager: YStoriesManager!
-    //    var fullScreen: FullScreenViewController!
+	var fullScreen: FullScreenViewController!
     var startFrame: CGRect!
     var endFrame: CGRect!
 	var targetApp: SupportedApp = .music
@@ -102,11 +102,21 @@ extension ViewController {
 	@objc private func closeButtonDidTap() {
 		self.dismiss(animated: true)
 	}
+	
+	private func showUrl(_ url: URL) {
+		self.fullScreen?.dismiss(animated: true) {
+			self.fullScreen = nil
+			let alert = UIAlertController(title: "Открыт диплинк", message: url.absoluteString, preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+			self.present(alert, animated: true)
+		}
+	}
 }
 
 extension ViewController: YStoriesManagerOutput {
     func needShowFullScreen(_ fullScreen: FullScreenViewController, from frame: CGRect) {
         self.startFrame = frame
+		self.fullScreen = fullScreen
         fullScreen.transitioningDelegate = self
         presentFullScreenView(fullScreen: fullScreen)
     }
@@ -114,13 +124,17 @@ extension ViewController: YStoriesManagerOutput {
     func fullScreenDidTapOnCloseButton(atStoryWith frame: CGRect) {
 		avPlayer.playIfNeeded()
         self.endFrame = frame
-        self.presentedViewController?.dismiss(animated: true)
+		self.fullScreen?.dismiss(animated: true) {
+			self.fullScreen = nil
+		}
     }
     
     func fullScreenStoriesDidEnd(atStoryWith frame: CGRect) {
 		avPlayer.playIfNeeded()
         self.endFrame = frame
-        self.presentedViewController?.dismiss(animated: true)
+		self.fullScreen?.dismiss(animated: true) {
+			self.fullScreen = nil
+		}
     }
     
     private func presentFullScreenView(fullScreen: FullScreenViewController) {
@@ -143,6 +157,11 @@ extension ViewController: YStoriesManagerOutput {
 	
 	func stopPlayerIfNeeded() {
 		avPlayer.pause()
+	}
+	
+	func openUrlIfPossible(url: URL, atStoryWith frame: CGRect) {
+		self.endFrame = frame
+		self.showUrl(url)
 	}
 }
 

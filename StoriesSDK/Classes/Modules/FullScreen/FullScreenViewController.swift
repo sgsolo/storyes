@@ -17,6 +17,7 @@ protocol FullScreenViewOutput: class {
 	func closeButtonDidTap()
 	func needShowPrevStory()
 	func needShowNextStory()
+	func didTapOnButton(url: URL)
 	
 	func didShowStoryWithImage()
 	func didShowStoryWithVideoOrTrack()
@@ -130,6 +131,10 @@ extension FullScreenViewController: StoryScreenModuleOutput {
 
 	func closeButtonDidTap() {
 		presenter.closeButtonDidTap()
+	}
+	
+	func didTapOnButton(url: URL) {
+		presenter.didTapOnButton(url: url)
 	}
 	
 	func didShowStoryWithImage() {

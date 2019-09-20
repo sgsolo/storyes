@@ -2,7 +2,10 @@
 import UIKit
 import AVFoundation
 
-class KinopoiskSlideView: UIView, SlideViewInput {
+class KinopoiskSlideView: UIView, SlideViewInputTrait {
+	
+	weak var delegate: SlideViewOutput?
+	var slideViewModel: SlideViewModel?
 	
 	private let baseLeftRightMargin: CGFloat = 24
 	private let listenButtonHeight: CGFloat = 48
@@ -54,6 +57,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 	}
 	
 	func setSlide(model: SlideViewModel) {
+		self.slideViewModel = model
 		self.backgroundImageView.image = nil
 		switch model.type {
 		case .video:
@@ -112,7 +116,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 			frontImageBottomConstraint?.isActive = false
 			frontImageBottomConstraint = frontImageView.bottomAnchor.constraint(equalTo: self.bottomButton.topAnchor, constant: -32)
 			frontImageBottomConstraint?.isActive = true
-		} else if let buttonText = model.buttonText {
+		} else if let buttonText = model.buttonText, model.buttonURL != nil {
 			bottomButton.isHidden = false
 			bottomButton.setTitle(buttonText, for: .normal)
 			configureButtonWithType(type: model.buttonStyle ?? 1)
@@ -198,6 +202,7 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		self.addSubview(bottomButton)
 		bottomButton.layer.cornerRadius = 4
 		bottomButton.titleLabel?.font = .kinopoiskFont(ofSize: 15, weight: .semibold)
+		bottomButton.addTarget(self, action: #selector(didTapOnBottomButton), for: .touchUpInside)
 		
 		bottomButton.translatesAutoresizingMaskIntoConstraints = false
 		bottomButton.heightAnchor.constraint(equalToConstant: listenButtonHeight).isActive = true
@@ -209,6 +214,11 @@ class KinopoiskSlideView: UIView, SlideViewInput {
 		bottomButtonConstraint?.isActive = true
 		bottomButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: baseLeftRightMargin).isActive = true
 		bottomButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -baseLeftRightMargin).isActive = true
+	}
+	
+	@objc private func didTapOnBottomButton() {
+		guard let buttonURL = slideViewModel?.buttonURL else { return }
+		delegate?.didTapOnButton(url: buttonURL)
 	}
 	
 	private func addFrontImageView() {

@@ -20,6 +20,7 @@ protocol StoryScreenModuleOutput: class {
 	func needShowPrevStory()
 	func needShowNextStory()
 	func closeButtonDidTap()
+	func didTapOnButton(url: URL)
 	
 	func didShowStoryWithImage()
 	func didShowStoryWithVideoOrTrack()

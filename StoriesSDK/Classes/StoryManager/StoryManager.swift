@@ -13,6 +13,7 @@ public protocol YStoriesManagerOutput: class {
 	
 	func playPlayerIfNeeded()
 	func stopPlayerIfNeeded()
+	func openUrlIfPossible(url: URL, atStoryWith frame: CGRect)
 }
 
 extension YStoriesManagerOutput {
@@ -75,6 +76,12 @@ extension YStoriesManager: FullScreenModuleOutput {
 	
 	public func didShowStoryWithVideoOrTrack() {
 		storiesManagerOutput?.stopPlayerIfNeeded()
+	}
+	
+	public func didTapOnButton(url: URL, storyIndex: Int) {
+		self.carosuelModule?.input.scrollTo(storyIndex: storyIndex)
+		let frame = self.carosuelModule?.input.getStoryFrame(at: storyIndex) ?? CGRect.zero
+		storiesManagerOutput?.openUrlIfPossible(url: url, atStoryWith: frame)
 	}
 }
 

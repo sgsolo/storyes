@@ -125,6 +125,10 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	func didShowStoryWithVideoOrTrack() {
 		output.didShowStoryWithVideoOrTrack()
 	}
+	
+	func didTapOnButton(url: URL) {
+		output.didTapOnButton(url: url, storyIndex: currentStory.storyIndex)
+	}
 }
 
 extension FullScreenPresenter: FullScreenModuleInput {

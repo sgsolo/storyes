@@ -2,7 +2,10 @@
 import UIKit
 import AVFoundation
 
-class MusicSlideView: UIView, SlideViewInput {
+class MusicSlideView: UIView, SlideViewInputTrait {
+	
+	weak var delegate: SlideViewOutput?
+	var slideViewModel: SlideViewModel?
 	
 	private let leftRightButtonMargin: CGFloat = 68
 	private let baseLeftRightMargin: CGFloat = 16
@@ -58,6 +61,7 @@ class MusicSlideView: UIView, SlideViewInput {
 	}
 	
 	func setSlide(model: SlideViewModel) {
+		self.slideViewModel = model
 		self.backgroundImageView.image = nil
 		switch model.type {
 		case .video:
@@ -84,7 +88,7 @@ class MusicSlideView: UIView, SlideViewInput {
 		trackLabel.text = model.track ?? ""
 		actorLabel.text = model.actor ?? ""
 
-		if let buttonText = model.buttonText {
+		if let buttonText = model.buttonText, let _ = model.buttonURL {
 			listenButton.isHidden = false
 			listenButton.setTitle(buttonText, for: .normal)
 			configureButtonWithType(type: model.buttonStyle ?? 1)
@@ -176,6 +180,7 @@ class MusicSlideView: UIView, SlideViewInput {
 		self.addSubview(listenButton)
 		listenButton.layer.cornerRadius = listenButtonHeight / 2
 		listenButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+		listenButton.addTarget(self, action: #selector(didTapOnListenButton), for: .touchUpInside)
 		
 		listenButton.translatesAutoresizingMaskIntoConstraints = false
 		listenButton.heightAnchor.constraint(equalToConstant: listenButtonHeight).isActive = true
@@ -185,6 +190,11 @@ class MusicSlideView: UIView, SlideViewInput {
 		bottomButtonConstraint?.isActive = true
 		
 		listenButton.backgroundColor = .white
+	}
+	
+	@objc private func didTapOnListenButton() {
+		guard let buttonURL = slideViewModel?.buttonURL else { return }
+		delegate?.didTapOnButton(url: buttonURL)
 	}
 	
 	private func configureButtonWithType(type: Int) {
