@@ -21,7 +21,18 @@ class StoriesCarouselViewController: UIViewController, CarouselViewInput {
     private var carouselPreviewAdapter: CarouselCollectionViewAdapter!
     private var configuration: CarouselConfiguration
     private(set) var titleLabel = UILabel()
-    private(set) var carouselPreview: UICollectionView!
+    lazy private(set) var carouselPreview: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = configuration.cellsSpacing
+        layout.sectionInset = configuration.sectionInset
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout
+        )
+        return collectionView
+    }()
+        
     
     // MARK: - Properties for overriding in subclass
     lazy var backgroundView: UIView? = {
@@ -40,7 +51,6 @@ class StoriesCarouselViewController: UIViewController, CarouselViewInput {
     init(with configuration: CarouselConfiguration) {
         self.configuration = configuration
         super.init(nibName: nil, bundle: nil)
-        createCollectionViewWithConfiguration(configuration)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -79,21 +89,9 @@ class StoriesCarouselViewController: UIViewController, CarouselViewInput {
 }
 
 // MARK: - UI creation & configuration
-extension StoriesCarouselViewController {
-    private func createCollectionViewWithConfiguration(_ config: CarouselConfiguration) {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = config.cellsSpacing
-        layout.sectionInset = config.sectionInset
-        carouselPreview = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: layout
-        )
-    }
-    
+extension StoriesCarouselViewController {    
     private func configureTitleLabel() {
         titleLabel.backgroundColor = .clear
-        titleLabel.numberOfLines = 1
         view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(

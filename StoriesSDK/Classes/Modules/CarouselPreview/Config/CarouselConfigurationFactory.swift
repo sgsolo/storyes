@@ -4,21 +4,17 @@ public enum CarouselConfigurationFactory {
     ) -> CarouselConfiguration {
         switch targetApp {
         case .kinopoisk:
-            return kpCarouselConfiguration(targetApp)
+            return kpCarouselConfiguration()
         case .music:
-            return musicCarouselConfiguration(targetApp)
+            return musicCarouselConfiguration()
         }
     }
     
-    private static func musicCarouselConfiguration(
-        _ targetApp: SupportedApp
-    ) -> CarouselConfiguration {
+    private static func musicCarouselConfiguration() -> CarouselConfiguration {
         return MusicCarouselConfiguration()
     }
     
-    private static func kpCarouselConfiguration(
-        _ targetApp: SupportedApp
-    ) -> CarouselConfiguration {
+    private static func kpCarouselConfiguration() -> CarouselConfiguration {
         return KPCarouselConfiguration()
     }
 }

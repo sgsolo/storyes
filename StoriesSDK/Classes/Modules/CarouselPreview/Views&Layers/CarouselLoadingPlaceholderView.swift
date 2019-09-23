@@ -1,11 +1,12 @@
 class CarouselLoadingPlaceholderView: UIView {
+    private var config = KPCarouselPlaceholderConfiguration()
+    
     override var isOpaque: Bool {
         get { return false }
         set { print("\(self): Setting isOpaque property is ignored and always is false")}
     }
     
     override func draw(_ rect: CGRect) {
-        let config = KPCarouselPlaceholderConfiguration()
         let cellSize = CarouselPreviewSizeCalculator.cellSize(
             forWidth: rect.width,
             carouselConfiguration: config

@@ -24,17 +24,16 @@ class MusicCarouselCell: StoriePreviewCell {
         let imageOverlayView = UIView()
         imageOverlayView.backgroundColor = .black
         imageOverlayView.alpha = 0.4
-        imageOverlayView.translatesAutoresizingMaskIntoConstraints = false
         return imageOverlayView
     }
     
     override var titleStringAttributes: [NSAttributedStringKey: Any] {
         return [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium),
-            NSAttributedString.Key.foregroundColor: UIColor.white,
-            NSAttributedString.Key.kern: -0.15,
-            NSAttributedString.Key.paragraphStyle: paragraph(),
-            NSAttributedString.Key.shadow: shadow()
+            .font: UIFont.systemFont(ofSize: 16, weight: .medium),
+            .foregroundColor: UIColor.white,
+            .kern: -0.15,
+            .paragraphStyle: paragraph(),
+            .shadow: shadow()
         ]
     }
     

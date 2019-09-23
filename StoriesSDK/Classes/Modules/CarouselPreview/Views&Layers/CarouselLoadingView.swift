@@ -14,9 +14,8 @@ class CarouselLoadingView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func removeFromSuperview() {
+    deinit {
         flickerGradiendLayer.removeAllAnimations()
-        super.removeFromSuperview()
     }
     
     func startAnimation() {
@@ -32,22 +31,22 @@ class CarouselLoadingView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.mask?.frame = bounds
-        flickerGradiendLayer.setAffineTransform(CGAffineTransform.identity)
+        flickerGradiendLayer.setAffineTransform(.identity)
         flickerGradiendLayer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         let height = CarouselLoadingView.flickerGradiendHeight
-        let animGradWidth = (2.0 * bounds.height * bounds.height).squareRoot() + height
+        let animatableGradientWidth = (2.0 * bounds.height * bounds.height).squareRoot() + height
         let frame = CGRect(
             x: 0,
             y: 0,
-            width: animGradWidth,
+            width: animatableGradientWidth,
             height: height
         )
         flickerGradiendLayer.frame = frame
         
-        let sqr = sqrt(height)
-        let xDelta = (sqr + sqr / 4).squareRoot()
+        let gradientHeightSqare = sqrt(height)
+        let xDelta = ((2 * gradientHeightSqare) / 4).squareRoot()
         flickerGradiendLayer.anchorPoint = CGPoint(x: 0, y: 0)
-        flickerGradiendLayer.position = CGPoint(x: -(animGradWidth + xDelta), y: bounds.maxY)
+        flickerGradiendLayer.position = CGPoint(x: -(animatableGradientWidth + xDelta), y: bounds.maxY)
         let rotation = CGAffineTransform(rotationAngle: CGFloat(Float.pi / -4.0))
         flickerGradiendLayer.setAffineTransform(rotation)
         flickerGradiendLayer.removeAllAnimations()

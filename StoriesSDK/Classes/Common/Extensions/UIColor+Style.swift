@@ -1,10 +1,10 @@
 extension UIColor {
-    private convenience init(r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
+    convenience init(r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat = 1.0) {
         let maxValue: CGFloat = 255.0
         let red = r/maxValue
         let green = g/maxValue
         let blue = b/maxValue
-        let alpha = (a > 0.0 && a < 1.0) ? a : 1.0
+        let alpha = (alpha > 0.0 && alpha < 1.0) ? alpha : 1.0
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
     
@@ -15,7 +15,7 @@ extension UIColor {
     
     // MARK - KP
     static let kpViewedStoryBorder = UIColor(white: 0, alpha: 0.2)
-    static let kpNonViewedStoryBorder = UIColor(r: 255, g: 102, b: 0, a: 1)
-    static let grayGradient = UIColor(r: 232, g: 232, b: 232, a: 1)
-    static let lightGrayGradient = UIColor(r: 242, g: 242, b: 242, a: 1)
+    static let kpNonViewedStoryBorder = UIColor(r: 255, g: 102, b: 0)
+    static let grayGradient = UIColor(r: 232, g: 232, b: 232)
+    static let lightGrayGradient = UIColor(r: 242, g: 242, b: 242)
 }

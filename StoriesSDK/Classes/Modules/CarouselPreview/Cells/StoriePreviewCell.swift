@@ -44,16 +44,6 @@ class StoriePreviewCell: UICollectionViewCell, RegistrableComponent {
     }
     
     private func configureImageView() {
-        func configureImageOverlayView() {
-            let imageOverlayView = self.imageOverlayView()
-            imageOverlayView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.addSubview(imageOverlayView)
-            imageOverlayView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
-            imageOverlayView.topAnchor.constraint(equalTo: imageView.topAnchor).isActive = true
-            imageView.trailingAnchor.constraint(equalTo: imageOverlayView.trailingAnchor).isActive = true
-            imageView.bottomAnchor.constraint(equalTo: imageOverlayView.bottomAnchor).isActive = true
-            imageOverlayView.layer.cornerRadius = imageCornerRadius
-        }
         imageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(imageView)
         imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: imageViewFrameSpacing).isActive = true
@@ -64,6 +54,17 @@ class StoriePreviewCell: UICollectionViewCell, RegistrableComponent {
         imageView.layer.cornerRadius = imageCornerRadius
         imageView.clipsToBounds = true
         configureImageOverlayView()
+    }
+    
+    private func configureImageOverlayView() {
+        let imageOverlayView = self.imageOverlayView()
+        imageOverlayView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.addSubview(imageOverlayView)
+        imageOverlayView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
+        imageOverlayView.topAnchor.constraint(equalTo: imageView.topAnchor).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: imageOverlayView.trailingAnchor).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: imageOverlayView.bottomAnchor).isActive = true
+        imageOverlayView.layer.cornerRadius = imageCornerRadius
     }
     
     private func configureTitleLabel() {

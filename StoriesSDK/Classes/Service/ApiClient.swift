@@ -119,42 +119,6 @@ class ApiClient {
 		taskPool.append(task)
 	}
 	
-	private func dataTaskForImage(_ urlString: String, success: Success?, failure: Failure?) {
-		guard let url = URL(string: urlString) else {
-			failure?(NSError(domain: "Invalid URL \(urlString)", code: 0, userInfo: nil))
-			return
-		}
-		let task = ApiClient.imageSession.dataTask(with: url) { data, response, error in
-			let httpResponse = response as? HTTPURLResponse
-			if let e = error {
-				print("REQUEST ERROR \(String(describing: response?.url)) \(e as NSError)")
-				DispatchQueue.main.async {
-					failure?(e)
-				}
-				return
-			}
-			
-			if [200, 201, 204].contains(httpResponse?.statusCode) {
-				if let data = data, !data.isEmpty {
-					DispatchQueue.main.async {
-						success?(data)
-					}
-				} else {
-					DispatchQueue.main.async {
-						success?(nil)
-					}
-				}
-			} else if httpResponse?.statusCode != 304 {
-				let e = NSError(domain: "Invalid status code", code: httpResponse?.statusCode ?? 0, userInfo: nil)
-				DispatchQueue.main.async {
-					failure?(e)
-				}
-			}
-		}
-		task.resume()
-		taskPool.append(task)
-	}
-	
 	private func downloadTask(_ url: URL, success: Success?, failure: Failure?) {
 		if let destinationUrl = self.cacheManager.getUrlWith(stringUrl: url.absoluteString) {
 			DispatchQueue.main.async {

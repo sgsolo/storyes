@@ -54,6 +54,7 @@ extension CarouselPreviewPresentrer: CarouselPreviewPresentrerInput {
     }
     
     private func loadImages() {
+        // TODO: make image loading queue
         for (index, story) in stories.enumerated() {
             guard let url = URL(string: story.imageURL) else {
                 continue

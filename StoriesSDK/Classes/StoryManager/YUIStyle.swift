@@ -11,7 +11,7 @@ public enum YColorTheme {
 
 // MARK: -
 protocol YUIStyle {
-    var storiesTitle: UIColor { get }
+    var storiesTitleColor: UIColor { get }
     var viewedStoryBorderColor: UIColor { get }
     var nonViewedStoryBorderColor: UIColor { get }
 }
@@ -29,8 +29,8 @@ class YUIStyleService {
 }
 
 extension YUIStyleService: YUIStyle {
-    var storiesTitle: UIColor {
-        return uiStyle.storiesTitle
+    var storiesTitleColor: UIColor {
+        return uiStyle.storiesTitleColor
     }
     
     var viewedStoryBorderColor: UIColor {
@@ -69,19 +69,19 @@ private enum YUIStyleFactory {
 }
 
 class YMusicUIStyleLight: YUIStyle {
-    public let storiesTitle = UIColor.black
+    public let storiesTitleColor = UIColor.black
     var viewedStoryBorderColor = UIColor.musicViewedStoryBorderLight
     var nonViewedStoryBorderColor = UIColor.musicNonViewedStoryBorder
 }
 
 class YMusicUIStyleDark: YUIStyle {
-    public let storiesTitle = UIColor.white
+    public let storiesTitleColor = UIColor.white
     var viewedStoryBorderColor = UIColor.musicViewedStoryBorderDark
     var nonViewedStoryBorderColor = UIColor.musicNonViewedStoryBorder
 }
 
 class YKinopoiskUIStyle: YUIStyle {
-    public let storiesTitle = UIColor.white
+    public let storiesTitleColor = UIColor.white
     var viewedStoryBorderColor = UIColor.kpViewedStoryBorder
     var nonViewedStoryBorderColor = UIColor.kpNonViewedStoryBorder
 }

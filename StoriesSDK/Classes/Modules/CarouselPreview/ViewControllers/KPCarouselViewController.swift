@@ -11,9 +11,9 @@ class KPCarouselViewController: StoriesCarouselViewController {
     
     override var titleAttributes: [NSAttributedStringKey: Any] {
         return [
-            NSAttributedString.Key.font: UIFont.kinopoiskFont(ofSize: 20, weight: .bold),
-            NSAttributedString.Key.foregroundColor: UIColor.black,
-            NSAttributedString.Key.paragraphStyle: paragraph(),
+            .font: UIFont.kinopoiskFont(ofSize: 20, weight: .bold),
+            .foregroundColor: UIColor.black,
+            .paragraphStyle: paragraph(),
         ]
     }
     
@@ -28,7 +28,6 @@ class KPCarouselViewController: StoriesCarouselViewController {
             self.loadingView?.alpha = 0.0
             self.carouselPreview.alpha = 1.0
         }, completion: { _ in
-            self.loadingView?.removeFromSuperview()
             self.loadingView = nil
         })
     }
