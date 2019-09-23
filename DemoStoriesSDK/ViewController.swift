@@ -3,11 +3,9 @@ import StoriesSDK
 import AVFoundation
 
 class ViewController: UIViewController {
-//    #warning("Temporary: just for UI testing")
     var storiesCarousel: UIViewController!
     var carosuelModule: UIViewController!
     var storiesManager: YStoriesManager!
-    //    var fullScreen: FullScreenViewController!
     var startFrame: CGRect!
     var endFrame: CGRect!
 	var targetApp: SupportedApp = .music
@@ -20,18 +18,28 @@ class ViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		self.view.backgroundColor = .white
-		
-        storiesManager = YStoriesManager(targetApp: targetApp, user: "user", experiments: [:], storiesManagerOutput: self)
+		addCloseButton()
+        let isDark = UserDefaults.standard.bool(forKey: kIsColorThemeDark)
+        let colorTheme = YColorTheme(isDark)
+        applyColorTheme(colorTheme)
+        YStoriesManager.configure(
+            for: targetApp,
+            with: colorTheme
+        )
+        storiesManager = YStoriesManager(
+            storiesManagerOutput: self
+        )
         storiesCarousel = storiesManager.caruselViewController
+        self.addChildViewController(storiesCarousel)
         view.addSubview(storiesCarousel.view)
         storiesCarousel.view.translatesAutoresizingMaskIntoConstraints = false
         storiesCarousel.view.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         storiesCarousel.view.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        storiesCarousel.view.topAnchor.constraint(equalTo: view.topAnchor, constant: 60).isActive = true
-        storiesCarousel.view.heightAnchor.constraint(equalToConstant: 500).isActive = true
+        storiesCarousel.view.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        let h = CarouselPreviewSizeCalculator.carouselHeight(forWidth: view.bounds.width, targetApp: targetApp)
+        storiesCarousel.view.heightAnchor.constraint(equalToConstant: h).isActive = true
         storiesCarousel.view.isUserInteractionEnabled = false
-        
+        storiesCarousel.didMove(toParentViewController: self)
         storiesManager.loadStories()
 		
 		if targetApp == .music {
@@ -43,6 +51,24 @@ class ViewController: UIViewController {
 	deinit {
 		NotificationCenter.default.removeObserver(self)
 	}
+    
+    // Может быть переопределен в подклассе
+    func applyColorTheme(_ theme: YColorTheme) {
+        switch theme {
+        case .dark:
+            makeDarkUI()
+        case .light:
+            makeLightUI()
+        }
+    }
+    
+    func makeDarkUI() {
+        assertionFailure("Реализовать в подклассе")
+    }
+    
+    func makeLightUI() {
+        assertionFailure("Реализовать в подклассе")
+    }
 }
 
 extension ViewController {

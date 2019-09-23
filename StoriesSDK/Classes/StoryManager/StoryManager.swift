@@ -3,6 +3,7 @@ import UIKit
 public protocol YStoriesManagerInput {
     var caruselViewController: UIViewController? { get }
     func loadStories()
+    func colorThemeDidChange(_ toColorTheme: YColorTheme)
 }
 
 public protocol YStoriesManagerOutput: class {
@@ -26,32 +27,41 @@ public enum SupportedApp: String {
 }
 
 public class YStoriesManager: YStoriesManagerInput {
-	
-	static var targetApp: SupportedApp = .music
-	public static var needUseMockData = false
-	
+    public static var needUseMockData = false
+    
+    public static func configure(for targetApp: SupportedApp, with colorTheme: YColorTheme) {
+        self.targetApp = targetApp
+        self.uiStyle = YUIStyleService(
+            with: colorTheme,
+            for: targetApp
+        )
+    }
+    
+    public static func setColorTheme(_ colorTheme: YColorTheme) {
+        self.uiStyle = YUIStyleService(
+            with: colorTheme,
+            for: self.targetApp
+        )
+    }
+    
+    private(set) static var targetApp: SupportedApp = .music
+    private(set) static var uiStyle: YUIStyle = YMusicUIStyleLight()
+    
     public var caruselViewController: UIViewController?
     private var carosuelModule: CarouselPreviewModule?
     private var fullScreenModule: FullScreenModuleInput?
 	
-    private let user: String
-    private let experiments: Dictionary<String, Any>
     weak private var storiesManagerOutput: YStoriesManagerOutput?
     private let storiesService: StoriesServiceInput = StoriesService.shared
     
-    //TODO: добавить тему
-    public init(targetApp: SupportedApp, user: String, experiments: Dictionary<String, Any> /*тема*/, storiesManagerOutput: YStoriesManagerOutput) {
-        YStoriesManager.targetApp = targetApp
-        self.user = user
-        self.experiments = experiments
+    public init(storiesManagerOutput: YStoriesManagerOutput) {
         self.storiesManagerOutput = storiesManagerOutput
         UIFont.loadAllFonts
-        makeCaruselViewController()
+        makeCarouselViewController(for: YStoriesManager.targetApp)
     }
     
-    func makeCaruselViewController() {
-        let config = CarouselPreviewConfiguration(carouselWidth: UIScreen.main.bounds.width)
-        self.carosuelModule = CarouselPreviewAssembly.setup(withConfig: config, delegate: self)
+    func makeCarouselViewController(for targetApp: SupportedApp) {
+        self.carosuelModule = CarouselPreviewAssembly.setup(for: targetApp, delegate: self)
         caruselViewController = self.carosuelModule?.view
     }
 }
@@ -82,9 +92,24 @@ extension YStoriesManager {
     public func loadStories() {
         storiesService.getStories(success: { [weak self] _ in
             self?.storiesManagerOutput?.storiesDidLoad(true, error: nil)
+            guard let stories = self?.storiesService.stories else {
+                return
+            }
+            self?.carosuelModule?.input.storiesDidLoad(stories: stories)
         }) { [weak self] error in
             self?.storiesManagerOutput?.storiesDidLoad(false, error: error)
         }
+    }
+    
+    public func colorThemeDidChange(_ toColorTheme: YColorTheme) {
+        YStoriesManager.uiStyle = YUIStyleService(
+            with: toColorTheme,
+            for: YStoriesManager.targetApp
+        )
+        NotificationCenter.default.post(
+            name: YStoriesNotification.colorThemeDidChange,
+            object: toColorTheme
+        )
     }
 }
 

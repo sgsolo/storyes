@@ -6,10 +6,8 @@ public typealias Failure = ((Error) -> Void)
 typealias Parametrs = Dictionary<String, String>
 
 protocol ApiClientInput {
-	// TODO: for test
 	func getCarusel(success: Success?, failure: Failure?)
 	func getData(_ url: URL, success: Success?, failure: Failure?)
-	func getImage(_ urlString: String, success: Success?, failure: Failure?)
 }
 
 extension ApiClient: ApiClientInput {
@@ -29,10 +27,6 @@ extension ApiClient: ApiClientInput {
 
 	public func getData(_ url: URL, success: Success?, failure: Failure?) {
 		downloadTask(url, success: success, failure: failure)
-	}
-	
-	public func getImage(_ urlString: String, success: Success?, failure: Failure?) {
-		dataTaskForImage(urlString, success: success, failure: failure)
 	}
 }
 
@@ -106,42 +100,6 @@ class ApiClient {
 			if [200, 201, 204].contains(httpResponse?.statusCode) {
 				if let data = data, !data.isEmpty {
 //					let json = try? JSONSerialization.jsonObject(with: data, options: [])
-					DispatchQueue.main.async {
-						success?(data)
-					}
-				} else {
-					DispatchQueue.main.async {
-						success?(nil)
-					}
-				}
-			} else if httpResponse?.statusCode != 304 {
-				let e = NSError(domain: "Invalid status code", code: httpResponse?.statusCode ?? 0, userInfo: nil)
-				DispatchQueue.main.async {
-					failure?(e)
-				}
-			}
-		}
-		task.resume()
-		taskPool.append(task)
-	}
-	
-	private func dataTaskForImage(_ urlString: String, success: Success?, failure: Failure?) {
-		guard let url = URL(string: urlString) else {
-			failure?(NSError(domain: "Invalid URL \(urlString)", code: 0, userInfo: nil))
-			return
-		}
-		let task = ApiClient.imageSession.dataTask(with: url) { data, response, error in
-			let httpResponse = response as? HTTPURLResponse
-			if let e = error {
-				print("REQUEST ERROR \(String(describing: response?.url)) \(e as NSError)")
-				DispatchQueue.main.async {
-					failure?(e)
-				}
-				return
-			}
-			
-			if [200, 201, 204].contains(httpResponse?.statusCode) {
-				if let data = data, !data.isEmpty {
 					DispatchQueue.main.async {
 						success?(data)
 					}

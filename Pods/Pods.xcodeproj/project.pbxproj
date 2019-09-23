@@ -38,6 +38,17 @@
 		9B65A39C3044E8A989F66CE183AFC75A /* Pods-DemoStoriesSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = ECF9975B26AEAA6BC84B2F333AE48C73 /* Pods-DemoStoriesSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A136B91BE50F54E4E39D4FF8D85AA2A0 /* CollectionViewItemsSizeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA19A98A5C64E8449C3A028124E4DE24 /* CollectionViewItemsSizeProvider.swift */; };
 		ABF20371012FFE951E16F7D0AE6C8473 /* Pods-DemoStoriesSDK_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FEDC90F34EA94F07C56EB63CC25021E /* Pods-DemoStoriesSDK_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2099CBC233123D800DB5078 /* MusicCarouselConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099CBB233123D800DB5078 /* MusicCarouselConfiguration.swift */; };
+		B2099CBE233123F900DB5078 /* KPCarouselConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099CBD233123F900DB5078 /* KPCarouselConfiguration.swift */; };
+		B2099CC02331240F00DB5078 /* KPCarouselPlaceholderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099CBF2331240F00DB5078 /* KPCarouselPlaceholderConfiguration.swift */; };
+		B2099CC2233124A800DB5078 /* StoryCellAspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099CC1233124A800DB5078 /* StoryCellAspectRatio.swift */; };
+		B212CE8A2332010500541FE7 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B212CE892332010500541FE7 /* GradientView.swift */; };
+		B212CE8E2332016300541FE7 /* CarouselLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B212CE8D2332016300541FE7 /* CarouselLoadingView.swift */; };
+		B212CE90233201A900541FE7 /* CarouselLoadingPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B212CE8F233201A900541FE7 /* CarouselLoadingPlaceholderView.swift */; };
+		B245AB80232A191D0047E6A2 /* KPCarouselViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B245AB7F232A191D0047E6A2 /* KPCarouselViewController.swift */; };
+		B245AB82232A1FF90047E6A2 /* MusicCarouselViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B245AB81232A1FF90047E6A2 /* MusicCarouselViewController.swift */; };
+		B2500014232F5C94007ACFD3 /* YStoriesNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2500013232F5C94007ACFD3 /* YStoriesNotification.swift */; };
+		B27199F3232A8E1D008BBC82 /* YUIStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27199F2232A8E1D008BBC82 /* YUIStyle.swift */; };
 		B27AC9272317E3C500110B52 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9262317E3C500110B52 /* Player.swift */; };
 		B27AC9292317E43A00110B52 /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9282317E43A00110B52 /* CacheService.swift */; };
 		B27AC92B2317E47E00110B52 /* NSLockingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC92A2317E47E00110B52 /* NSLockingExtension.swift */; };
@@ -47,18 +58,12 @@
 		B27AC9352317E58400110B52 /* StoryScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9302317E58400110B52 /* StoryScreenPresenter.swift */; };
 		B27AC9362317E58400110B52 /* MusicSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9322317E58400110B52 /* MusicSlideView.swift */; };
 		B27AC9482317E5F400110B52 /* CarouselCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9372317E5F300110B52 /* CarouselCollectionViewAdapter.swift */; };
-		B27AC9492317E5F400110B52 /* MockStoriesPreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9392317E5F300110B52 /* MockStoriesPreviewData.swift */; };
-		B27AC94A2317E5F400110B52 /* Preview3.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B27AC93A2317E5F300110B52 /* Preview3.jpeg */; };
-		B27AC94B2317E5F400110B52 /* Preview2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B27AC93B2317E5F300110B52 /* Preview2.jpeg */; };
-		B27AC94C2317E5F400110B52 /* Preview4.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B27AC93C2317E5F300110B52 /* Preview4.jpeg */; };
-		B27AC94D2317E5F400110B52 /* Preview1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B27AC93D2317E5F300110B52 /* Preview1.jpeg */; };
-		B27AC94E2317E5F400110B52 /* Preview0.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B27AC93E2317E5F300110B52 /* Preview0.jpeg */; };
 		B27AC94F2317E5F400110B52 /* CarouselPreviewPresentrer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC93F2317E5F300110B52 /* CarouselPreviewPresentrer.swift */; };
 		B27AC9502317E5F400110B52 /* StoriePreviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9412317E5F300110B52 /* StoriePreviewModel.swift */; };
 		B27AC9512317E5F400110B52 /* CarouselPreviewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9422317E5F400110B52 /* CarouselPreviewAssembly.swift */; };
-		B27AC9522317E5F400110B52 /* CarouselPreviewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9442317E5F400110B52 /* CarouselPreviewConfiguration.swift */; };
+		B27AC9522317E5F400110B52 /* CarouselConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9442317E5F400110B52 /* CarouselConfiguration.swift */; };
 		B27AC9532317E5F400110B52 /* CarouselPreviewSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9452317E5F400110B52 /* CarouselPreviewSizeCalculator.swift */; };
-		B27AC9542317E5F400110B52 /* CarouselPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9462317E5F400110B52 /* CarouselPreviewViewController.swift */; };
+		B27AC9542317E5F400110B52 /* StoriesCarouselViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9462317E5F400110B52 /* StoriesCarouselViewController.swift */; };
 		B27AC9552317E5F400110B52 /* StoriePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9472317E5F400110B52 /* StoriePreviewCell.swift */; };
 		B27AC9622317E67200110B52 /* FullScreenAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9562317E67200110B52 /* FullScreenAssembly.swift */; };
 		B27AC9632317E67200110B52 /* FullScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9572317E67200110B52 /* FullScreenPresenter.swift */; };
@@ -73,6 +78,10 @@
 		B27AC96F2317E6AD00110B52 /* SlideViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC96D2317E6AD00110B52 /* SlideViewModel.swift */; };
 		B27AC9732317E7C500110B52 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27AC9712317E7C500110B52 /* ApiClient.swift */; };
 		B27AC9742317E7C500110B52 /* stories.json in Resources */ = {isa = PBXBuildFile; fileRef = B27AC9722317E7C500110B52 /* stories.json */; };
+		B2D82B622328E4FF00D84981 /* MusicCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D82B612328E4FF00D84981 /* MusicCarouselCell.swift */; };
+		B2D82B642328FF7300D84981 /* KinopoiskCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D82B632328FF7300D84981 /* KinopoiskCarouselCell.swift */; };
+		B2D82B6623293C3700D84981 /* UIColor+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D82B6523293C3700D84981 /* UIColor+Style.swift */; };
+		B2D82B6A23293D8A00D84981 /* CarouselConfigurationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D82B6923293D8A00D84981 /* CarouselConfigurationFactory.swift */; };
 		C314A80388C5C3B02BAFB83BEAD7EE82 /* DisplayableComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156594702ADA317FF36CCFC0F501E781 /* DisplayableComponent.swift */; };
 		CE0155F6C20BD7B715CC7B463EB2C12C /* BaseCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391E7D8E3B94E51955CFA3D0FF2C28C5 /* BaseCollectionViewAdapter.swift */; };
 		D5060C9B4EF5CA12A5F5691F06BB698D /* PauseTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8186616A598FD810D23B87344D6D500C /* PauseTimer.swift */; };
@@ -141,6 +150,17 @@
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A3F5C205036F2850A1F97F29FC31BCBF /* RegistrableSupplementaryViewComponent.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RegistrableSupplementaryViewComponent.swift; sourceTree = "<group>"; };
 		AA4906D81D4F6DC321FF43317F85F728 /* Pods_DemoStoriesSDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoStoriesSDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2099CBB233123D800DB5078 /* MusicCarouselConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicCarouselConfiguration.swift; sourceTree = "<group>"; };
+		B2099CBD233123F900DB5078 /* KPCarouselConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPCarouselConfiguration.swift; sourceTree = "<group>"; };
+		B2099CBF2331240F00DB5078 /* KPCarouselPlaceholderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPCarouselPlaceholderConfiguration.swift; sourceTree = "<group>"; };
+		B2099CC1233124A800DB5078 /* StoryCellAspectRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCellAspectRatio.swift; sourceTree = "<group>"; };
+		B212CE892332010500541FE7 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		B212CE8D2332016300541FE7 /* CarouselLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselLoadingView.swift; sourceTree = "<group>"; };
+		B212CE8F233201A900541FE7 /* CarouselLoadingPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselLoadingPlaceholderView.swift; sourceTree = "<group>"; };
+		B245AB7F232A191D0047E6A2 /* KPCarouselViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPCarouselViewController.swift; sourceTree = "<group>"; };
+		B245AB81232A1FF90047E6A2 /* MusicCarouselViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicCarouselViewController.swift; sourceTree = "<group>"; };
+		B2500013232F5C94007ACFD3 /* YStoriesNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YStoriesNotification.swift; sourceTree = "<group>"; };
+		B27199F2232A8E1D008BBC82 /* YUIStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YUIStyle.swift; sourceTree = "<group>"; };
 		B27AC9262317E3C500110B52 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		B27AC9282317E43A00110B52 /* CacheService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
 		B27AC92A2317E47E00110B52 /* NSLockingExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLockingExtension.swift; sourceTree = "<group>"; };
@@ -150,18 +170,12 @@
 		B27AC9302317E58400110B52 /* StoryScreenPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryScreenPresenter.swift; sourceTree = "<group>"; };
 		B27AC9322317E58400110B52 /* MusicSlideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicSlideView.swift; sourceTree = "<group>"; };
 		B27AC9372317E5F300110B52 /* CarouselCollectionViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewAdapter.swift; sourceTree = "<group>"; };
-		B27AC9392317E5F300110B52 /* MockStoriesPreviewData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockStoriesPreviewData.swift; sourceTree = "<group>"; };
-		B27AC93A2317E5F300110B52 /* Preview3.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Preview3.jpeg; sourceTree = "<group>"; };
-		B27AC93B2317E5F300110B52 /* Preview2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Preview2.jpeg; sourceTree = "<group>"; };
-		B27AC93C2317E5F300110B52 /* Preview4.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Preview4.jpeg; sourceTree = "<group>"; };
-		B27AC93D2317E5F300110B52 /* Preview1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Preview1.jpeg; sourceTree = "<group>"; };
-		B27AC93E2317E5F300110B52 /* Preview0.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Preview0.jpeg; sourceTree = "<group>"; };
 		B27AC93F2317E5F300110B52 /* CarouselPreviewPresentrer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselPreviewPresentrer.swift; sourceTree = "<group>"; };
 		B27AC9412317E5F300110B52 /* StoriePreviewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoriePreviewModel.swift; sourceTree = "<group>"; };
 		B27AC9422317E5F400110B52 /* CarouselPreviewAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselPreviewAssembly.swift; sourceTree = "<group>"; };
-		B27AC9442317E5F400110B52 /* CarouselPreviewConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselPreviewConfiguration.swift; sourceTree = "<group>"; };
+		B27AC9442317E5F400110B52 /* CarouselConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselConfiguration.swift; sourceTree = "<group>"; };
 		B27AC9452317E5F400110B52 /* CarouselPreviewSizeCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselPreviewSizeCalculator.swift; sourceTree = "<group>"; };
-		B27AC9462317E5F400110B52 /* CarouselPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselPreviewViewController.swift; sourceTree = "<group>"; };
+		B27AC9462317E5F400110B52 /* StoriesCarouselViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoriesCarouselViewController.swift; sourceTree = "<group>"; };
 		B27AC9472317E5F400110B52 /* StoriePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoriePreviewCell.swift; sourceTree = "<group>"; };
 		B27AC9562317E67200110B52 /* FullScreenAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenAssembly.swift; sourceTree = "<group>"; };
 		B27AC9572317E67200110B52 /* FullScreenPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenPresenter.swift; sourceTree = "<group>"; };
@@ -176,6 +190,10 @@
 		B27AC96D2317E6AD00110B52 /* SlideViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideViewModel.swift; sourceTree = "<group>"; };
 		B27AC9712317E7C500110B52 /* ApiClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		B27AC9722317E7C500110B52 /* stories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stories.json; sourceTree = "<group>"; };
+		B2D82B612328E4FF00D84981 /* MusicCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicCarouselCell.swift; sourceTree = "<group>"; };
+		B2D82B632328FF7300D84981 /* KinopoiskCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinopoiskCarouselCell.swift; sourceTree = "<group>"; };
+		B2D82B6523293C3700D84981 /* UIColor+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Style.swift"; sourceTree = "<group>"; };
+		B2D82B6923293D8A00D84981 /* CarouselConfigurationFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselConfigurationFactory.swift; sourceTree = "<group>"; };
 		B31834D8BB41D8A89E2C6DD47664F550 /* Pods-DemoStoriesSDK-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DemoStoriesSDK-acknowledgements.markdown"; sourceTree = "<group>"; };
 		B66B85851704E0165265A884086B5417 /* Pods-DemoStoriesSDK_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DemoStoriesSDK_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		C11C21137E492AC8FE1DDA959DF5F050 /* Pods-DemoStoriesSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DemoStoriesSDK.modulemap"; sourceTree = "<group>"; };
@@ -246,14 +264,14 @@
 		130EE3F5CB92CFD5CA91602D008E56C2 /* CarouselPreview */ = {
 			isa = PBXGroup;
 			children = (
-				B27AC9372317E5F300110B52 /* CarouselCollectionViewAdapter.swift */,
 				B27AC9422317E5F400110B52 /* CarouselPreviewAssembly.swift */,
 				B27AC93F2317E5F300110B52 /* CarouselPreviewPresentrer.swift */,
 				B27AC9452317E5F400110B52 /* CarouselPreviewSizeCalculator.swift */,
-				B27AC9462317E5F400110B52 /* CarouselPreviewViewController.swift */,
+				B212CE88233200A300541FE7 /* Views&Layers */,
+				B212CE85233126CB00541FE7 /* ViewControllers */,
+				B2D82B6823293D6500D84981 /* Config */,
+				B2D82B6723293D2100D84981 /* Cells */,
 				B27AC9432317E5F400110B52 /* Models */,
-				B27AC9472317E5F400110B52 /* StoriePreviewCell.swift */,
-				B27AC9382317E5F300110B52 /* tmp */,
 				B27AC9402317E5F300110B52 /* View Models */,
 			);
 			path = CarouselPreview;
@@ -263,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				C3392C0C7151FE2E9658174DA816DACA /* RegistrableSource.swift */,
+				B2500013232F5C94007ACFD3 /* YStoriesNotification.swift */,
 			);
 			path = "Enums and types";
 			sourceTree = "<group>";
@@ -291,6 +310,7 @@
 				C9E2110B056F49D1859A7DA475E875BA /* LayerExtension.swift */,
 				B27AC92A2317E47E00110B52 /* NSLockingExtension.swift */,
 				6B37D847231E502A00F7CF7B /* UIFontExtension.swift */,
+				B2D82B6523293C3700D84981 /* UIColor+Style.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -418,6 +438,27 @@
 			path = FullScreen;
 			sourceTree = "<group>";
 		};
+		B212CE85233126CB00541FE7 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B27AC9372317E5F300110B52 /* CarouselCollectionViewAdapter.swift */,
+				B27AC9462317E5F400110B52 /* StoriesCarouselViewController.swift */,
+				B245AB81232A1FF90047E6A2 /* MusicCarouselViewController.swift */,
+				B245AB7F232A191D0047E6A2 /* KPCarouselViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B212CE88233200A300541FE7 /* Views&Layers */ = {
+			isa = PBXGroup;
+			children = (
+				B212CE892332010500541FE7 /* GradientView.swift */,
+				B212CE8D2332016300541FE7 /* CarouselLoadingView.swift */,
+				B212CE8F233201A900541FE7 /* CarouselLoadingPlaceholderView.swift */,
+			);
+			path = "Views&Layers";
+			sourceTree = "<group>";
+		};
 		B27AC9252317E3C500110B52 /* Player */ = {
 			isa = PBXGroup;
 			children = (
@@ -437,19 +478,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		B27AC9382317E5F300110B52 /* tmp */ = {
-			isa = PBXGroup;
-			children = (
-				B27AC9392317E5F300110B52 /* MockStoriesPreviewData.swift */,
-				B27AC93A2317E5F300110B52 /* Preview3.jpeg */,
-				B27AC93B2317E5F300110B52 /* Preview2.jpeg */,
-				B27AC93C2317E5F300110B52 /* Preview4.jpeg */,
-				B27AC93D2317E5F300110B52 /* Preview1.jpeg */,
-				B27AC93E2317E5F300110B52 /* Preview0.jpeg */,
-			);
-			path = tmp;
-			sourceTree = "<group>";
-		};
 		B27AC9402317E5F300110B52 /* View Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,7 +489,6 @@
 		B27AC9432317E5F400110B52 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B27AC9442317E5F400110B52 /* CarouselPreviewConfiguration.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -512,6 +539,29 @@
 			);
 			name = Service;
 			path = StoriesSDK/Classes/Service;
+			sourceTree = "<group>";
+		};
+		B2D82B6723293D2100D84981 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B27AC9472317E5F400110B52 /* StoriePreviewCell.swift */,
+				B2D82B612328E4FF00D84981 /* MusicCarouselCell.swift */,
+				B2D82B632328FF7300D84981 /* KinopoiskCarouselCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		B2D82B6823293D6500D84981 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				B2D82B6923293D8A00D84981 /* CarouselConfigurationFactory.swift */,
+				B27AC9442317E5F400110B52 /* CarouselConfiguration.swift */,
+				B2099CBB233123D800DB5078 /* MusicCarouselConfiguration.swift */,
+				B2099CBD233123F900DB5078 /* KPCarouselConfiguration.swift */,
+				B2099CBF2331240F00DB5078 /* KPCarouselPlaceholderConfiguration.swift */,
+				B2099CC1233124A800DB5078 /* StoryCellAspectRatio.swift */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		B6519748F5574D349CD969E59BA6BE6A /* Modules */ = {
@@ -593,6 +643,7 @@
 			isa = PBXGroup;
 			children = (
 				8B7A6FE78846756984F00F32B0A13DB1 /* StoryManager.swift */,
+				B27199F2232A8E1D008BBC82 /* YUIStyle.swift */,
 			);
 			name = StoryManager;
 			path = StoriesSDK/Classes/StoryManager;
@@ -734,11 +785,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B27AC94A2317E5F400110B52 /* Preview3.jpeg in Resources */,
 				6B37D845231E441B00F7CF7B /* Graphik Kinopoisk LC-Medium.otf in Resources */,
-				B27AC94E2317E5F400110B52 /* Preview0.jpeg in Resources */,
-				B27AC94B2317E5F400110B52 /* Preview2.jpeg in Resources */,
-				B27AC94D2317E5F400110B52 /* Preview1.jpeg in Resources */,
 				0947A2DE966B1E04550FF43523AE50CA /* Images.xcassets in Resources */,
 				B27AC9742317E7C500110B52 /* stories.json in Resources */,
 				6B37D841231E441B00F7CF7B /* Graphik Kinopoisk LC-Bold Italic.otf in Resources */,
@@ -746,7 +793,6 @@
 				6B37D840231E441B00F7CF7B /* Graphik Kinopoisk LC-Bold.otf in Resources */,
 				6B37D842231E441B00F7CF7B /* Graphik Kinopoisk LC-Regular.otf in Resources */,
 				6B37D844231E441B00F7CF7B /* Graphik Kinopoisk LC-Light.otf in Resources */,
-				B27AC94C2317E5F400110B52 /* Preview4.jpeg in Resources */,
 				6B37D846231E441B00F7CF7B /* Graphik Kinopoisk LC-Semibold Italic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -776,31 +822,43 @@
 				B27AC96E2317E6AD00110B52 /* Models tmp.swift in Sources */,
 				B27AC92B2317E47E00110B52 /* NSLockingExtension.swift in Sources */,
 				CE0155F6C20BD7B715CC7B463EB2C12C /* BaseCollectionViewAdapter.swift in Sources */,
+				B2099CC2233124A800DB5078 /* StoryCellAspectRatio.swift in Sources */,
+				B2500014232F5C94007ACFD3 /* YStoriesNotification.swift in Sources */,
 				A136B91BE50F54E4E39D4FF8D85AA2A0 /* CollectionViewItemsSizeProvider.swift in Sources */,
+				B2099CBC233123D800DB5078 /* MusicCarouselConfiguration.swift in Sources */,
 				6B37D848231E502B00F7CF7B /* UIFontExtension.swift in Sources */,
+				B212CE8E2332016300541FE7 /* CarouselLoadingView.swift in Sources */,
+				B212CE90233201A900541FE7 /* CarouselLoadingPlaceholderView.swift in Sources */,
 				B27AC9652317E67200110B52 /* FullScreenViewController.swift in Sources */,
 				B27AC9672317E67200110B52 /* StoryAnimatedTransitioning.swift in Sources */,
 				B27AC9482317E5F400110B52 /* CarouselCollectionViewAdapter.swift in Sources */,
 				5D766B176D10F010877467F5DF2C42CB /* ConfigurableComponent.swift in Sources */,
+				B2099CC02331240F00DB5078 /* KPCarouselPlaceholderConfiguration.swift in Sources */,
 				B27AC9662317E67200110B52 /* StoryContextTransitioning.swift in Sources */,
 				C314A80388C5C3B02BAFB83BEAD7EE82 /* DisplayableComponent.swift in Sources */,
 				B27AC9342317E58400110B52 /* StoryScreenAssembly.swift in Sources */,
 				B27AC96A2317E67200110B52 /* ProgressTabView.swift in Sources */,
 				B27AC9532317E5F400110B52 /* CarouselPreviewSizeCalculator.swift in Sources */,
 				B27AC9502317E5F400110B52 /* StoriePreviewModel.swift in Sources */,
+				B27199F3232A8E1D008BBC82 /* YUIStyle.swift in Sources */,
+				B212CE8A2332010500541FE7 /* GradientView.swift in Sources */,
+				B245AB82232A1FF90047E6A2 /* MusicCarouselViewController.swift in Sources */,
 				B27AC9512317E5F400110B52 /* CarouselPreviewAssembly.swift in Sources */,
 				6B69A1A3231D20D200CBAA41 /* SlideViewInput.swift in Sources */,
-				B27AC9542317E5F400110B52 /* CarouselPreviewViewController.swift in Sources */,
+				B27AC9542317E5F400110B52 /* StoriesCarouselViewController.swift in Sources */,
 				138F294A2B36C2DBB8CDF786F7B8E183 /* LayerExtension.swift in Sources */,
 				B27AC9622317E67200110B52 /* FullScreenAssembly.swift in Sources */,
 				B27AC9272317E3C500110B52 /* Player.swift in Sources */,
 				B27AC96F2317E6AD00110B52 /* SlideViewModel.swift in Sources */,
 				B27AC9682317E67200110B52 /* FullScreenAnimatedTransitioning.swift in Sources */,
+				B2D82B6623293C3700D84981 /* UIColor+Style.swift in Sources */,
 				B27AC9552317E5F400110B52 /* StoriePreviewCell.swift in Sources */,
 				6B37D84A231E59BF00F7CF7B /* Constants.swift in Sources */,
+				B27AC9522317E5F400110B52 /* CarouselConfiguration.swift in Sources */,
 				6B454F69232A7D1C004CB4BA /* NetworkErrorView.swift in Sources */,
 				B27AC9522317E5F400110B52 /* CarouselPreviewConfiguration.swift in Sources */,
 				6B69A1A7231D216500CBAA41 /* KinopoiskSlideView.swift in Sources */,
+				B2D82B642328FF7300D84981 /* KinopoiskCarouselCell.swift in Sources */,
 				B27AC9292317E43A00110B52 /* CacheService.swift in Sources */,
 				D5060C9B4EF5CA12A5F5691F06BB698D /* PauseTimer.swift in Sources */,
 				102D538E4A253B4CBFE5F1D025C21457 /* RegistrableComponent.swift in Sources */,
@@ -809,19 +867,22 @@
 				0EFB89A1D73FBB54A81033E80D24ACD7 /* RegistrableSupplementaryViewComponent.swift in Sources */,
 				B27AC9692317E67200110B52 /* StoryInteractiveTransitioning.swift in Sources */,
 				232F3AA9319FE430520801D738338D5D /* ReusableComponent.swift in Sources */,
+				B2D82B622328E4FF00D84981 /* MusicCarouselCell.swift in Sources */,
+				B2D82B6A23293D8A00D84981 /* CarouselConfigurationFactory.swift in Sources */,
 				B27AC9642317E67200110B52 /* LoaderView.swift in Sources */,
 				B27AC9332317E58400110B52 /* StoryScreenViewController.swift in Sources */,
 				6B26F17D23276F5F003AE619 /* AnimatedImageView.swift in Sources */,
 				2EA84DA7051E92A96D704A3D9CB7873E /* StoriesSDK-dummy.m in Sources */,
 				2D22C4E55CA0DC677BC52D0EDB69B305 /* StoryManager.swift in Sources */,
 				B27AC9732317E7C500110B52 /* ApiClient.swift in Sources */,
+				B2099CBE233123F900DB5078 /* KPCarouselConfiguration.swift in Sources */,
 				6B37D84C231E706600F7CF7B /* SafeArray.swift in Sources */,
 				B27AC92D2317E49700110B52 /* SafeDictionary.swift in Sources */,
+				B245AB80232A191D0047E6A2 /* KPCarouselViewController.swift in Sources */,
 				6B115C812318163A006FB92F /* ShortTapGestureRecognizer.swift in Sources */,
 				B27AC9352317E58400110B52 /* StoryScreenPresenter.swift in Sources */,
 				01F16B4604063EE68E06B1EEF1C02E44 /* StoryService.swift in Sources */,
 				B27AC94F2317E5F400110B52 /* CarouselPreviewPresentrer.swift in Sources */,
-				B27AC9492317E5F400110B52 /* MockStoriesPreviewData.swift in Sources */,
 				B27AC9632317E67200110B52 /* FullScreenPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
