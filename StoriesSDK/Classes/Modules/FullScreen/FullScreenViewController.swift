@@ -189,7 +189,7 @@ extension FullScreenViewController {
 			fromVC?.view.transform = CGAffineTransform(scaleX: scaleXY, y: scaleXY).translatedBy(x: 0, y: translatedByY)
 			backgroundView.backgroundColor = backgroundView.backgroundColor?.withAlphaComponent(1 - (percentY / 2))
 		case .ended, .cancelled:
-			if percentY > 0.3 {
+			if percentY > 0.15 {
 				fromModuleInput?.stopAnimation()
 				fromModuleInput?.invalidateTimer()
 				self.backgroundView.backgroundColor = self.backgroundView.backgroundColor?.withAlphaComponent(0)
