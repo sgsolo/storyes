@@ -2,18 +2,20 @@ import UIKit
 
 class StoryContextTransitioning: NSObject, UIViewControllerContextTransitioning {
 	
+	let completeTransition: (_ didComplete: Bool) -> Void
 	var viewControllers: [UITransitionContextViewControllerKey : UIViewController]
 	var views: [UITransitionContextViewKey : UIView]
-	var completeTransition: ((_ didComplete: Bool) -> Void)?
 	var containerView: UIView
 	var isAnimated: Bool = true
 	var isInteractive: Bool = true
 	var transitionWasCancelled: Bool = false
 	var presentationStyle: UIModalPresentationStyle = .custom
 	var targetTransform: CGAffineTransform = CGAffineTransform()
+	var percentComplete: CGFloat = 0
 	
-	init(from: UIViewController, to: UIViewController) {
+	init(from: UIViewController, to: UIViewController, completeTransitionBlock: @escaping (Bool) -> Void) {
 		self.containerView = from.view.superview ?? UIView()
+		self.completeTransition = completeTransitionBlock
 		viewControllers = [UITransitionContextViewControllerKey.to: to,
 						   UITransitionContextViewControllerKey.from: from]
 		views = [UITransitionContextViewKey.to: to.view,
@@ -29,12 +31,6 @@ class StoryContextTransitioning: NSObject, UIViewControllerContextTransitioning 
 	}
 	
 	func cancelInteractiveTransition() {
-		//TODO: фикс мигагния при отмене интерактивного перехода
-		views[.to]?.isHidden = true
-		views[.to]?.frame = CGRect.zero
-		views[.to]?.setNeedsLayout()
-		views[.to]?.layoutIfNeeded()
-		
 		transitionWasCancelled = true
 	}
 	
@@ -42,7 +38,7 @@ class StoryContextTransitioning: NSObject, UIViewControllerContextTransitioning 
 	}
 	
 	func completeTransition(_ didComplete: Bool) {
-		completeTransition?(didComplete)
+		completeTransition(didComplete)
 	}
 	
 	func viewController(forKey key: UITransitionContextViewControllerKey) -> UIViewController? {

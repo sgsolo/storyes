@@ -100,8 +100,7 @@ extension FullScreenViewController: FullScreenViewInput {
 		fromVC.beginAppearanceTransition(false, animated: true)
 		
 		let storyAnimatedTransitioning = StoryAnimatedTransitioning(direction: direction)
-		let privateAnimatedTransition = StoryContextTransitioning(from: fromVC, to: controller)
-		privateAnimatedTransition.completeTransition = { [weak self] _ in
+		let privateAnimatedTransition = StoryContextTransitioning(from: fromVC, to: controller, completeTransitionBlock: { [weak self] _ in
 			guard let self = self else { return }
 			self.addChildViewController(controller)
 			self.view.addSubview(controller.view)
@@ -115,7 +114,8 @@ extension FullScreenViewController: FullScreenViewInput {
 			
 			self.fromVC = controller
 			self.fromModuleInput = moduleInput
-		}
+		})
+		storyAnimatedTransitioning.setStartPosition(using: privateAnimatedTransition)
 		storyAnimatedTransitioning.animateTransition(using: privateAnimatedTransition)
 	}
 }
@@ -150,7 +150,8 @@ extension FullScreenViewController {
 	@objc func handleSwipeGesture(_ gesture: UIPanGestureRecognizer) {
 		guard let gestureView = gesture.view else { return }
 		let translate = gesture.translation(in: gestureView)
-		let percent = abs(translate.x) / gestureView.bounds.size.width
+		var percent = abs(translate.x) / gestureView.bounds.size.width
+		if percent > 1 { percent = 1 }
 		let velocity = gesture.velocity(in: gesture.view)
 		
 		switch gesture.state {
@@ -206,7 +207,6 @@ extension FullScreenViewController {
 		default:
 			break
 		}
-
 	}
 	
 	func startInteractiveTransition(storyModel: StoryModel) {
@@ -223,8 +223,7 @@ extension FullScreenViewController {
 		fromVC.beginAppearanceTransition(false, animated: true)
 		
 		let storyAnimatedTransitioning = StoryAnimatedTransitioning(direction: direction)
-		let privateAnimatedTransition = StoryContextTransitioning(from: fromVC, to: controller)
-		privateAnimatedTransition.completeTransition = { didComplete in
+		let privateAnimatedTransition = StoryContextTransitioning(from: fromVC, to: controller, completeTransitionBlock: { didComplete in
 			if didComplete {
 				self.addChildViewController(controller)
 				self.view.addSubview(controller.view)
@@ -242,7 +241,6 @@ extension FullScreenViewController {
 				self.fromModuleInput = moduleInput
 				self.presenter.interactiveTransitionDidEnd(direction: self.direction)
 			} else {
-//				self.fromVC.endAppearanceTransition()
 				controller.view.removeFromSuperview()
 				controller.removeFromParentViewController()
 				fromModuleInput.isTransitionInProgress = false
@@ -251,7 +249,7 @@ extension FullScreenViewController {
 				
 				moduleInput.stopAnimation()
 			}
-		}
+		})
 		interactionController = StoryInteractiveTransitioning(animator: storyAnimatedTransitioning)
 		interactionController?.startInteractiveTransition(privateAnimatedTransition)
 	}
