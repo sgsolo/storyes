@@ -1,35 +1,74 @@
-public protocol CarouselPreviewPresentrerInput {
+protocol CarouselPreviewPresentrerInput {
 	func scrollTo(storyIndex: Int)
 	func getStoryFrame(at storyIndex: Int) -> CGRect
+    func storiesDidLoad(stories: StoriesModel)
 }
 
-public protocol CarouselPreviewPresentrerOutput: class {
+protocol CarouselPreviewPresentrerOutput: class {
 	func didSelectStory(at index: Int, frame: CGRect)
 }
 
-public final class CarouselPreviewPresentrer {
-    weak var view: CarouselPreviewInput!
+final class CarouselPreviewPresentrer {
+    weak var view: CarouselViewInput!
 	weak var output: CarouselPreviewPresentrerOutput!
+    private(set) var stories: [StoriePreviewModel] = []
+    private(set) var viewAppear = false
 }
 
-extension CarouselPreviewPresentrer: CarouselPreviewOutput {
-    public func viewDidLoad() {
-        let mockData = MockStoriesPreviewData.storiesPreviewData()
-        let sectionData = CollectionSectionData(objects: mockData)
-        view.showData([sectionData])
+extension CarouselPreviewPresentrer: CarouselViewOutput {
+    func viewWillAppear() {
+        guard viewAppear == false else {
+            return
+        }
+        view.showLoadingView()
+        viewAppear = true
+        if !stories.isEmpty {
+            let sectionData = CollectionSectionData(objects: self.stories)
+            view.showData([sectionData])
+        }
     }
 	
-	public func didSelectCollectionCell(at indexPath: IndexPath, frame: CGRect) {
+    func didSelectCollectionCell(at indexPath: IndexPath, frame: CGRect) {
 		output.didSelectStory(at: indexPath.item, frame: frame)
 	}
 }
 
 extension CarouselPreviewPresentrer: CarouselPreviewPresentrerInput {
-	public func scrollTo(storyIndex: Int) {
+    func scrollTo(storyIndex: Int) {
 		view.scrollTo(storyIndex: storyIndex)
 	}
 	
-	public func getStoryFrame(at storyIndex: Int) -> CGRect {
+	func getStoryFrame(at storyIndex: Int) -> CGRect {
 		return view.getStoryFrame(at: storyIndex)
 	}
+    
+    func storiesDidLoad(stories: StoriesModel) {
+        stories.forEach { story in
+            self.stories.append(StoriePreviewModel(with: story.data))
+        }
+        let sectionData = CollectionSectionData(objects: self.stories)
+        if viewAppear {
+            view.showData([sectionData])
+        }
+        loadImages()
+    }
+    
+    private func loadImages() {
+        // TODO: make image loading queue
+        for (index, story) in stories.enumerated() {
+            guard let url = URL(string: story.imageURL) else {
+                continue
+            }
+            StoriesService.shared.getData(url, success: { [weak self] data in
+                guard let imageLocalURL = data as? URL,
+                    let imageData = try? Data(contentsOf: imageLocalURL) else {
+                    return
+                }
+                story.image = UIImage(data: imageData)
+                if self?.viewAppear == true {
+                    self?.view.updateCarousel(index: index)
+                }
+            }, failure: nil)
+        }
+    }
 }
