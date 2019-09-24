@@ -92,14 +92,10 @@ class KinopoiskSlideView: UIView, SlideViewInputTrait {
 		
 		if model.header == nil || model.header == "" {
 			textLabel.textColor = .white
-			rubricLabelBottomConstraint?.isActive = false
-			rubricLabelBottomConstraint = rubricLabel.bottomAnchor.constraint(equalTo: self.headerLabel.topAnchor, constant: 0)
-			rubricLabelBottomConstraint?.isActive = true
+			rubricLabelBottomConstraint?.constant = 0
 		} else {
 			textLabel.textColor = UIColor(white: 1, alpha: 0.8)
-			rubricLabelBottomConstraint?.isActive = false
-			rubricLabelBottomConstraint = rubricLabel.bottomAnchor.constraint(equalTo: self.headerLabel.topAnchor, constant: -8)
-			rubricLabelBottomConstraint?.isActive = true
+			rubricLabelBottomConstraint?.constant = 0
 		}
 		
 		ticketsButton.isHidden = true
@@ -108,34 +104,18 @@ class KinopoiskSlideView: UIView, SlideViewInputTrait {
 			bottomButton.isHidden = true
 			ticketsButton.isHidden = false
 			bookmarkButton.isHidden = false
-			
-			textLabelBottomConstraint?.isActive = false
-			textLabelBottomConstraint = textLabel.bottomAnchor.constraint(equalTo: self.bottomButton.topAnchor, constant: -32)
-			textLabelBottomConstraint?.isActive = true
-			
-			frontImageBottomConstraint?.isActive = false
-			frontImageBottomConstraint = frontImageView.bottomAnchor.constraint(equalTo: self.bottomButton.topAnchor, constant: -32)
-			frontImageBottomConstraint?.isActive = true
+			textLabelBottomConstraint?.constant = -32
+			frontImageBottomConstraint?.constant = -32
 		} else if let buttonText = model.buttonText, model.buttonURL != nil {
 			bottomButton.isHidden = false
 			bottomButton.setTitle(buttonText, for: .normal)
 			configureButtonWithType(type: model.buttonStyle ?? 1)
-			textLabelBottomConstraint?.isActive = false
-			textLabelBottomConstraint = textLabel.bottomAnchor.constraint(equalTo: self.bottomButton.topAnchor, constant: -32)
-			textLabelBottomConstraint?.isActive = true
-			
-			frontImageBottomConstraint?.isActive = false
-			frontImageBottomConstraint = frontImageView.bottomAnchor.constraint(equalTo: self.bottomButton.topAnchor, constant: -32)
-			frontImageBottomConstraint?.isActive = true
+			textLabelBottomConstraint?.constant = -32
+			frontImageBottomConstraint?.constant = -32
 		} else {
 			bottomButton.isHidden = true
-			textLabelBottomConstraint?.isActive = false
-			textLabelBottomConstraint = textLabel.bottomAnchor.constraint(equalTo: self.bottomButton.bottomAnchor)
-			textLabelBottomConstraint?.isActive = true
-			
-			frontImageBottomConstraint?.isActive = false
-			frontImageBottomConstraint = frontImageView.bottomAnchor.constraint(equalTo: self.bottomButton.bottomAnchor)
-			frontImageBottomConstraint?.isActive = true
+			textLabelBottomConstraint?.constant = listenButtonHeight
+			frontImageBottomConstraint?.constant = listenButtonHeight
 		}
 		self.setNeedsLayout()
 		self.layoutIfNeeded()
