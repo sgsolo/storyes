@@ -24,6 +24,7 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 	private var gradientLayer: CAGradientLayer?
 	private var topGradientLayer: CAGradientLayer?
 	private var bottomButtonConstraint: NSLayoutConstraint?
+	private var textLabelBottonConstraint: NSLayoutConstraint?
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -85,15 +86,17 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 		headerLabel.attributedText = attributedTextForHeaderLabel(text: model.header ?? "", isBounded: isBounded)
 		rubricLabel.attributedText = attributedTextForRubricLabel(text: model.rubric ?? "", isBounded: isBounded)
 
-		trackLabel.text = model.track ?? ""
-		actorLabel.text = model.actor ?? ""
+		trackLabel.text = model.track
+		actorLabel.text = model.actor
 
 		if let buttonText = model.buttonText, let _ = model.buttonURL {
 			listenButton.isHidden = false
 			listenButton.setTitle(buttonText, for: .normal)
 			configureButtonWithType(type: model.buttonStyle ?? 1)
+			textLabelBottonConstraint?.constant = -36
 		} else {
 			listenButton.isHidden = true
+			textLabelBottonConstraint?.constant = 0
 		}
 		self.setNeedsLayout()
 		self.layoutIfNeeded()
@@ -105,7 +108,7 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 			self.setAlphaForAnimatedViews(alpha: 0)
 			bottomButtonConstraint?.constant = 50
 			self.layoutIfNeeded()
-			bottomButtonConstraint?.constant = -48
+			bottomButtonConstraint?.constant = isIphoneX ? -48 : -14
 			if needAnimation {
 				propertyAnimator?.addAnimations {
 					self.layoutIfNeeded()
@@ -147,8 +150,13 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 		backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
 		backgroundImageView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
 		backgroundImageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-		backgroundImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 44).isActive = true
-		backgroundImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -102).isActive = true
+		if isIphoneX {
+			backgroundImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 44).isActive = true
+			backgroundImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -102).isActive = true
+		} else {
+			backgroundImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+			backgroundImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+		}
 	}
 	
 	private func addBackgroundImageViewTopGradient() {
@@ -158,7 +166,7 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 		backgroundImageViewTopGradientContainer.leftAnchor.constraint(equalTo: self.backgroundImageView.leftAnchor).isActive = true
 		backgroundImageViewTopGradientContainer.rightAnchor.constraint(equalTo: self.backgroundImageView.rightAnchor).isActive = true
 		backgroundImageViewTopGradientContainer.topAnchor.constraint(equalTo: self.backgroundImageView.topAnchor).isActive = true
-		backgroundImageViewTopGradientContainer.heightAnchor.constraint(equalToConstant: 100).isActive = true
+		backgroundImageViewTopGradientContainer.heightAnchor.constraint(equalToConstant: 150).isActive = true
 	}
 	
 	private func addTopGradient() {
@@ -186,7 +194,11 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 		listenButton.heightAnchor.constraint(equalToConstant: listenButtonHeight).isActive = true
 		listenButton.widthAnchor.constraint(equalToConstant: 240).isActive = true
 		listenButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-		bottomButtonConstraint = listenButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48)
+		if isIphoneX {
+			bottomButtonConstraint = listenButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48)
+		} else {
+			bottomButtonConstraint = listenButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -14)
+		}
 		bottomButtonConstraint?.isActive = true
 		
 		listenButton.backgroundColor = .white
@@ -220,7 +232,8 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 		
 		textLabel.translatesAutoresizingMaskIntoConstraints = false
 		textLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: baseLeftRightMargin).isActive = true
-		textLabel.bottomAnchor.constraint(equalTo: self.listenButton.topAnchor, constant: -36).isActive = true
+		textLabelBottonConstraint = textLabel.bottomAnchor.constraint(equalTo: self.listenButton.topAnchor, constant: -36)
+		textLabelBottonConstraint?.isActive = true
 		textLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -baseLeftRightMargin).isActive = true
 	}
 	
@@ -311,8 +324,12 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 		
 		trackLabel.translatesAutoresizingMaskIntoConstraints = false
 		trackLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: baseLeftRightMargin).isActive = true
-		trackLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 80).isActive = true
 		trackLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -60).isActive = true
+		if isIphoneX {
+			trackLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 80).isActive = true
+		} else {
+			trackLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 50).isActive = true
+		}
 	}
 	
 	private func addActorLabel() {
@@ -323,8 +340,12 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 		
 		actorLabel.translatesAutoresizingMaskIntoConstraints = false
 		actorLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: baseLeftRightMargin).isActive = true
-		actorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 101).isActive = true
 		actorLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -60).isActive = true
+		if isIphoneX {
+			actorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 101).isActive = true
+		} else {
+			actorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 71).isActive = true
+		}
 	}
 	
 	private func addPlayerLayer(player: AVPlayer) {

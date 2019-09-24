@@ -178,8 +178,10 @@ extension StoryScreenViewController: StoryScreenViewInput {
 		closeButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
 		closeButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
 		switch YStoriesManager.targetApp {
-		case .music:
+		case .music where isIphoneX:
 			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 76).isActive = true
+		case .music:
+			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 50).isActive = true
 		case .kinopoisk where isIphoneX:
 			closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 85).isActive = true
 		case .kinopoisk:
@@ -298,8 +300,11 @@ extension StoryScreenViewController {
 		stackView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
 		stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
 		switch YStoriesManager.targetApp {
-		case .music:
+		case .music where isIphoneX:
 			stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 60).isActive = true
+			stackView.heightAnchor.constraint(equalToConstant: 4).isActive = true
+		case .music:
+			stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 36).isActive = true
 			stackView.heightAnchor.constraint(equalToConstant: 4).isActive = true
 		case .kinopoisk where isIphoneX:
 			stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 70).isActive = true
