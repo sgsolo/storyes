@@ -40,11 +40,15 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 		case .leftToRight:
 			inView.insertSubview(toView, belowSubview: fromView)
 			fromView.transform = .identity
-			toView.transform = CGAffineTransform(scaleX: scale, y: scale).translatedBy(x: -frame.size.width, y: 0)
+			fromView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
+			toView.transform = CGAffineTransform(scaleX: scale, y: scale)
+			toView.center = CGPoint(x: -frame.size.width * (1/2 + (1 - scale)), y: toView.center.y)
 		case .rightToLeft:
 			inView.insertSubview(toView, belowSubview: fromView)
 			fromView.transform = .identity
-			toView.transform = CGAffineTransform(scaleX: scale, y: scale).translatedBy(x: frame.size.width, y: 0)
+			fromView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
+			toView.transform = CGAffineTransform(scaleX: scale, y: scale)
+			toView.center = CGPoint(x: frame.size.width * (3/2 + (1 - scale)), y: toView.center.y)
 		}
 	}
 	
@@ -61,18 +65,20 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 		let scaleFactorFrom = 1 - percentComplete * (1 - scale)
 		let xOffsetFrom = frame.size.width * percentComplete
 		
-		switch direction {
-		case .leftToRight:
-			fromView.center = CGPoint(x: xOffsetFrom + frame.size.width / 2, y: fromView.center.y)
-			fromView.transform = CGAffineTransform(scaleX: scaleFactorFrom, y: scaleFactorFrom)
-			toView.center = CGPoint(x: -xOffsetTo + frame.size.width / 2, y: toView.center.y)
-			toView.transform = CGAffineTransform(scaleX: scaleFactorTo, y: scaleFactorTo)
-		case .rightToLeft:
-			fromView.transform = CGAffineTransform(scaleX: scaleFactorFrom, y: scaleFactorFrom)
-			fromView.center = CGPoint(x: -xOffsetFrom + frame.size.width / 2, y: fromView.center.y)
-			toView.transform = CGAffineTransform(scaleX: scaleFactorTo, y: scaleFactorTo)
-			toView.center = CGPoint(x: xOffsetTo + frame.size.width / 2, y: toView.center.y)
-		}
+		UIView.animate(withDuration: 0.1, animations: {
+			switch self.direction {
+			case .leftToRight:
+				fromView.transform = CGAffineTransform(scaleX: scaleFactorFrom, y: scaleFactorFrom)
+				fromView.center = CGPoint(x: xOffsetFrom + frame.size.width / 2, y: fromView.center.y)
+				toView.transform = CGAffineTransform(scaleX: scaleFactorTo, y: scaleFactorTo)
+				toView.center = CGPoint(x: -xOffsetTo + frame.size.width / 2, y: toView.center.y)
+			case .rightToLeft:
+				fromView.transform = CGAffineTransform(scaleX: scaleFactorFrom, y: scaleFactorFrom)
+				fromView.center = CGPoint(x: -xOffsetFrom + frame.size.width / 2, y: fromView.center.y)
+				toView.transform = CGAffineTransform(scaleX: scaleFactorTo, y: scaleFactorTo)
+				toView.center = CGPoint(x: xOffsetTo + frame.size.width / 2, y: toView.center.y)
+			}
+		})
 	}
 	
 	func animateCancelledTransition(using transitionContext: UIViewControllerContextTransitioning, percentComplete: CGFloat) {
@@ -96,7 +102,7 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 				fromView.transform = .identity
 				fromView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
 				toView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
-				toView.center = CGPoint(x: 1.5 * frame.size.width, y: fromView.center.y)
+				toView.center = CGPoint(x: 3/2 * frame.size.width, y: fromView.center.y)
 			}, completion: { finished in
 				transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
 			})
@@ -115,7 +121,7 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 				toView.transform = .identity
 				toView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
 				fromView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
-				fromView.center = CGPoint(x: 1.5 * frame.size.width, y: fromView.center.y)
+				fromView.center = CGPoint(x: 3/2 * frame.size.width, y: fromView.center.y)
 			}, completion: { finished in
 				transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
 			})
