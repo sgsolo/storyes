@@ -151,14 +151,12 @@ class ApiClient {
 					}
 					return
 				}
-				if !Thread.isMainThread {
-					DispatchQueue.main.sync {
-						if let destinationUrl = self.cacheManager.saveToCacheIfNeeded(url, currentLocation: location) {
-							success?(destinationUrl)
-						} else {
-							let error = NSError(domain: "Url not contains in cache", code: 0)
-							failure?(error)
-						}
+				DispatchQueue.main.async {
+					if let destinationUrl = self.cacheManager.saveToCacheIfNeeded(url, currentLocation: location) {
+						success?(destinationUrl)
+					} else {
+						let error = NSError(domain: "Url not contains in cache", code: 0)
+						failure?(error)
 					}
 				}
 			}
