@@ -10,7 +10,6 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 	let direction: Direction
 	let transitionDuration: CGFloat = 0.25
 	let scale: CGFloat = 0.8
-	let padding: CGFloat = 6
 	
 	init(direction: Direction) {
 		self.direction = direction
@@ -41,11 +40,11 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 		case .leftToRight:
 			inView.insertSubview(toView, belowSubview: fromView)
 			fromView.transform = .identity
-			toView.transform = CGAffineTransform(scaleX: scale, y: scale).translatedBy(x: -frame.size.width - padding, y: 0)
+			toView.transform = CGAffineTransform(scaleX: scale, y: scale).translatedBy(x: -frame.size.width, y: 0)
 		case .rightToLeft:
 			inView.insertSubview(toView, belowSubview: fromView)
 			fromView.transform = .identity
-			toView.transform = CGAffineTransform(scaleX: scale, y: scale).translatedBy(x: frame.size.width + padding, y: 0)
+			toView.transform = CGAffineTransform(scaleX: scale, y: scale).translatedBy(x: frame.size.width, y: 0)
 		}
 	}
 	
@@ -57,12 +56,10 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 		let frame = inView.bounds
 		
 		let scaleFactorTo = scale + percentComplete * (1 - scale)
-		let xOffsetTo = (frame.size.width + padding) * (1 - percentComplete)
-		print("xOffsetTo \(xOffsetTo)")
+		let xOffsetTo = frame.size.width * (1 - percentComplete)
 		
 		let scaleFactorFrom = 1 - percentComplete * (1 - scale)
-		let xOffsetFrom = (frame.size.width + padding) * percentComplete
-		print("xOffsetFrom \(xOffsetFrom)")
+		let xOffsetFrom = frame.size.width * percentComplete
 		
 		switch direction {
 		case .leftToRight:
@@ -90,7 +87,7 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 				fromView.transform = .identity
 				fromView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
 				toView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
-				toView.center = CGPoint(x: -frame.size.width / 2 - self.padding, y: fromView.center.y)
+				toView.center = CGPoint(x: -frame.size.width / 2, y: fromView.center.y)
 			}, completion: { finished in
 				transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
 			})
@@ -99,7 +96,7 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 				fromView.transform = .identity
 				fromView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
 				toView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
-				toView.center = CGPoint(x: 1.5 * frame.size.width + self.padding, y: fromView.center.y)
+				toView.center = CGPoint(x: 1.5 * frame.size.width, y: fromView.center.y)
 			}, completion: { finished in
 				transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
 			})
@@ -118,7 +115,7 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 				toView.transform = .identity
 				toView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
 				fromView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
-				fromView.center = CGPoint(x: 1.5 * frame.size.width + self.padding, y: fromView.center.y)
+				fromView.center = CGPoint(x: 1.5 * frame.size.width, y: fromView.center.y)
 			}, completion: { finished in
 				transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
 			})
@@ -127,7 +124,7 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 				toView.transform = .identity
 				toView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
 				fromView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
-				fromView.center = CGPoint(x: -frame.size.width / 2 - self.padding, y: fromView.center.y)
+				fromView.center = CGPoint(x: -frame.size.width / 2, y: fromView.center.y)
 			}, completion: { finished in
 				transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
 			})
