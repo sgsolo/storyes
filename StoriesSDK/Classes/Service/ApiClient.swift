@@ -42,14 +42,6 @@ class ApiClient {
 		return URLSession(configuration: configuration)
 	}()
 
-	static var imageSession: URLSession = {
-		let configuration = URLSessionConfiguration.default
-		configuration.httpMaximumConnectionsPerHost = 1
-		configuration.httpShouldUsePipelining = false
-		configuration.urlCache = URLCache(memoryCapacity: Int.max, diskCapacity: Int.max, diskPath: "imageCache")
-		return URLSession(configuration: configuration)
-	}()
-
 	static var downloadSession: URLSession = {
 		let configuration = URLSessionConfiguration.default
 		configuration.timeoutIntervalForRequest = 120
@@ -89,17 +81,16 @@ class ApiClient {
 	private func dataTask(_ urlRequest: URLRequest, success: Success?, failure: Failure?) {
 		let task = ApiClient.apiSession.dataTask(with: urlRequest) { data, response, error in
 			let httpResponse = response as? HTTPURLResponse
-			if let e = error {
-				print("REQUEST ERROR \(String(describing: response?.url)) \(e as NSError)")
+			if let error = error {
+				print("REQUEST ERROR \(String(describing: response?.url)) \(error as NSError)")
 				DispatchQueue.main.async {
-					failure?(e)
+					failure?(error)
 				}
 				return
 			}
 			
 			if [200, 201, 204].contains(httpResponse?.statusCode) {
 				if let data = data, !data.isEmpty {
-//					let json = try? JSONSerialization.jsonObject(with: data, options: [])
 					DispatchQueue.main.async {
 						success?(data)
 					}
@@ -109,9 +100,9 @@ class ApiClient {
 					}
 				}
 			} else if httpResponse?.statusCode != 304 {
-				let e = NSError(domain: "Invalid status code", code: httpResponse?.statusCode ?? 0, userInfo: nil)
+				let error = NSError(domain: "Invalid status code", code: httpResponse?.statusCode ?? 0, userInfo: nil)
 				DispatchQueue.main.async {
-					failure?(e)
+					failure?(error)
 				}
 			}
 		}
@@ -162,12 +153,10 @@ class ApiClient {
 				}
 				if !Thread.isMainThread {
 					DispatchQueue.main.sync {
-						do {
-							let destinationUrl = self.cacheManager.cacheDirectoryFor(url)
-							try self.cacheManager.saveToCacheIfNeeded(destinationUrl, currentLocation: location)
+						if let destinationUrl = self.cacheManager.saveToCacheIfNeeded(url, currentLocation: location) {
 							success?(destinationUrl)
-						} catch {
-							print(error)
+						} else {
+							let error = NSError(domain: "Url not contains in cache", code: 0)
 							failure?(error)
 						}
 					}
