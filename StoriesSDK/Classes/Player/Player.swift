@@ -7,23 +7,23 @@ protocol PlayerInput {
 }
 
 class Player {
-	var avPlayer = AVPlayer()
+	let avPlayer: AVPlayer
 	
-	public init(url: URL) {
+	init(url: URL) {
 		self.avPlayer = AVPlayer(url: url)
 	}
 }
 
 extension Player: PlayerInput {
-	public func play() {
+	func play() {
 		avPlayer.play()
 	}
 	
-	public func pause() {
+	func pause() {
 		avPlayer.pause()
 	}
 	
-	public func stop() {
+	func stop() {
 		avPlayer.replaceCurrentItem(with: nil)
 	}
 }
