@@ -1,15 +1,13 @@
 import UIKit
 
 protocol StoriesServiceInput {
-    var stories: StoriesModel? { get }
+    var stories: [StoryModel]? { get }
     func getStories(success: Success?, failure: Failure?)
     func getData(_ url: URL, success: Success?, failure: Failure?)
     func preDownloadStory(storyModel: StoryModel)
     func preDownloadStories()
     func addDownloadQueue(slideModel: SlideModel)
 }
-
-typealias StoriesModel = [StoryModel]
 
 struct Story {
     var storyIndex: Int = 0 {
@@ -23,7 +21,7 @@ struct Story {
 class StoriesService: StoriesServiceInput {
     static let shared = StoriesService()
     
-    var stories: StoriesModel?
+    var stories: [StoryModel]?
     var storyesPredownloadQueue: [() -> Void] = []
     var isDownloading = false
     private var apiClient: ApiClientInput = ApiClient()

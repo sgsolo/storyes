@@ -1,7 +1,7 @@
 protocol CarouselPreviewPresentrerInput {
 	func scrollTo(storyIndex: Int)
 	func getStoryFrame(at storyIndex: Int) -> CGRect
-    func storiesDidLoad(stories: StoriesModel)
+    func storiesDidLoad(stories: [StoryModel])
 }
 
 protocol CarouselPreviewPresentrerOutput: class {
@@ -42,7 +42,7 @@ extension CarouselPreviewPresentrer: CarouselPreviewPresentrerInput {
 		return view.getStoryFrame(at: storyIndex)
 	}
     
-    func storiesDidLoad(stories: StoriesModel) {
+    func storiesDidLoad(stories: [StoryModel]) {
         stories.forEach { story in
             self.stories.append(StoriePreviewModel(with: story.data))
         }
