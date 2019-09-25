@@ -1,27 +1,5 @@
 
-struct StoriesModel: Codable {
-	let client: String
-	let stories: [StoryModel]
-}
-
-struct StoryModel: Codable {
-	var currentIndex = 0
-	let storyId: String
-	let data: StoryData
-	
-	enum CodingKeys: String, CodingKey {
-		case storyId, data
-	}
-}
-
-struct StoryData: Codable {
-	let service: String
-	let category: String
-	let status: Bool
-	let header: String
-	let image: String
-	let dataSlides: [SlideModel]
-}
+import Foundation
 
 struct SlideModel: Codable {
 	let slideDuration: Int?
@@ -56,15 +34,3 @@ struct SlideModel: Codable {
 		case contentStyle
 	}
 }
-
-struct Track: Codable {
-	let trackName: String?
-	let trackArtist: String?
-	let durationMs: Int?
-	let storageDir: String?
-}
-
-struct Video: Codable {
-	let storageDir: String?
-}
-
