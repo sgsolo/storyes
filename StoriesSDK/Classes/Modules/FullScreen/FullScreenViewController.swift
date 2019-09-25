@@ -150,9 +150,14 @@ extension FullScreenViewController {
 	@objc func handleSwipeGesture(_ gesture: UIPanGestureRecognizer) {
 		guard let gestureView = gesture.view else { return }
 		let translate = gesture.translation(in: gestureView)
-		var percent = abs(translate.x) / gestureView.bounds.size.width
-		if percent > 1 { percent = 1 }
 		let velocity = gesture.velocity(in: gesture.view)
+		var percent: CGFloat = 0
+		switch direction {
+		case .leftToRight:
+			percent = max(translate.x, 0) / gestureView.bounds.size.width
+		case .rightToLeft:
+			percent = abs(min(translate.x, 0)) / gestureView.bounds.size.width
+		}
 		
 		switch gesture.state {
 		case .began:
@@ -161,8 +166,8 @@ extension FullScreenViewController {
 		case .changed:
 			interactionController?.updateInteractiveTransition(percentComplete: percent)
 		case .ended, .cancelled:
-			let cond = direction == .leftToRight ? velocity.x > 0 : velocity.x < 0
-			if (percent > 0.5 && velocity.x == 0) || cond {
+			let condition = direction == .leftToRight ? velocity.x > 0 : velocity.x < 0
+			if (percent > 0.5 && velocity.x == 0) || condition {
 				interactionController?.finishInteractiveTransition()
 			} else {
 				interactionController?.cancelInteractiveTransition()
