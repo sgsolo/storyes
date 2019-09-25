@@ -30,7 +30,7 @@ class StoriesService: StoriesServiceInput {
         apiClient.getCarusel(success: { data in
             guard let data = data as? Data else { return }
             do {
-                let stories = try JSONDecoder().decode(StoryesModel.self, from: data)
+                let stories = try JSONDecoder().decode(StoriesModel.self, from: data)
                 self.stories = stories.stories
                 success?(stories)
             }
