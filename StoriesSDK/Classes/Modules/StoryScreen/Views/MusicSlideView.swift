@@ -2,16 +2,15 @@
 import UIKit
 import AVFoundation
 
-class MusicSlideView: UIView, SlideViewInputTrait {
-	
-	weak var delegate: SlideViewOutput?
-	var slideViewModel: SlideViewModel?
+class MusicSlideView: SlideView {
 	
 	private let leftRightButtonMargin: CGFloat = 68
 	private let baseLeftRightMargin: CGFloat = 16
 	private let listenButtonHeight: CGFloat = 40
+	override var contentCornerRadius: CGFloat {
+		return 12
+	}
 	
-	private let backgroundImageView = AnimatedImageView()
 	private let backgroundImageViewTopGradientContainer = UIView()
 	private let listenButton = UIButton()
 	private let trackLabel = UILabel()
@@ -20,7 +19,6 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 	private let subtitleLabel = UILabel()
 	private let headerLabel = UILabel()
 	private let rubricLabel = UILabel()
-	private var playerLayer: AVPlayerLayer?
 	private var gradientLayer: CAGradientLayer?
 	private var topGradientLayer: CAGradientLayer?
 	private var bottomButtonConstraint: NSLayoutConstraint?
@@ -58,10 +56,9 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 		self.gradientLayer?.position = self.center
 		
 		self.topGradientLayer?.frame = backgroundImageViewTopGradientContainer.bounds
-		playerLayer?.frame = self.bounds
 	}
 	
-	func setSlide(model: SlideViewModel) {
+	override func setSlide(model: SlideViewModel) {
 		self.slideViewModel = model
 		self.backgroundImageView.image = nil
 		switch model.type {
@@ -69,9 +66,7 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 			if let avPlayer = model.player?.avPlayer {
 				addPlayerLayer(player: avPlayer)
 			}
-		case .track:
-			fallthrough
-		case .image:
+		case .track, .image:
 			playerLayer?.isHidden = true
 			if let imageUrl = model.imageUrl {
 				if let data = try? Data(contentsOf: imageUrl) {
@@ -102,7 +97,7 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 		self.layoutIfNeeded()
 	}
 	
-	func performContentAnimation(model: SlideViewModel, needAnimation: Bool, propertyAnimator: UIViewPropertyAnimator?) {
+	override func performContentAnimation(model: SlideViewModel, needAnimation: Bool, propertyAnimator: UIViewPropertyAnimator?) {
 		switch model.animationType {
 		case .contentFadeIn:
 			self.setAlphaForAnimatedViews(alpha: 0)
@@ -144,10 +139,6 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 	
 	private func addBackgroundImageView() {
 		self.addSubview(backgroundImageView)
-		backgroundImageView.clipsToBounds = true
-		backgroundImageView.layer.cornerRadius = 12
-		
-		backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
 		backgroundImageView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
 		backgroundImageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
 		if isIphoneX {
@@ -346,18 +337,6 @@ class MusicSlideView: UIView, SlideViewInputTrait {
 		} else {
 			actorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 71).isActive = true
 		}
-	}
-	
-	private func addPlayerLayer(player: AVPlayer) {
-		playerLayer?.isHidden = false
-		if playerLayer == nil {
-			let layer = AVPlayerLayer(player: player)
-			playerLayer = layer
-			self.layer.insertSublayer(layer, at: 0)
-		} else {
-			playerLayer?.player = player
-		}
-		playerLayer?.frame = self.bounds
 	}
 	
 	private func addGradient() {

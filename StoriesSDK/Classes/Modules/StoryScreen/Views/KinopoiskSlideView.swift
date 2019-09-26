@@ -2,15 +2,14 @@
 import UIKit
 import AVFoundation
 
-class KinopoiskSlideView: UIView, SlideViewInputTrait {
-	
-	weak var delegate: SlideViewOutput?
-	var slideViewModel: SlideViewModel?
-	
+class KinopoiskSlideView: SlideView {
+
 	private let baseLeftRightMargin: CGFloat = 24
 	private let listenButtonHeight: CGFloat = 48
+	override var contentCornerRadius: CGFloat {
+		return 8
+	}
 	
-	private let backgroundImageView = AnimatedImageView()
 	private let frontImageView = UIImageView()
 	private let bottomButton = UIButton()
 	private let ticketsButton = UIButton()
@@ -19,7 +18,6 @@ class KinopoiskSlideView: UIView, SlideViewInputTrait {
 	private let textLabel = UILabel()
 	private let headerLabel = UILabel()
 	private let rubricLabel = UILabel()
-	private var playerLayer: AVPlayerLayer?
 	private var gradientLayer: CAGradientLayer?
 	private var textLabelBottomConstraint: NSLayoutConstraint?
 	private var rubricLabelBottomConstraint: NSLayoutConstraint?
@@ -53,10 +51,9 @@ class KinopoiskSlideView: UIView, SlideViewInputTrait {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		self.gradientLayer?.frame = self.bounds
-		self.playerLayer?.frame = self.bounds
 	}
 	
-	func setSlide(model: SlideViewModel) {
+	override func setSlide(model: SlideViewModel) {
 		self.slideViewModel = model
 		self.backgroundImageView.image = nil
 		switch model.type {
@@ -121,7 +118,7 @@ class KinopoiskSlideView: UIView, SlideViewInputTrait {
 		self.layoutIfNeeded()
 	}
 	
-	func performContentAnimation(model: SlideViewModel, needAnimation: Bool, propertyAnimator: UIViewPropertyAnimator?) {
+	override func performContentAnimation(model: SlideViewModel, needAnimation: Bool, propertyAnimator: UIViewPropertyAnimator?) {
 		switch model.animationType {
 		case .contentFadeIn:
 			setAlphaForAnimatedViews(alpha: 0)
@@ -163,10 +160,6 @@ class KinopoiskSlideView: UIView, SlideViewInputTrait {
 	
 	private func addBackgroundImageView() {
 		self.addSubview(backgroundImageView)
-		backgroundImageView.clipsToBounds = true
-		backgroundImageView.layer.cornerRadius = 8
-		
-		backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
 		backgroundImageView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
 		backgroundImageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
 		if isIphoneX {
@@ -319,18 +312,6 @@ class KinopoiskSlideView: UIView, SlideViewInputTrait {
 		} else {
 			trackLabel.topAnchor.constraint(equalTo: self.backgroundImageView.topAnchor, constant: 57).isActive = true
 		}
-	}
-	
-	private func addPlayerLayer(player: AVPlayer) {
-		playerLayer?.isHidden = false
-		if playerLayer == nil {
-			let layer = AVPlayerLayer(player: player)
-			playerLayer = layer
-			self.layer.insertSublayer(layer, at: 0)
-		} else {
-			playerLayer?.player = player
-		}
-		playerLayer?.frame = self.bounds
 	}
 	
 	private func addGradient() {
