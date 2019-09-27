@@ -6,9 +6,6 @@ class ViewController: UIViewController {
     var storiesCarousel: UIViewController!
     var carosuelModule: UIViewController!
     var storiesManager: YStoriesManager!
-	var fullScreen: FullScreenViewController!
-    var startFrame: CGRect!
-    var endFrame: CGRect!
 	var targetApp: SupportedApp = .music
 	
 	var playerSwitch = UISwitch()
@@ -39,7 +36,6 @@ class ViewController: UIViewController {
         storiesCarousel.view.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
         let h = CarouselPreviewSizeCalculator.carouselHeight(forWidth: view.bounds.width, targetApp: targetApp)
         storiesCarousel.view.heightAnchor.constraint(equalToConstant: h).isActive = true
-        storiesCarousel.view.isUserInteractionEnabled = false
         storiesCarousel.didMove(toParentViewController: self)
         storiesManager.loadStories()
 		
@@ -130,9 +126,8 @@ extension ViewController {
 		self.dismiss(animated: true)
 	}
 	
-	private func showUrl(_ url: URL) {
-		self.fullScreen?.dismiss(animated: true) {
-			self.fullScreen = nil
+	private func showUrl(_ url: URL, fullScreen: FullScreenViewController) {
+		fullScreen.dismiss(animated: true) {
 			let alert = UIAlertController(title: "Открыт диплинк", message: url.absoluteString, preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 			self.present(alert, animated: true)
@@ -141,41 +136,25 @@ extension ViewController {
 }
 
 extension ViewController: YStoriesManagerOutput {
-    func needShowFullScreen(_ fullScreen: FullScreenViewController, from frame: CGRect) {
-        self.startFrame = frame
-		self.fullScreen = fullScreen
-        fullScreen.transitioningDelegate = self
-        presentFullScreenView(fullScreen: fullScreen)
-    }
-    
-    func fullScreenDidTapOnCloseButton(atStoryWith frame: CGRect) {
-		avPlayer.playIfNeeded()
-        self.endFrame = frame
-		self.fullScreen?.dismiss(animated: true) {
-			self.fullScreen = nil
-		}
-    }
-    
-    func fullScreenStoriesDidEnd(atStoryWith frame: CGRect) {
-		avPlayer.playIfNeeded()
-        self.endFrame = frame
-		self.fullScreen?.dismiss(animated: true) {
-			self.fullScreen = nil
-		}
-    }
-    
-    private func presentFullScreenView(fullScreen: FullScreenViewController) {
+    func needShowFullScreen(_ fullScreen: FullScreenViewController) {
         self.present(fullScreen, animated: true)
     }
     
+    func fullScreenDidTapOnCloseButton(fullScreen: FullScreenViewController) {
+		avPlayer.playIfNeeded()
+		fullScreen.dismiss(animated: true)
+    }
+    
+    func fullScreenStoriesDidEnd(fullScreen: FullScreenViewController) {
+		avPlayer.playIfNeeded()
+		fullScreen.dismiss(animated: true)
+    }
+    
     func storiesDidLoad(_ isSuccess: Bool, error: Error?) {
-        if isSuccess {
-            storiesCarousel.view.isUserInteractionEnabled = true
-        } else if let error = error {
-            let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "ок", style: .default, handler: nil))
-            self.present(alert, animated: true)
-        }
+		guard let error = error else { return }
+		let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "ок", style: .default, handler: nil))
+		self.present(alert, animated: true)
     }
 	
 	func playPlayerIfNeeded() {
@@ -186,24 +165,10 @@ extension ViewController: YStoriesManagerOutput {
 		avPlayer.pause()
 	}
 	
-	func openUrlIfPossible(url: URL, atStoryWith frame: CGRect) {
-		self.endFrame = frame
-		self.showUrl(url)
+	func openUrlIfPossible(url: URL, fullScreen: FullScreenViewController) {
+		self.showUrl(url, fullScreen: fullScreen)
 	}
 }
-
-extension ViewController: UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController,
-                             presenting: UIViewController,
-                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return FullScreenPresentAnimation(startFrame: self.startFrame)
-    }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return FullScreenDismissedAnimation(endFrame: self.endFrame)
-    }
-}
-
 
 class MusicalPlayer: AVPlayer {
 	var isPlaying = false

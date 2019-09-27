@@ -8,13 +8,13 @@ public protocol YStoriesManagerInput {
 
 public protocol YStoriesManagerOutput: class {
     func storiesDidLoad(_ isSuccess: Bool, error: Error?)
-    func needShowFullScreen(_ fullScreen: FullScreenViewController, from frame: CGRect)
-    func fullScreenDidTapOnCloseButton(atStoryWith frame: CGRect)
-    func fullScreenStoriesDidEnd(atStoryWith frame: CGRect)
+    func needShowFullScreen(_ fullScreen: FullScreenViewController)
+    func fullScreenDidTapOnCloseButton(fullScreen: FullScreenViewController)
+    func fullScreenStoriesDidEnd(fullScreen: FullScreenViewController)
 	
 	func playPlayerIfNeeded()
 	func stopPlayerIfNeeded()
-	func openUrlIfPossible(url: URL, atStoryWith frame: CGRect)
+	func openUrlIfPossible(url: URL, fullScreen: FullScreenViewController)
 }
 
 extension YStoriesManagerOutput {
@@ -27,7 +27,7 @@ public enum SupportedApp: String {
     case kinopoisk
 }
 
-public class YStoriesManager: YStoriesManagerInput {
+public class YStoriesManager: NSObject, YStoriesManagerInput {
     public static var needUseMockData = false
     
     public static func configure(for targetApp: SupportedApp, with colorTheme: YColorTheme) {
@@ -50,14 +50,18 @@ public class YStoriesManager: YStoriesManagerInput {
     
     public var caruselViewController: UIViewController?
     private var carosuelModule: CarouselPreviewModule?
+	private weak var fullScreenViewController: FullScreenViewController?
     private var fullScreenModule: FullScreenModuleInput?
+	private var fullScreenStartFrame: CGRect?
+	private var fullScreenEndFrame: CGRect?
 	
-    weak private var storiesManagerOutput: YStoriesManagerOutput?
+    private weak var storiesManagerOutput: YStoriesManagerOutput?
     private let storiesService: StoriesServiceInput = StoriesService.shared
     
     public init(storiesManagerOutput: YStoriesManagerOutput) {
         self.storiesManagerOutput = storiesManagerOutput
         UIFont.loadAllFonts
+		super.init()
         makeCarouselViewController(for: YStoriesManager.targetApp)
     }
     
@@ -69,15 +73,17 @@ public class YStoriesManager: YStoriesManagerInput {
 
 extension YStoriesManager: FullScreenModuleOutput {
     public func fullScreenDidTapOnCloseButton(storyIndex: Int) {
-        self.carosuelModule?.input.scrollTo(storyIndex: storyIndex)
-        let frame = self.carosuelModule?.input.getStoryFrame(at: storyIndex) ?? CGRect.zero
-        storiesManagerOutput?.fullScreenDidTapOnCloseButton(atStoryWith: frame)
+        calculateFullScreenEndFrame(storyIndex: storyIndex)
+		if let fullScreenViewController = fullScreenViewController {
+			storiesManagerOutput?.fullScreenDidTapOnCloseButton(fullScreen: fullScreenViewController)
+		}
     }
     
     public func fullScreenStoriesDidEnd(storyIndex: Int) {
-        self.carosuelModule?.input.scrollTo(storyIndex: storyIndex)
-        let frame = self.carosuelModule?.input.getStoryFrame(at: storyIndex) ?? CGRect.zero
-        storiesManagerOutput?.fullScreenStoriesDidEnd(atStoryWith: frame)
+        calculateFullScreenEndFrame(storyIndex: storyIndex)
+		if let fullScreenViewController = fullScreenViewController {
+			storiesManagerOutput?.fullScreenStoriesDidEnd(fullScreen: fullScreenViewController)
+		}
     }
 	
 	public func didShowStoryWithImage() {
@@ -89,9 +95,16 @@ extension YStoriesManager: FullScreenModuleOutput {
 	}
 	
 	public func didTapOnButton(url: URL, storyIndex: Int) {
+		calculateFullScreenEndFrame(storyIndex: storyIndex)
+		if let fullScreenViewController = fullScreenViewController {
+			storiesManagerOutput?.openUrlIfPossible(url: url, fullScreen: fullScreenViewController)
+		}
+	}
+	
+	private func calculateFullScreenEndFrame(storyIndex: Int) {
 		self.carosuelModule?.input.scrollTo(storyIndex: storyIndex)
-		let frame = self.carosuelModule?.input.getStoryFrame(at: storyIndex) ?? CGRect.zero
-		storiesManagerOutput?.openUrlIfPossible(url: url, atStoryWith: frame)
+		let frame = self.carosuelModule?.input.getStoryFrame(at: storyIndex)
+		self.fullScreenEndFrame = frame
 	}
 }
 
@@ -123,8 +136,23 @@ extension YStoriesManager {
 extension YStoriesManager: CarouselPreviewPresentrerOutput {
     public func didSelectStory(at index: Int, frame: CGRect) {
         let fullScreenViewController = FullScreenViewController()
+		fullScreenViewController.transitioningDelegate = self
+		self.fullScreenViewController = fullScreenViewController
         fullScreenModule = FullScreenAssembly.setup(fullScreenViewController, storiesService: storiesService, delegate: self)
         fullScreenModule?.setSelectedStory(index: index)
-        storiesManagerOutput?.needShowFullScreen(fullScreenViewController, from: frame)
+		self.fullScreenStartFrame = frame
+        storiesManagerOutput?.needShowFullScreen(fullScreenViewController)
     }
+}
+
+extension YStoriesManager: UIViewControllerTransitioningDelegate {
+	public func animationController(forPresented presented: UIViewController,
+							 presenting: UIViewController,
+							 source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+		return FullScreenPresentAnimation(startFrame: self.fullScreenStartFrame ?? .zero)
+	}
+	
+	public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+		return FullScreenDismissedAnimation(endFrame: self.fullScreenEndFrame ?? .zero)
+	}
 }
