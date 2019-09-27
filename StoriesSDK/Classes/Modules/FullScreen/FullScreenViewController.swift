@@ -75,8 +75,7 @@ extension FullScreenViewController: FullScreenViewInput {
 	
 	func showInitialStory(storyModel: StoryModel) {
 		let controller = StoryScreenViewController()
-		let moduleInput = StoryScreenAssembly.setup(controller, delegate: self)
-		moduleInput.storyModel = storyModel
+		let moduleInput = StoryScreenAssembly.setup(controller, storyModel: storyModel, delegate: self)
 		self.addChildViewController(controller)
 		controller.view.frame = self.view.frame
 		self.view.addSubview(controller.view)
@@ -88,8 +87,7 @@ extension FullScreenViewController: FullScreenViewInput {
 	func showStory(storyModel: StoryModel, direction: Direction) {
 		guard let fromVC = fromVC, let fromModuleInput = fromModuleInput else { return }
 		let controller = StoryScreenViewController()
-		let moduleInput = StoryScreenAssembly.setup(controller, delegate: self)
-		moduleInput.storyModel = storyModel
+		let moduleInput = StoryScreenAssembly.setup(controller, storyModel: storyModel, delegate: self)
 		
 		fromModuleInput.pauseStoryScreen()
 		fromModuleInput.isTransitionInProgress = true
@@ -217,8 +215,7 @@ extension FullScreenViewController {
 	func startInteractiveTransition(storyModel: StoryModel) {
 		guard let fromVC = fromVC, let fromModuleInput = fromModuleInput else { return }
 		let controller = StoryScreenViewController()
-		let moduleInput = StoryScreenAssembly.setup(controller, delegate: self)
-		moduleInput.storyModel = storyModel
+		let moduleInput = StoryScreenAssembly.setup(controller, storyModel: storyModel, delegate: self)
 		
 		fromModuleInput.pauseStoryScreen()
 		fromModuleInput.isTransitionInProgress = true

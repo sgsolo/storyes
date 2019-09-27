@@ -1,17 +1,23 @@
 import Foundation
 
 class StoryScreenPresenter: StoryScreenModuleInput {
-	weak var output: StoryScreenModuleOutput!
+	weak var output: StoryScreenModuleOutput?
 	weak var view: StoryScreenViewInput!
-	var storiesService: StoriesService!
-	var cacheManager: CacheServiceInput!
+	let storiesService: StoriesServiceInput
+	let cacheManager: CacheServiceInput
+	var storyModel: StoryModel
 	
-	var storyModel: StoryModel!
 	var isTransitionInProgress = false
 	var isContentDownloaded = false
 	private var player: Player?
 	private var isViewDidAppear = false
 	private var slideSwitchTimer = PauseTimer()
+	
+	init(storiesService: StoriesService, cacheManager: CacheServiceInput, storyModel: StoryModel) {
+		self.storiesService = storiesService
+		self.cacheManager = cacheManager
+		self.storyModel = storyModel
+	}
 	
 	deinit {
 		NotificationCenter.default.removeObserver(self)
@@ -72,11 +78,11 @@ extension StoryScreenPresenter: StoryScreenViewOutput {
 	
 	func closeButtonDidTap() {
 		view.stopAnimation()
-		output.closeButtonDidTap()
+		output?.closeButtonDidTap()
 	}
 	
 	func didTapOnButton(url: URL) {
-		output.didTapOnButton(url: url)
+		output?.didTapOnButton(url: url)
 	}
 	
 	func networkErrorViewDidTapRetryButton() {
@@ -210,9 +216,9 @@ extension StoryScreenPresenter {
 	private func notifyOutputIfNeeded(viewModel: SlideViewModel) {
 		switch viewModel.type {
 		case .image:
-			output.didShowStoryWithImage()
+			output?.didShowStoryWithImage()
 		case .video, .track:
-			output.didShowStoryWithVideoOrTrack()
+			output?.didShowStoryWithVideoOrTrack()
 		}
 	}
 	

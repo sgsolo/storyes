@@ -8,7 +8,6 @@ class FullScreenPresenter {
 	
 	var currentStory = Story()
 	private var slideSwitchTimer = PauseTimer()
-	private var isFullScreenStoriesDidEnded = false
 	
 	init(storiesService: StoriesServiceInput) {
 		self.storiesService = storiesService
@@ -137,7 +136,6 @@ extension FullScreenPresenter: FullScreenViewOutput {
 
 extension FullScreenPresenter: FullScreenModuleInput {
 	func setSelectedStory(index: Int) {
-		isFullScreenStoriesDidEnded = false
 		currentStory.storyIndex = index
 		if let stories = storiesService.stories, stories.count > index {
 			view.showInitialStory(storyModel: stories[index])

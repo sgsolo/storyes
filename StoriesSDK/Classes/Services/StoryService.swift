@@ -3,7 +3,7 @@ import UIKit
 protocol StoriesServiceInput {
     var stories: [StoryModel]? { get }
     func getStories(success: Success?, failure: Failure?)
-    func getData(_ url: URL, success: Success?, failure: Failure?)
+    func getData(_ slideModel: SlideModel, success: Success?, failure: Failure?)
     func preDownloadStory(storyModel: StoryModel)
     func addDownloadQueue(slideModel: SlideModel)
 }

@@ -6,7 +6,6 @@ struct StoryScreenModule {
 }
 
 protocol StoryScreenModuleInput: class {
-	var storyModel: StoryModel! { get set }
 	var isTransitionInProgress: Bool { get set }
 	
 	func invalidateTimer()
@@ -27,10 +26,8 @@ protocol StoryScreenModuleOutput: class {
 }
 
 final class StoryScreenAssembly {
-	public static func setup(_ viewController: StoryScreenViewController, delegate: StoryScreenModuleOutput) -> StoryScreenModuleInput {
-		let presenter = StoryScreenPresenter()
-		presenter.storiesService = StoriesService.shared
-		presenter.cacheManager = CacheService()
+	public static func setup(_ viewController: StoryScreenViewController, storyModel: StoryModel, delegate: StoryScreenModuleOutput) -> StoryScreenModuleInput {
+		let presenter = StoryScreenPresenter(storiesService: StoriesService.shared, cacheManager: CacheService(), storyModel: storyModel)
 		
 		viewController.presenter = presenter
 		presenter.view = viewController
