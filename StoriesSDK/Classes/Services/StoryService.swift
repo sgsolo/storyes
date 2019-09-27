@@ -5,7 +5,6 @@ protocol StoriesServiceInput {
     func getStories(success: Success?, failure: Failure?)
     func getData(_ url: URL, success: Success?, failure: Failure?)
     func preDownloadStory(storyModel: StoryModel)
-    func preDownloadStories()
     func addDownloadQueue(slideModel: SlideModel)
 }
 
@@ -118,14 +117,6 @@ class StoriesService: StoriesServiceInput {
     func preDownloadStory(storyModel: StoryModel) {
         storyModel.data.dataSlides.forEach { slideModel in
             getData(slideModel, success: nil, failure: nil)
-        }
-    }
-    
-    func preDownloadStories() {
-        self.stories?.forEach { storyModel in
-            storyModel.data.dataSlides.forEach { slideModel in
-                getData(slideModel, success: nil, failure: nil)
-            }
         }
     }
     
