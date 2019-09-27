@@ -2,13 +2,17 @@ import CoreGraphics
 import Foundation
 
 class FullScreenPresenter {
-	weak var output: FullScreenModuleOutput!
 	weak var view: FullScreenViewInput!
-	var storiesService: StoriesServiceInput!
+	weak var output: FullScreenModuleOutput?
+	let storiesService: StoriesServiceInput
 	
 	var currentStory = Story()
 	private var slideSwitchTimer = PauseTimer()
 	private var isFullScreenStoriesDidEnded = false
+	
+	init(storiesService: StoriesServiceInput) {
+		self.storiesService = storiesService
+	}
 }
 
 extension FullScreenPresenter: FullScreenViewOutput {
@@ -19,7 +23,7 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 
 	func closeButtonDidTap() {
-		output.fullScreenDidTapOnCloseButton(storyIndex: currentStory.storyIndex)
+		output?.fullScreenDidTapOnCloseButton(storyIndex: currentStory.storyIndex)
 	}
 	
 	func needShowPrevStory() {
@@ -35,7 +39,7 @@ extension FullScreenPresenter: FullScreenViewOutput {
 			preloadPrevious()
 		} else if currentStory.storyIndex == 0,
 			currentStory.slideIndex == 0 {
-			output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
+			output?.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
 		}
 	}
 	
@@ -47,7 +51,7 @@ extension FullScreenPresenter: FullScreenViewOutput {
 		if let stories = storiesService.stories,
 			stories.count > currentStory.storyIndex,
 			stories.count == currentStory.storyIndex + 1 {
-			output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
+			output?.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
 		} else if let stories = storiesService.stories,
 			stories.count > currentStory.storyIndex {
 			currentStory.storyIndex += 1
@@ -77,13 +81,13 @@ extension FullScreenPresenter: FullScreenViewOutput {
 		switch direction {
 		case .leftToRight:
 			guard let prevStory = prevStory() else {
-				output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
+				output?.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
 				return
 			}
 			view.startInteractiveTransition(storyModel: prevStory)
 		case .rightToLeft:
 			guard let nextStoty = nextStory() else {
-				output.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
+				output?.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
 				return
 			}
 			view.startInteractiveTransition(storyModel: nextStoty)
@@ -119,15 +123,15 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	func didShowStoryWithImage() {
-		output.didShowStoryWithImage()
+		output?.didShowStoryWithImage()
 	}
 	
 	func didShowStoryWithVideoOrTrack() {
-		output.didShowStoryWithVideoOrTrack()
+		output?.didShowStoryWithVideoOrTrack()
 	}
 	
 	func didTapOnButton(url: URL) {
-		output.didTapOnButton(url: url, storyIndex: currentStory.storyIndex)
+		output?.didTapOnButton(url: url, storyIndex: currentStory.storyIndex)
 	}
 }
 
