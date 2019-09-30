@@ -30,16 +30,13 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	private func showPrevStory() {
-		if let stories = storiesService.stories,
-			stories.count > currentStory.storyIndex,
-			currentStory.storyIndex - 1 >= 0 {
-			currentStory.storyIndex -= 1
-			view.showStory(storyModel: stories[currentStory.storyIndex], direction: .leftToRight)
-			preloadPrevious()
-		} else if currentStory.storyIndex == 0,
-			currentStory.slideIndex == 0 {
+		guard let prevStory = prevStory() else {
 			output?.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
+			return
 		}
+		currentStory.storyIndex -= 1
+		view.showStory(storyModel: prevStory, direction: .leftToRight)
+		preloadPrevious()
 	}
 	
 	func needShowNextStory() {
@@ -47,16 +44,13 @@ extension FullScreenPresenter: FullScreenViewOutput {
 	}
 	
 	private func showNextStory() {
-		if let stories = storiesService.stories,
-			stories.count > currentStory.storyIndex,
-			stories.count == currentStory.storyIndex + 1 {
+		guard let nextStoty = nextStory() else {
 			output?.fullScreenStoriesDidEnd(storyIndex: currentStory.storyIndex)
-		} else if let stories = storiesService.stories,
-			stories.count > currentStory.storyIndex {
-			currentStory.storyIndex += 1
-			view.showStory(storyModel: stories[currentStory.storyIndex], direction: .rightToLeft)
-			preloadNext()
+			return
 		}
+		currentStory.storyIndex += 1
+		view.showStory(storyModel: nextStoty, direction: .rightToLeft)
+		preloadNext()
 	}
 	
 	private func prevStory() -> StoryModel? {
