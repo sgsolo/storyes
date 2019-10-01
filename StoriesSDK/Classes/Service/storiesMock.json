@@ -1,0 +1,198 @@
+{
+	"client":"music",
+	"title":"Истории",
+	"stories":[
+		{
+			"storyId":"12345",
+			"storyName":"story 1",
+			"entityType":"story-item",
+			"data":{
+				"service":"music",
+				"category":"recommended",
+				"status":true,
+				"header":"Новинки Недели",
+				"image":"https://i3twtest.s3-eu-west-1.amazonaws.com/carouselImages/normal/1840b49540b5741cfcbc2549be150518.jpeg",
+				"track":{
+					"durationMs":"",
+					"storageDir":"",
+					"trackName":"",
+					"trackArtist":""
+				},
+				"dataSlides":[
+					{
+						"track":{
+							"durationMs":0,
+							"storageDir":"",
+							"trackName":"",
+							"trackArtist":""
+						},
+						"video":{
+							"storageDir":""
+						},
+						"slideDuration":6,
+						"title":"",
+						"title2":"Однажды в…Голливуде",
+						"title3":"",
+						"description":"Девятый фильм Квентина Тарантино про омытую кровью «фабрику грез»",
+						"contentStyle":false,
+						"image":"https://avatars.mds.yandex.net/get-music-misc/70683/img.5d6790b91a2c98548d83c345/orig",
+						"buttonURL":"",
+						"buttonText":"",
+						"buttonStyle":0,
+						"animationType":0
+					},
+					{
+						"track":{
+							"durationMs":0,
+							"storageDir":"",
+							"trackName":"",
+							"trackArtist":""
+						},
+						"video":{
+							"storageDir":"https://i3twtest.s3-eu-west-1.amazonaws.com/storyofgame.mov"
+						},
+						"slideDuration":6,
+						"title":"Уже в кинотеатрах",
+						"title2":"История Игрушек 4",
+						"title3":"",
+						"description":"Иногда они возвращаются: вероятно, не совсем прямое продолжение самой славной анимационной франшизы",
+						"contentStyle":false,
+						"image":"",
+						"buttonURL":"",
+						"buttonText":"",
+						"buttonStyle":0,
+						"animationType":0
+					}
+				]
+			}
+		},
+		{
+			"storyId":"1234",
+			"storyName":"story 2",
+			"entityType":"story-item",
+			"data":{
+				"service":"music",
+				"category":"recomended",
+				"status":false,
+				"header":"Новинки Недели",
+				"image":"https://i3twtest.s3-eu-west-1.amazonaws.com/carouselImages/normal/ed8948d1702f68c9b82e5007b1927050.jpeg",
+				"track":{
+					"durationMs":"",
+					"storageDir":"",
+					"trackName":"",
+					"trackArtist":""
+				},
+				"dataSlides":[
+					{
+						"track":{
+							"durationMs":0,
+							"storageDir":"",
+							"trackName":"",
+							"trackArtist":""
+						},
+						"video":{
+							"storageDir":""
+						},
+						"slideDuration":6,
+						"title":"В предыдущих сериях",
+						"title2":"Подкаст: «Годы»: Почему этот сериал не самая обычная антиутопия?",
+						"title3":"",
+						"description":"",
+						"contentStyle":false,
+						"image":"https://avatars.mds.yandex.net/get-music-misc/70683/img.5d6790ea1a2c98548d83c357/orig",
+						"buttonURL":"",
+						"buttonText":"",
+						"buttonStyle":0,
+						"animationType":0
+					}
+				]
+			}
+		},
+		{
+			"storyId":"1234",
+			"storyName":"story 3",
+			"entityType":"story-item",
+			"data":{
+				"service":"music",
+				"category":"recomended",
+				"status":false,
+				"header":"Новинки Недели",
+				"image":"https://i3twtest.s3-eu-west-1.amazonaws.com/carouselImages/normal/24256180e8265777df85615f51ab5eed.jpeg",
+				"track":{
+					"durationMs":"",
+					"storageDir":"",
+					"trackName":"",
+					"trackArtist":""
+				},
+				"dataSlides":[
+					{
+						"track":{
+							"durationMs":0,
+							"storageDir":"",
+							"trackName":"",
+							"trackArtist":""
+						},
+						"video":{
+							"storageDir":"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+						},
+						"slideDuration":6,
+						"title":"NEW ALBUM",
+						"title2":"Kiri Variations",
+						"title3":"Clark",
+						"description":"The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+						"contentStyle":false,
+						"image":"",
+						"buttonURL":"YandexStories://",
+						"buttonText":"Listen",
+						"buttonStyle":1,
+						"animationType":0
+					},
+					{
+						"track":{
+							"durationMs":0,
+							"storageDir":"",
+							"trackName":"",
+							"trackArtist":""
+						},
+						"video":{
+							"storageDir":"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+						},
+						"slideDuration":6,
+						"title":"NEW ALBUM",
+						"title2":"Kiri Variations",
+						"title3":"",
+						"description":"",
+						"contentStyle":false,
+						"image":"",
+						"buttonURL":"",
+						"buttonText":"Listen",
+						"buttonStyle":1,
+						"animationType":0
+					},
+					{
+						"track":{
+							"durationMs":0,
+							"storageDir":"",
+							"trackName":"",
+							"trackArtist":""
+						},
+						"video":{
+							"storageDir":"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+						},
+						"slideDuration":6,
+						"title":"NEW ALBUM",
+						"title2":"Kiri Variations",
+						"title3":"",
+						"description":"The self-explanatory “Simple Homecoming Loop” is quite the opposite",
+						"contentStyle":false,
+						"image":"",
+						"buttonURL":"",
+						"buttonText":"Listen",
+						"buttonStyle":2,
+						"animationType":0
+					}
+				]
+			}
+		}
+	]
+}
