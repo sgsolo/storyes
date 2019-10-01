@@ -95,9 +95,7 @@ extension StoryScreenPresenter {
 		guard storyModel.data.dataSlides.count > storyModel.currentIndex else { return }
 		let slideModel = self.storyModel.data.dataSlides[self.storyModel.currentIndex]
 		
-		if storyModel.data.dataSlides.count > storyModel.currentIndex + 1 {
-			storiesService.addDownloadQueue(slideModel: self.storyModel.data.dataSlides[self.storyModel.currentIndex + 1])
-		}
+		storiesService.preloadNextSlide()
 		
 		isContentDownloaded = false
 		self.view.updateProgressView(storyModel: self.storyModel, needProgressAnimation: false)

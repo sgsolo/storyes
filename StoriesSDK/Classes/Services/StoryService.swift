@@ -1,14 +1,18 @@
 import UIKit
 
-protocol StoriesServiceInput {
+protocol StoriesServiceInput: class {
     var stories: [StoryModel]? { get }
+	var currentStoryIndex: StoryIndex { get set }
     func getStories(success: Success?, failure: Failure?)
     func getData(_ slideModel: SlideModel, success: Success?, failure: Failure?)
-    func preDownloadStory(storyModel: StoryModel)
-    func addDownloadQueue(slideModel: SlideModel)
+	func prevStory() -> StoryModel?
+	func nextStory() -> StoryModel?
+	func preloadNextStory()
+	func preloadPreviousStory()
+	func preloadNextSlide()
 }
 
-struct Story {
+struct StoryIndex {
     var storyIndex: Int = 0 {
         didSet {
             slideIndex = 0
@@ -19,7 +23,8 @@ struct Story {
 
 class StoriesService: StoriesServiceInput {
     static let shared = StoriesService()
-    
+	
+	var currentStoryIndex = StoryIndex()
     var stories: [StoryModel]?
     var storyesPredownloadQueue: [() -> Void] = []
     var isDownloading = false
@@ -113,19 +118,55 @@ class StoriesService: StoriesServiceInput {
             }
         }
     }
+	
+	func prevStory() -> StoryModel? {
+		if let stories = stories,
+			stories.count > currentStoryIndex.storyIndex,
+			currentStoryIndex.storyIndex - 1 >= 0 {
+			return stories[currentStoryIndex.storyIndex - 1]
+		}
+		return nil
+	}
+	
+	func nextStory() -> StoryModel? {
+		if let stories = stories,
+			stories.count > currentStoryIndex.storyIndex + 1 {
+			return stories[currentStoryIndex.storyIndex + 1]
+		}
+		return nil
+	}
+	
+	func preloadNextSlide() {
+		if let stories = stories,
+			stories.count > currentStoryIndex.storyIndex,
+			stories[currentStoryIndex.storyIndex].data.dataSlides.count > stories[currentStoryIndex.storyIndex].currentIndex + 1 {
+			addDownloadQueue(slideModel: stories[currentStoryIndex.storyIndex].data.dataSlides[stories[currentStoryIndex.storyIndex].currentIndex + 1])
+		}
+	}
+	
+	func preloadNextStory() {
+		let nextStoryIndex = currentStoryIndex.storyIndex + 1
+		if let stories = stories, stories.count > nextStoryIndex, stories[nextStoryIndex].data.dataSlides.count > 0 {
+			addDownloadQueue(slideModel: stories[nextStoryIndex].data.dataSlides[0])
+		}
+	}
+	
+	func preloadPreviousStory() {
+		let prevStoryIndex = currentStoryIndex.storyIndex - 1
+		if let stories = stories,
+			stories.count > prevStoryIndex,
+			prevStoryIndex >= 0,
+			stories[prevStoryIndex].data.dataSlides.count > 0 {
+			addDownloadQueue(slideModel: stories[prevStoryIndex].data.dataSlides[0])
+		}
+	}
     
-    func preDownloadStory(storyModel: StoryModel) {
-        storyModel.data.dataSlides.forEach { slideModel in
-            getData(slideModel, success: nil, failure: nil)
-        }
-    }
-    
-    func addDownloadQueue(slideModel: SlideModel) {
+    private func addDownloadQueue(slideModel: SlideModel) {
         let block = {
             self.isDownloading = true
             let block = { [weak self] in
                 self?.isDownloading = false
-                self?.removeDownloadQueue()
+                self?.storyesPredownloadQueueRemoveLast()
                 self?.preDownloadNextSlide()
             }
             self.getData(slideModel, success: { _ in
@@ -144,7 +185,7 @@ class StoriesService: StoriesServiceInput {
         }
     }
     
-    private func removeDownloadQueue() {
+    private func storyesPredownloadQueueRemoveLast() {
         _ = storyesPredownloadQueue.removeLast()
     }
 }
