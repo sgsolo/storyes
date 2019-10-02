@@ -15,6 +15,7 @@
 		6B282D9F23190AAD00087CCC /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B282D9E23190AAD00087CCC /* StartViewController.swift */; };
 		6B4CE5802343229E00E86B58 /* storiesMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B4CE57F2343229E00E86B58 /* storiesMock.json */; };
 		6B81C7842342362900ED447E /* FullScreenPresenterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B81C7832342362900ED447E /* FullScreenPresenterTest.swift */; };
+		6BC37DC123435D2E00002BB3 /* StoryServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC37DC023435D2E00002BB3 /* StoryServiceTest.swift */; };
 		6BD395EC233367220038FA50 /* ImagineDragons-Believer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6BD395EB233367220038FA50 /* ImagineDragons-Believer.mp3 */; };
 		8C44A3E82339FBA193100252 /* Pods_DemoStoriesSDKTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F5E679ACEE3AA2E63E4519 /* Pods_DemoStoriesSDKTests.framework */; };
 		94D415BC469C9BE49A6A5BEC /* Pods_DemoStoriesSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C6D652C40CB67D7737C6868 /* Pods_DemoStoriesSDK.framework */; };
@@ -51,6 +52,7 @@
 		6B81C7812342362800ED447E /* DemoStoriesSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoStoriesSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B81C7832342362900ED447E /* FullScreenPresenterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPresenterTest.swift; sourceTree = "<group>"; };
 		6B81C7852342362900ED447E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6BC37DC023435D2E00002BB3 /* StoryServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryServiceTest.swift; sourceTree = "<group>"; };
 		6BD395EB233367220038FA50 /* ImagineDragons-Believer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "ImagineDragons-Believer.mp3"; sourceTree = "<group>"; };
 		77C8848BECB28370478D4504 /* Pods-DemoStoriesSDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoStoriesSDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-DemoStoriesSDK_Tests/Pods-DemoStoriesSDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		82F5E679ACEE3AA2E63E4519 /* Pods_DemoStoriesSDKTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoStoriesSDKTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				6B81C7832342362900ED447E /* FullScreenPresenterTest.swift */,
+				6BC37DC023435D2E00002BB3 /* StoryServiceTest.swift */,
 				6B4CE57F2343229E00E86B58 /* storiesMock.json */,
 				6B81C7852342362900ED447E /* Info.plist */,
 			);
@@ -357,6 +360,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B81C7842342362900ED447E /* FullScreenPresenterTest.swift in Sources */,
+				6BC37DC123435D2E00002BB3 /* StoryServiceTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,14 +22,19 @@ struct StoryIndex {
 }
 
 class StoriesService: StoriesServiceInput {
-    static let shared = StoriesService()
+	static let shared = StoriesService(apiClient: ApiClient())
 	
 	var currentStoryIndex = StoryIndex()
     var stories: [StoryModel]?
-    var storyesPredownloadQueue: [() -> Void] = []
-    var isDownloading = false
-    private var apiClient: ApiClientInput = ApiClient()
-    
+	
+    private var storyesPredownloadQueue: [() -> Void] = []
+    private var isDownloading = false
+    private let apiClient: ApiClientInput
+	
+	init(apiClient: ApiClientInput) {
+		self.apiClient = apiClient
+	}
+	
     func getStories(success: Success?, failure: Failure?) {
         apiClient.getCarusel(success: { data in
             guard let data = data as? Data else { return }

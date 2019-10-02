@@ -1,8 +1,8 @@
 
-let waitTimeout: TimeInterval = 0.5
-
 import XCTest
 @testable import StoriesSDK
+
+let waitTimeout: TimeInterval = 0.5
 
 class FullScreenPresenterTest: XCTestCase {
 
@@ -336,6 +336,7 @@ extension FullScreenPresenterTest {
 			let data = FileManager.default.contents(atPath: path),
 			let stories = try? JSONDecoder().decode(StoriesModel.self, from: data) else { return nil }
 		return stories.stories
+//		let res: Result<Data?, Error> = .success(Data())
 	}
 }
 
