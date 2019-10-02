@@ -2,7 +2,6 @@
 import Foundation
 
 protocol CacheServiceInput {
-	func getUrlWith(stringUrl: String, success: Success?, failure: Failure?)
 	func getViewModel(slideModel: SlideModel) -> SlideViewModel?
 	func getUrlWith(stringUrl: String) -> URL?
 	func saveToCacheIfNeeded(_ url: URL, currentLocation: URL) -> URL?
@@ -19,18 +18,6 @@ class CacheService: CacheServiceInput {
 		}
 		return documentsUrl
 	}()
-	
-	func getUrlWith(stringUrl: String, success: Success?, failure: Failure?) {
-		guard let url = URL(string: stringUrl) else {
-			failure?(NSError(domain: "Invalid URL \(stringUrl)", code: 0, userInfo: nil))
-			return
-		}
-		if let directoryUrl = cacheDirectoryFor(url), fileManager.fileExists(atPath: directoryUrl.path) {
-			success?(directoryUrl)
-		} else {
-			failure?(NSError(domain: "Url not contains in cache", code: 0, userInfo: nil))
-		}
-	}
 	
 	func getViewModel(slideModel: SlideModel) -> SlideViewModel? {
 		var viewModel = SlideViewModel()

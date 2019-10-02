@@ -109,14 +109,17 @@ extension StoryScreenPresenter {
 			self.showSlide(viewModel: viewModel, slideModel: slideModel)
 		} else {
 			self.view.addLoadingView()
-			self.storiesService.getData(slideModel, success: { [weak self, index = storyModel.currentIndex] viewModel in
-				guard let self = self, let viewModel = viewModel as? SlideViewModel, index == self.storyModel.currentIndex else { return }
-				self.showSlide(viewModel: viewModel, slideModel: slideModel)
-			}, failure: { [weak self] error in
-				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-					self?.view.addNetworkErrorView()
+			self.storiesService.getData(slideModel, completion: { [weak self, index = storyModel.currentIndex] result in
+				switch result {
+				case .success(let viewModel):
+					guard let self = self, index == self.storyModel.currentIndex else { return }
+					self.showSlide(viewModel: viewModel, slideModel: slideModel)
+				case .failure(let error):
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+						self?.view.addNetworkErrorView()
+					}
+					print(error)
 				}
-				print(error)
 			})
 		}
 	}

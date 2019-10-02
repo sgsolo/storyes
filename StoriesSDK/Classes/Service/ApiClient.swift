@@ -1,32 +1,29 @@
 import Foundation
 
-public typealias Success = ((Any?) -> Void)
-public typealias Failure = ((Error) -> Void)
-
 typealias Parametrs = Dictionary<String, String>
 
 protocol ApiClientInput {
-	func getCarusel(success: Success?, failure: Failure?)
-	func getData(_ url: URL, success: Success?, failure: Failure?)
+	func getCarusel(completion: @escaping (Result<Data, Error>) -> Void)
+	func getData(_ url: URL, completion: @escaping (Result<URL, Error>) -> Void)
 }
 
 extension ApiClient: ApiClientInput {
 	// TODO: for test
-	public	func getCarusel(success: Success?, failure: Failure?) {
+	public	func getCarusel(completion: @escaping (Result<Data, Error>) -> Void) {
 		guard let urlRequest = getRequest("http://bunker-api-dot.yandex.net/v1/cat?node=/stories/stories-music&version=latest") else { return }
 		//TODO: "MOCK удалить позже"
 		if YStoriesManager.needUseMockData, let path = Bundle(for: ApiClient.self).path(forResource: "stories.json", ofType: nil) {
 			if let data = FileManager.default.contents(atPath: path) {
-				success?(data)
+				completion(.success(data))
 				return
 			}
 		} else {
-			dataTask(urlRequest, success: success, failure: failure)
+			dataTask(urlRequest, completion: completion)
 		}
 	}
 
-	public func getData(_ url: URL, success: Success?, failure: Failure?) {
-		downloadTask(url, success: success, failure: failure)
+	public func getData(_ url: URL, completion: @escaping (Result<URL, Error>) -> Void) {
+		downloadTask(url, completion: completion)
 	}
 }
 
@@ -78,13 +75,13 @@ class ApiClient {
 		}
 	}
 	
-	private func dataTask(_ urlRequest: URLRequest, success: Success?, failure: Failure?) {
+	private func dataTask(_ urlRequest: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
 		let task = ApiClient.apiSession.dataTask(with: urlRequest) { data, response, error in
 			let httpResponse = response as? HTTPURLResponse
 			if let error = error {
 				print("REQUEST ERROR \(String(describing: response?.url)) \(error as NSError)")
 				DispatchQueue.main.async {
-					failure?(error)
+					completion(.failure(error))
 				}
 				return
 			}
@@ -92,17 +89,18 @@ class ApiClient {
 			if [200, 201, 204].contains(httpResponse?.statusCode) {
 				if let data = data, !data.isEmpty {
 					DispatchQueue.main.async {
-						success?(data)
+						completion(.success(data))
 					}
 				} else {
+					let error = NSError(domain: "Empty data", code: httpResponse?.statusCode ?? 0, userInfo: nil)
 					DispatchQueue.main.async {
-						success?(nil)
+						completion(.failure(error))
 					}
 				}
-			} else if httpResponse?.statusCode != 304 {
+			} else {
 				let error = NSError(domain: "Invalid status code", code: httpResponse?.statusCode ?? 0, userInfo: nil)
 				DispatchQueue.main.async {
-					failure?(error)
+					completion(.failure(error))
 				}
 			}
 		}
@@ -110,10 +108,10 @@ class ApiClient {
 		taskPool.append(task)
 	}
 	
-	private func downloadTask(_ url: URL, success: Success?, failure: Failure?) {
+	private func downloadTask(_ url: URL, completion: @escaping (Result<URL, Error>) -> Void) {
 		if let destinationUrl = self.cacheManager.getUrlWith(stringUrl: url.absoluteString) {
 			DispatchQueue.main.async {
-				success?(destinationUrl)
+				completion(.success(destinationUrl))
 			}
 			return
 		}
@@ -124,12 +122,12 @@ class ApiClient {
 				semaphore.wait()
 				semaphore.signal()
 				DispatchQueue.main.async {
-					self.cacheManager.getUrlWith(stringUrl: url.absoluteString,
-												 success: { destinationUrl in
-													success?(destinationUrl) },
-												 failure: { error in
-													print(error)
-													failure?(error) })
+					if let localUrl = self.cacheManager.getUrlWith(stringUrl: url.absoluteString) {
+						completion(.success(localUrl))
+					} else {
+						let error = NSError(domain: "Url not contains in cache", code: 0, userInfo: nil)
+						completion(.failure(error))
+					}
 				}
 				return
 			}
@@ -146,17 +144,17 @@ class ApiClient {
 					if let error = error {
 						DispatchQueue.main.async {
 							print(error)
-							failure?(error)
+							completion(.failure(error))
 						}
 					}
 					return
 				}
 				DispatchQueue.main.async {
 					if let destinationUrl = self.cacheManager.saveToCacheIfNeeded(url, currentLocation: location) {
-						success?(destinationUrl)
+						completion(.success(destinationUrl))
 					} else {
 						let error = NSError(domain: "Url not contains in cache", code: 0)
-						failure?(error)
+						completion(.failure(error))
 					}
 				}
 			}

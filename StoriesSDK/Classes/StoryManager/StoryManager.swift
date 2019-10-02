@@ -110,15 +110,14 @@ extension YStoriesManager: FullScreenModuleOutput {
 
 extension YStoriesManager {
     public func loadStories() {
-        storiesService.getStories(success: { [weak self] _ in
-            self?.storiesManagerOutput?.storiesDidLoad(true, error: nil)
-            guard let stories = self?.storiesService.stories else {
-                return
-            }
-            self?.carosuelModule?.input.storiesDidLoad(stories: stories)
-        }) { [weak self] error in
-            self?.storiesManagerOutput?.storiesDidLoad(false, error: error)
-        }
+		storiesService.getStories { [weak self] result in
+			switch result {
+			case .success(let stories):
+				self?.carosuelModule?.input.storiesDidLoad(stories: stories)
+			case .failure(let error):
+				self?.storiesManagerOutput?.storiesDidLoad(false, error: error)
+			}
+		}
     }
     
     public func colorThemeDidChange(_ toColorTheme: YColorTheme) {

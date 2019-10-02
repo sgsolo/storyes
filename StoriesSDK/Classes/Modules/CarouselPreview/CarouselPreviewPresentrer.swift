@@ -59,16 +59,20 @@ extension CarouselPreviewPresentrer: CarouselPreviewPresentrerInput {
             guard let url = URL(string: story.imageURL) else {
                 continue
             }
-            StoriesService.shared.getData(url, success: { [weak self] data in
-                guard let imageLocalURL = data as? URL,
-                    let imageData = try? Data(contentsOf: imageLocalURL) else {
-                    return
-                }
-                story.image = UIImage(data: imageData)
-                if self?.viewAppear == true {
-                    self?.view.updateCarousel(index: index)
-                }
-            }, failure: nil)
+			StoriesService.shared.getData(url, completion: { [weak self] result in
+				switch result {
+				case .success(let url):
+					guard let imageData = try? Data(contentsOf: url) else {
+						return
+					}
+					story.image = UIImage(data: imageData)
+					if self?.viewAppear == true {
+						self?.view.updateCarousel(index: index)
+					}
+				case .failure(_):
+					break
+				}
+			})
         }
     }
 }
