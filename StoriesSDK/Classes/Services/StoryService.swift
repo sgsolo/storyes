@@ -4,6 +4,7 @@ protocol StoriesServiceInput: class {
     var stories: [StoryModel]? { get }
 	var currentStoryIndex: StoryIndex { get set }
     func getStories(completion: @escaping (Result<[StoryModel], Error>) -> Void)
+	func getData(_ url: URL, completion: @escaping (Result<URL, Error>) -> Void)
     func getData(_ slideModel: SlideModel, completion: @escaping (Result<SlideViewModel, Error>) -> Void)
 	func prevStory() -> StoryModel?
 	func nextStory() -> StoryModel?
@@ -27,7 +28,7 @@ class StoriesService: StoriesServiceInput {
 	var currentStoryIndex = StoryIndex()
     var stories: [StoryModel]?
 	
-    private var storyesPredownloadQueue: [() -> Void] = []
+    private var storiesPredownloadQueue: [() -> Void] = []
     private var isDownloading = false
     private let apiClient: ApiClientInput
 	
@@ -36,7 +37,7 @@ class StoriesService: StoriesServiceInput {
 	}
 	
 	func getStories(completion: @escaping (Result<[StoryModel], Error>) -> Void) {
-		apiClient.getCarusel { result in
+		apiClient.getStories { result in
 			switch result {
 			case .success(let data):
 				do {
@@ -60,8 +61,7 @@ class StoriesService: StoriesServiceInput {
     }
     
     func getData(_ slideModel: SlideModel, completion: @escaping (Result<SlideViewModel, Error>) -> Void) {
-        var viewModel = SlideViewModel()
-        viewModel.fillFromSlideModel(slideModel)
+        var viewModel = SlideViewModel(slideModel: slideModel)
         let dispatchGroup = DispatchGroup()
         var networkError: Error?
 		if let storageDir = slideModel.video?.storageDir, let videoUrl = URL(string: storageDir) {
@@ -176,17 +176,17 @@ class StoriesService: StoriesServiceInput {
 				self?.preDownloadNextSlide()
 			})
         }
-        storyesPredownloadQueue.insert(block, at: 0)
+        storiesPredownloadQueue.insert(block, at: 0)
         preDownloadNextSlide()
     }
     
     private func preDownloadNextSlide() {
-        if let predownloadItem = storyesPredownloadQueue.last, isDownloading == false {
+        if let predownloadItem = storiesPredownloadQueue.last, isDownloading == false {
             predownloadItem()
         }
     }
     
     private func storyesPredownloadQueueRemoveLast() {
-        _ = storyesPredownloadQueue.removeLast()
+        _ = storiesPredownloadQueue.removeLast()
     }
 }

@@ -3,13 +3,13 @@ import Foundation
 typealias Parametrs = Dictionary<String, String>
 
 protocol ApiClientInput {
-	func getCarusel(completion: @escaping (Result<Data, Error>) -> Void)
+	func getStories(completion: @escaping (Result<Data, Error>) -> Void)
 	func getData(_ url: URL, completion: @escaping (Result<URL, Error>) -> Void)
 }
 
 extension ApiClient: ApiClientInput {
 	// TODO: for test
-	public	func getCarusel(completion: @escaping (Result<Data, Error>) -> Void) {
+	public	func getStories(completion: @escaping (Result<Data, Error>) -> Void) {
 		guard let urlRequest = getRequest("http://bunker-api-dot.yandex.net/v1/cat?node=/stories/stories-music&version=latest") else { return }
 		//TODO: "MOCK удалить позже"
 		if YStoriesManager.needUseMockData, let path = Bundle(for: ApiClient.self).path(forResource: "stories.json", ofType: nil) {

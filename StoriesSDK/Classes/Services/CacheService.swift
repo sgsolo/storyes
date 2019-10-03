@@ -20,8 +20,7 @@ class CacheService: CacheServiceInput {
 	}()
 	
 	func getViewModel(slideModel: SlideModel) -> SlideViewModel? {
-		var viewModel = SlideViewModel()
-		viewModel.fillFromSlideModel(slideModel)
+		var viewModel = SlideViewModel(slideModel: slideModel)
 		if let video = slideModel.video, let videoUrl = video.storageDir, let _ = URL(string: videoUrl) {
 			viewModel.type = .video
 			if let url = self.getUrlWith(stringUrl: videoUrl) {

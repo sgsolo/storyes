@@ -59,7 +59,7 @@ struct SlideViewModel {
 	}
 	var animationType = AnimationType.none
 	
-	mutating func fillFromSlideModel(_ slideModel: SlideModel) {
+	init(slideModel: SlideModel) {
 		self.isBounded = slideModel.contentStyle
 		self.text = slideModel.description
 		self.subtitle = slideModel.title3

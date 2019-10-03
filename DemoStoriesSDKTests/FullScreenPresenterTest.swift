@@ -3,6 +3,7 @@ import XCTest
 @testable import StoriesSDK
 
 let waitTimeout: TimeInterval = 0.5
+let yandexUrlString = "https://yandex.ru/"
 
 class FullScreenPresenterTest: XCTestCase {
 
@@ -263,11 +264,15 @@ extension FullScreenPresenterTest: StoriesServiceInput {
 		return _stories
 	}
 	
-	func getStories(success: Success?, failure: Failure?) {
+	func getStories(completion: @escaping (Result<[StoryModel], Error>) -> Void) {
 		
 	}
 	
-	func getData(_ slideModel: SlideModel, success: Success?, failure: Failure?) {
+	func getData(_ url: URL, completion: @escaping (Result<URL, Error>) -> Void) {
+		
+	}
+	
+	func getData(_ slideModel: SlideModel, completion: @escaping (Result<SlideViewModel, Error>) -> Void) {
 		
 	}
 	
@@ -336,7 +341,6 @@ extension FullScreenPresenterTest {
 			let data = FileManager.default.contents(atPath: path),
 			let stories = try? JSONDecoder().decode(StoriesModel.self, from: data) else { return nil }
 		return stories.stories
-//		let res: Result<Data?, Error> = .success(Data())
 	}
 }
 
