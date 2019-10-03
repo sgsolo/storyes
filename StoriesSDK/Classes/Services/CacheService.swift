@@ -8,8 +8,8 @@ protocol CacheServiceInput {
 }
 
 class CacheService: CacheServiceInput {
-	static let shared = CacheService()
-	private let fileManager = FileManager.default
+	static let shared = CacheService(fileManager: FileManager.default)
+	private let fileManager: FileManager //FileManager.default
 	private lazy var baseUrl: URL? = {
 		var documentsUrl = self.fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first
 		documentsUrl?.appendPathComponent("StoriesSdkCacheDirectory")
@@ -18,6 +18,10 @@ class CacheService: CacheServiceInput {
 		}
 		return documentsUrl
 	}()
+	
+	init(fileManager: FileManager) {
+		self.fileManager = fileManager
+	}
 	
 	func getViewModel(slideModel: SlideModel) -> SlideViewModel? {
 		var viewModel = SlideViewModel(slideModel: slideModel)
@@ -78,7 +82,7 @@ class CacheService: CacheServiceInput {
 		return nil
 	}
 
-	func cacheDirectoryFor(_ url: URL) -> URL? {
+	private func cacheDirectoryFor(_ url: URL) -> URL? {
 		let fileURL = url.path
 		let valueAddingPercentEncoding = fileURL.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
 		let cacheUrl = baseUrl?.appendingPathComponent(valueAddingPercentEncoding)

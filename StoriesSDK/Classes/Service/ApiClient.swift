@@ -29,7 +29,7 @@ extension ApiClient: ApiClientInput {
 
 class ApiClient {
 
-	private let cacheManager: CacheServiceInput = CacheService()
+	private let cacheManager: CacheServiceInput = CacheService.shared
 	private let baseURLString = ""
 	private var taskPool = SafeArray<URLSessionTask>()
 	private let downloadQueue = DispatchQueue(label: "DownloadQueue", attributes: .concurrent)

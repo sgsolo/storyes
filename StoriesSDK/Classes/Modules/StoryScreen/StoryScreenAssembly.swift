@@ -27,7 +27,7 @@ protocol StoryScreenModuleOutput: class {
 
 final class StoryScreenAssembly {
 	public static func setup(_ viewController: StoryScreenViewController, storyModel: StoryModel, delegate: StoryScreenModuleOutput) -> StoryScreenModuleInput {
-		let presenter = StoryScreenPresenter(storiesService: StoriesService.shared, cacheManager: CacheService(), storyModel: storyModel)
+		let presenter = StoryScreenPresenter(storiesService: StoriesService.shared, cacheManager: CacheService.shared, storyModel: storyModel)
 		
 		viewController.presenter = presenter
 		presenter.view = viewController
