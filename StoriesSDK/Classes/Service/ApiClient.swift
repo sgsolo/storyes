@@ -1,6 +1,16 @@
 import Foundation
 
 typealias Parametrs = Dictionary<String, String>
+let timeoutInterval: TimeInterval = 120
+
+enum HTTPMethod: String {
+	case get = "GET"
+	case post = "POST"
+}
+
+enum ApiEndPoint: String {
+	case bunkerStoriesMusic = "http://bunker-api-dot.yandex.net/v1/cat?node=/stories/stories-music&version=latest"
+}
 
 protocol ApiClientInput {
 	func getStories(completion: @escaping (Result<Data, Error>) -> Void)
@@ -8,10 +18,8 @@ protocol ApiClientInput {
 }
 
 extension ApiClient: ApiClientInput {
-	// TODO: for test
 	public	func getStories(completion: @escaping (Result<Data, Error>) -> Void) {
-		guard let urlRequest = getRequest("http://bunker-api-dot.yandex.net/v1/cat?node=/stories/stories-music&version=latest") else { return }
-		//TODO: "MOCK удалить позже"
+		guard let urlRequest = getRequest(ApiEndPoint.bunkerStoriesMusic.rawValue) else { return }
 		if YStoriesManager.needUseMockData, let path = Bundle(for: ApiClient.self).path(forResource: "stories.json", ofType: nil) {
 			if let data = FileManager.default.contents(atPath: path) {
 				completion(.success(data))
@@ -29,54 +37,40 @@ extension ApiClient: ApiClientInput {
 
 class ApiClient {
 
-	private let cacheManager: CacheServiceInput = CacheService.shared
+	static let sharedUrlSession: URLSession = {
+		let configuration = URLSessionConfiguration.default
+		configuration.timeoutIntervalForRequest = timeoutInterval
+		configuration.timeoutIntervalForResource = timeoutInterval
+		return URLSession(configuration: configuration, delegate: ApiClientDelegate(), delegateQueue: nil)
+	}()
+	
+	private let cacheService: CacheServiceInput
+	private let urlSession: URLSession
 	private let baseURLString = ""
 	private var taskPool = SafeArray<URLSessionTask>()
 	private let downloadQueue = DispatchQueue(label: "DownloadQueue", attributes: .concurrent)
 	private static var tasks = SafeDictionary<URL, DispatchSemaphore>()
-	static var apiSession: URLSession = {
-		let configuration = URLSessionConfiguration.default
-		return URLSession(configuration: configuration)
-	}()
-
-	static var downloadSession: URLSession = {
-		let configuration = URLSessionConfiguration.default
-		configuration.timeoutIntervalForRequest = 120
-		configuration.timeoutIntervalForResource = 120
-		return URLSession(configuration: configuration, delegate: ApiClientDelegate(), delegateQueue: nil)
-	}()
+	
+	init(urlSession: URLSession, cacheService: CacheServiceInput) {
+		self.urlSession = urlSession
+		self.cacheService = cacheService
+	}
 	
 	private func getRequest(_ path: String, _ params: Parametrs? = nil) -> URLRequest? {
 		var urlString = baseURLString + path
 		urlString = self.createUrl(urlString, params)
 		if let url = URL(string: urlString) {
 			var urlRequest = URLRequest(url: url)
-			urlRequest.httpMethod = "GET"
-			urlRequest.timeoutInterval = 120
+			urlRequest.httpMethod = HTTPMethod.get.rawValue
+			urlRequest.timeoutInterval = timeoutInterval
 			return urlRequest
 		} else {
 			return nil
 		}
 	}
 	
-	private func postRequest(_ path: String, _ params: Parametrs? = nil) -> URLRequest? {
-		let url = baseURLString + path
-		if let url = URL(string: url) {
-			var request = URLRequest(url: url)
-			request.httpMethod = "POST"
-			request.timeoutInterval = 120
-			request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-			if let params = params, let serializedData = try? JSONSerialization.data(withJSONObject: params, options: []) {
-				request.httpBody = serializedData
-			}
-			return request
-		} else {
-			return nil
-		}
-	}
-	
 	private func dataTask(_ urlRequest: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
-		let task = ApiClient.apiSession.dataTask(with: urlRequest) { data, response, error in
+		let task = urlSession.dataTask(with: urlRequest) { data, response, error in
 			let httpResponse = response as? HTTPURLResponse
 			if let error = error {
 				print("REQUEST ERROR \(String(describing: response?.url)) \(error as NSError)")
@@ -86,19 +80,20 @@ class ApiClient {
 				return
 			}
 			
-			if [200, 201, 204].contains(httpResponse?.statusCode) {
+			let statusCode = httpResponse?.statusCode ?? 0
+			if (200...299).contains(statusCode) {
 				if let data = data, !data.isEmpty {
 					DispatchQueue.main.async {
 						completion(.success(data))
 					}
 				} else {
-					let error = NSError(domain: "Empty data", code: httpResponse?.statusCode ?? 0, userInfo: nil)
+					let error = NSError(domain: "Empty data", code: statusCode, userInfo: nil)
 					DispatchQueue.main.async {
 						completion(.failure(error))
 					}
 				}
 			} else {
-				let error = NSError(domain: "Invalid status code", code: httpResponse?.statusCode ?? 0, userInfo: nil)
+				let error = NSError(domain: "Invalid status code", code: statusCode, userInfo: nil)
 				DispatchQueue.main.async {
 					completion(.failure(error))
 				}
@@ -109,20 +104,21 @@ class ApiClient {
 	}
 	
 	private func downloadTask(_ url: URL, completion: @escaping (Result<URL, Error>) -> Void) {
-		if let destinationUrl = self.cacheManager.getUrlWith(stringUrl: url.absoluteString) {
+		if let destinationUrl = self.cacheService.getUrlWith(stringUrl: url.absoluteString) {
 			DispatchQueue.main.async {
 				completion(.success(destinationUrl))
 			}
 			return
 		}
 		
-		downloadQueue.async {
+		downloadQueue.async { [weak self] in
+			guard let self = self else { return }
 			
 			if let semaphore = ApiClient.tasks[url] {
 				semaphore.wait()
 				semaphore.signal()
 				DispatchQueue.main.async {
-					if let localUrl = self.cacheManager.getUrlWith(stringUrl: url.absoluteString) {
+					if let localUrl = self.cacheService.getUrlWith(stringUrl: url.absoluteString) {
 						completion(.success(localUrl))
 					} else {
 						let error = NSError(domain: "Url not contains in cache", code: 0, userInfo: nil)
@@ -133,7 +129,7 @@ class ApiClient {
 			}
 			ApiClient.tasks[url] = DispatchSemaphore(value: 0)
 			
-			let task = ApiClient.downloadSession.downloadTask(with: url) { location, response, error in
+			let task = self.urlSession.downloadTask(with: url) { location, response, error in
 				defer {
 					let semaphore = ApiClient.tasks[url]
 					ApiClient.tasks[url] = nil
@@ -150,7 +146,7 @@ class ApiClient {
 					return
 				}
 				DispatchQueue.main.async {
-					if let destinationUrl = self.cacheManager.saveToCacheIfNeeded(url, currentLocation: location) {
+					if let destinationUrl = self.cacheService.saveToCacheIfNeeded(url, currentLocation: location) {
 						completion(.success(destinationUrl))
 					} else {
 						let error = NSError(domain: "Url not contains in cache", code: 0)

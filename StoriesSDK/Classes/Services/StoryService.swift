@@ -23,7 +23,7 @@ struct StoryIndex {
 }
 
 class StoriesService: StoriesServiceInput {
-	static let shared = StoriesService(apiClient: ApiClient())
+	static let shared = StoriesService(apiClient: ApiClient(urlSession: ApiClient.sharedUrlSession, cacheService: CacheService.shared))
 	
 	var currentStoryIndex = StoryIndex()
     var stories: [StoryModel]?
