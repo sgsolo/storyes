@@ -9,7 +9,7 @@ enum HTTPMethod: String {
 }
 
 enum ApiEndPoint: String {
-	case bunkerStoriesMusic = "http://bunker-api-dot.yandex.net/v1/cat?node=/stories/stories-music&version=latest"
+	case bunkerStoriesMusic = "/v1/cat?node=/stories/stories-music&version=latest"
 }
 
 protocol ApiClientInput {
@@ -46,7 +46,7 @@ class ApiClient {
 	
 	private let cacheService: CacheServiceInput
 	private let urlSession: URLSession
-	private let baseURLString = ""
+	private let baseURLString = "http://bunker-api-dot.yandex.net"
 	private var taskPool = SafeArray<URLSessionTask>()
 	private let downloadQueue = DispatchQueue(label: "DownloadQueue", attributes: .concurrent)
 	private static var tasks = SafeDictionary<URL, DispatchSemaphore>()
