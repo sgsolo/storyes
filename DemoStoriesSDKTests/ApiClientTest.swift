@@ -2,18 +2,18 @@
 import XCTest
 @testable import StoriesSDK
 
-class ApiClientTest: XCTestCase {
+class ApiServiceTest: XCTestCase {
 
 	var urlSessionMock: URLSessionMock!
 	var cacheServiceMock: CacheServiceMock!
-	var apiClient: ApiClientInput!
+	var apiClient: ApiServiceInput!
 	
     override func setUp() {
 		super.setUp()
 		YStoriesManager.needUseMockData = false
 		urlSessionMock = URLSessionMock()
 		cacheServiceMock = CacheServiceMock()
-		apiClient = ApiClient(urlSession: urlSessionMock, cacheService: cacheServiceMock)
+		apiClient = ApiService(urlSession: urlSessionMock, cacheService: cacheServiceMock)
     }
 
     override func tearDown() {

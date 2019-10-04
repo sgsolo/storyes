@@ -5,11 +5,11 @@ import XCTest
 class StoryServiceTest: XCTestCase {
 
 	var storiesService: StoriesService!
-	var apiClient: ApiClientStub!
+	var apiClient: ApiServiceStub!
 	
     override func setUp() {
 		super.setUp()
-		apiClient = ApiClientStub()
+		apiClient = ApiServiceStub()
 		storiesService = StoriesService(apiClient: apiClient)
     }
 
@@ -391,14 +391,14 @@ class StoryServiceTest: XCTestCase {
 	}
 }
 
-final class ApiClientStub: ApiClientInput {
-	enum ApiClientBehavior {
+final class ApiServiceStub: ApiServiceInput {
+	enum ApiServiceBehavior {
 		case success
 		case invalidData
 		case networkError
 	}
 	
-	var apiClientBehavior: ApiClientBehavior = .success
+	var apiClientBehavior: ApiServiceBehavior = .success
 	
 	func getStories(completion: @escaping (Result<Data, Error>) -> Void) {
 		switch apiClientBehavior {

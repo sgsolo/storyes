@@ -12,15 +12,15 @@ enum ApiEndPoint: String {
 	case bunkerStoriesMusic = "/v1/cat?node=/stories/stories-music&version=latest"
 }
 
-protocol ApiClientInput {
+protocol ApiServiceInput {
 	func getStories(completion: @escaping (Result<Data, Error>) -> Void)
 	func getData(_ url: URL, completion: @escaping (Result<URL, Error>) -> Void)
 }
 
-extension ApiClient: ApiClientInput {
+extension ApiService: ApiServiceInput {
 	public	func getStories(completion: @escaping (Result<Data, Error>) -> Void) {
 		guard let urlRequest = getRequest(ApiEndPoint.bunkerStoriesMusic.rawValue) else { return }
-		if YStoriesManager.needUseMockData, let path = Bundle(for: ApiClient.self).path(forResource: "stories.json", ofType: nil) {
+		if YStoriesManager.needUseMockData, let path = Bundle(for: ApiService.self).path(forResource: "stories.json", ofType: nil) {
 			if let data = FileManager.default.contents(atPath: path) {
 				completion(.success(data))
 				return
@@ -35,13 +35,13 @@ extension ApiClient: ApiClientInput {
 	}
 }
 
-class ApiClient {
+class ApiService {
 
 	static let sharedUrlSession: URLSession = {
 		let configuration = URLSessionConfiguration.default
 		configuration.timeoutIntervalForRequest = timeoutInterval
 		configuration.timeoutIntervalForResource = timeoutInterval
-		return URLSession(configuration: configuration, delegate: ApiClientDelegate(), delegateQueue: nil)
+		return URLSession(configuration: configuration, delegate: ApiServiceDelegate(), delegateQueue: nil)
 	}()
 	
 	private let cacheService: CacheServiceInput
@@ -107,7 +107,7 @@ class ApiClient {
 		downloadQueue.async { [weak self] in
 			guard let self = self else { return }
 			
-			if let semaphore = ApiClient.tasks[url] {
+			if let semaphore = ApiService.tasks[url] {
 				semaphore.wait()
 				semaphore.signal()
 				DispatchQueue.main.async {
@@ -120,12 +120,12 @@ class ApiClient {
 				}
 				return
 			}
-			ApiClient.tasks[url] = DispatchSemaphore(value: 0)
+			ApiService.tasks[url] = DispatchSemaphore(value: 0)
 			
 			let task = self.urlSession.downloadTask(with: url) { location, response, error in
 				defer {
-					let semaphore = ApiClient.tasks[url]
-					ApiClient.tasks[url] = nil
+					let semaphore = ApiService.tasks[url]
+					ApiService.tasks[url] = nil
 					semaphore?.signal()
 				}
 				
@@ -159,7 +159,7 @@ class ApiClient {
 }
 
 //https://st.yandex-team.ru/MSTORIES-54
-class ApiClientDelegate: NSObject, URLSessionDelegate {
+class ApiServiceDelegate: NSObject, URLSessionDelegate {
 	func urlSession(_ session: URLSession,
 					didReceive challenge: URLAuthenticationChallenge,
 					completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {

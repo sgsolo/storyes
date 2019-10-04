@@ -23,16 +23,16 @@ struct StoryIndex {
 }
 
 class StoriesService: StoriesServiceInput {
-	static let shared = StoriesService(apiClient: ApiClient(urlSession: ApiClient.sharedUrlSession, cacheService: CacheService.shared))
+	static let shared = StoriesService(apiClient: ApiService(urlSession: ApiService.sharedUrlSession, cacheService: CacheService.shared))
 	
 	var currentStoryIndex = StoryIndex()
     var stories: [StoryModel]?
 	
     private var storiesPredownloadQueue: [() -> Void] = []
     private var isDownloading = false
-    private let apiClient: ApiClientInput
+    private let apiClient: ApiServiceInput
 	
-	init(apiClient: ApiClientInput) {
+	init(apiClient: ApiServiceInput) {
 		self.apiClient = apiClient
 	}
 	
