@@ -292,16 +292,6 @@
 			path = "Enums and types";
 			sourceTree = "<group>";
 		};
-		13066E9F4D6EB08565F7D0B84334A26E /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				265136AD88D3A788D57FBAE9DFD01FBE /* ApiClient.swift */,
-				7852E45410C1CD3079F710146B960D36 /* stories.json */,
-			);
-			name = Service;
-			path = StoriesSDK/Classes/Service;
-			sourceTree = "<group>";
-		};
 		1AEB0B4B1EBB1228EC8F5FBA9606C4AF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,7 +454,6 @@
 				4C6B114F19AEA7EDC85BFEB91E275AB4 /* Player */,
 				F5AB36310442864C998B8437096E229A /* Pod */,
 				3D7BB296912AC8A56ECD1369A02ECC23 /* Resources */,
-				13066E9F4D6EB08565F7D0B84334A26E /* Service */,
 				74A688B1C84C0EFAD7D4C9D4C78DE777 /* Services */,
 				D1D596C5568A921D36705980793BE4C9 /* StoryManager */,
 				9EDE1C1C393931BF2D2ABD1F65B02AC1 /* Support Files */,
@@ -534,6 +523,8 @@
 			children = (
 				C4C0C21C78B34B382685CBCE7989A6FA /* CacheService.swift */,
 				80B1F2390BC8C8FF90181694B01E101B /* StoryService.swift */,
+				265136AD88D3A788D57FBAE9DFD01FBE /* ApiClient.swift */,
+				7852E45410C1CD3079F710146B960D36 /* stories.json */,
 			);
 			name = Services;
 			path = StoriesSDK/Classes/Services;
