@@ -57,14 +57,14 @@ class ApiClient {
 	}
 	
 	private func getRequest(_ path: String, _ params: Parametrs? = nil) -> URLRequest? {
-		var urlString = baseURLString + path
-		urlString = self.createUrl(urlString, params)
+		let urlString = baseURLString + path
 		if let url = URL(string: urlString) {
 			var urlRequest = URLRequest(url: url)
 			urlRequest.httpMethod = HTTPMethod.get.rawValue
 			urlRequest.timeoutInterval = timeoutInterval
 			return urlRequest
 		} else {
+			assertionFailure("url can't be nil")
 			return nil
 		}
 	}
@@ -81,16 +81,9 @@ class ApiClient {
 			}
 			
 			let statusCode = httpResponse?.statusCode ?? 0
-			if (200...299).contains(statusCode) {
-				if let data = data, !data.isEmpty {
-					DispatchQueue.main.async {
-						completion(.success(data))
-					}
-				} else {
-					let error = NSError(domain: "Empty data", code: statusCode, userInfo: nil)
-					DispatchQueue.main.async {
-						completion(.failure(error))
-					}
+			if (200...299).contains(statusCode), let data = data {
+				DispatchQueue.main.async {
+					completion(.success(data))
 				}
 			} else {
 				let error = NSError(domain: "Invalid status code", code: statusCode, userInfo: nil)
@@ -157,19 +150,6 @@ class ApiClient {
 			task.resume()
 			self.taskPool.append(task)
 		}
-	}
-	
-	private func createUrl(_ baseUrl: String, _ params: Parametrs? = nil) -> String {
-		var url = baseUrl
-		if let params = params{
-			url += "?"
-			for (key, value) in params {
-				guard let valueAddingPercentEncoding = value.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { continue }
-				url += "\(key)=\(valueAddingPercentEncoding)&"
-			}
-			url.removeLast()
-		}
-		return url
 	}
 	
 	deinit {
