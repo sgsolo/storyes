@@ -85,7 +85,7 @@
 		DDC117926862296F2B4FFF333B4FA98A /* CarouselCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53933598EC5E6D7A7735350101732A44 /* CarouselCollectionViewAdapter.swift */; };
 		DE16C240D5C90A27956327CE2FF9F1E0 /* CarouselPreviewSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E81C2C3CA61C92FD4C88B338952B9F /* CarouselPreviewSizeCalculator.swift */; };
 		E057E7703202292FA515CED9E86C6BC8 /* BaseCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47693423216253E1750847D8BA577462 /* BaseCollectionViewAdapter.swift */; };
-		E1DCD8568B91F033F9F1C507D4C10203 /* StoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CC2E0C112A0A5F8396B22DC059EC32 /* StoryManager.swift */; };
+		E1DCD8568B91F033F9F1C507D4C10203 /* StoriesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CC2E0C112A0A5F8396B22DC059EC32 /* StoriesManager.swift */; };
 		E3E79F18A0A485B9F93FFBE6079AC743 /* StoryAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE84F3CDDBA2FECF898079071D4E134 /* StoryAnimatedTransitioning.swift */; };
 		E5CD0FC2E2DB80337E122FE092198B33 /* SafeArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD32E9463315543A282903508CBF92E1 /* SafeArray.swift */; };
 		EE03F3F6B71AC0F4496D5503A24F9B0E /* StoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFBE822DDB4652E15D3A9FEC77AC6D2 /* StoriesModel.swift */; };
@@ -200,7 +200,7 @@
 		B03CA28EB373B11A62ECCB9833DAD5C7 /* Pods-DemoStoriesSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DemoStoriesSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B54C225303A4E69607BF9DAF88A83135 /* Pods-DemoStoriesSDKTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DemoStoriesSDKTests.modulemap"; sourceTree = "<group>"; };
 		B852D6D874CA07CF4A70C99BBAE39E9A /* Video.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
-		B8CC2E0C112A0A5F8396B22DC059EC32 /* StoryManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StoryManager.swift; sourceTree = "<group>"; };
+		B8CC2E0C112A0A5F8396B22DC059EC32 /* StoriesManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StoriesManager.swift; sourceTree = "<group>"; };
 		BA714ED16A92088D70102B8F2370282B /* Pods-DemoStoriesSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DemoStoriesSDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		BA999D2B7442563FAA8FE993E841F4BC /* CarouselConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CarouselConfiguration.swift; sourceTree = "<group>"; };
 		BF2B36335E8569544E4F823340417A32 /* Pods-DemoStoriesSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DemoStoriesSDK.modulemap"; sourceTree = "<group>"; };
@@ -589,7 +589,7 @@
 		D1D596C5568A921D36705980793BE4C9 /* StoryManager */ = {
 			isa = PBXGroup;
 			children = (
-				B8CC2E0C112A0A5F8396B22DC059EC32 /* StoryManager.swift */,
+				B8CC2E0C112A0A5F8396B22DC059EC32 /* StoriesManager.swift */,
 				C4B43AD49712FD58AE1BB246F6A094E8 /* YUIStyle.swift */,
 			);
 			name = StoryManager;
@@ -886,7 +886,7 @@
 				C7292B4AAF9805335F603BA37CACE7D5 /* StoryContextTransitioning.swift in Sources */,
 				F23D92A15ED516E12BD59C58926787A2 /* StoryData.swift in Sources */,
 				CC7945A494E8D6481A0C9935A2E34BD4 /* StoryInteractiveTransitioning.swift in Sources */,
-				E1DCD8568B91F033F9F1C507D4C10203 /* StoryManager.swift in Sources */,
+				E1DCD8568B91F033F9F1C507D4C10203 /* StoriesManager.swift in Sources */,
 				C401B8B0C67B85201D19DC8B76543770 /* StoryModel.swift in Sources */,
 				9B25CACF6A29AB82E968E4F77C3B5995 /* StoryScreenAssembly.swift in Sources */,
 				C860675339F6FE6564DE4B82B61A1609 /* StoryScreenPresenter.swift in Sources */,
