@@ -17,6 +17,7 @@
 		6B412180234618CB0068FC93 /* ApiClientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B41217F234618CB0068FC93 /* ApiClientTest.swift */; };
 		6B4CE5802343229E00E86B58 /* storiesMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 6B4CE57F2343229E00E86B58 /* storiesMock.json */; };
 		6B81C7842342362900ED447E /* FullScreenPresenterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B81C7832342362900ED447E /* FullScreenPresenterTest.swift */; };
+		6B8CC769234B251E004652C2 /* StoryScreenPresenterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8CC768234B251E004652C2 /* StoryScreenPresenterTest.swift */; };
 		6B8D80B923478A9C001904A1 /* YStoriesManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8D80B823478A9C001904A1 /* YStoriesManagerTest.swift */; };
 		6BC37DC123435D2E00002BB3 /* StoryServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC37DC023435D2E00002BB3 /* StoryServiceTest.swift */; };
 		6BC37DC32344A6D300002BB3 /* invalidStoriesMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 6BC37DC22344A6D300002BB3 /* invalidStoriesMock.json */; };
@@ -58,6 +59,7 @@
 		6B81C7812342362800ED447E /* DemoStoriesSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoStoriesSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B81C7832342362900ED447E /* FullScreenPresenterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPresenterTest.swift; sourceTree = "<group>"; };
 		6B81C7852342362900ED447E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B8CC768234B251E004652C2 /* StoryScreenPresenterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScreenPresenterTest.swift; sourceTree = "<group>"; };
 		6B8D80B823478A9C001904A1 /* YStoriesManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YStoriesManagerTest.swift; sourceTree = "<group>"; };
 		6BC37DC023435D2E00002BB3 /* StoryServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryServiceTest.swift; sourceTree = "<group>"; };
 		6BC37DC22344A6D300002BB3 /* invalidStoriesMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = invalidStoriesMock.json; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				6B41217D2345E2CC0068FC93 /* CacheServiceTest.swift */,
 				6B41217F234618CB0068FC93 /* ApiClientTest.swift */,
 				6B8D80B823478A9C001904A1 /* YStoriesManagerTest.swift */,
+				6B8CC768234B251E004652C2 /* StoryScreenPresenterTest.swift */,
 				6B4CE57F2343229E00E86B58 /* storiesMock.json */,
 				6BC37DC22344A6D300002BB3 /* invalidStoriesMock.json */,
 				6B81C7852342362900ED447E /* Info.plist */,
@@ -374,6 +377,7 @@
 			files = (
 				6B41217E2345E2CC0068FC93 /* CacheServiceTest.swift in Sources */,
 				6B81C7842342362900ED447E /* FullScreenPresenterTest.swift in Sources */,
+				6B8CC769234B251E004652C2 /* StoryScreenPresenterTest.swift in Sources */,
 				6B8D80B923478A9C001904A1 /* YStoriesManagerTest.swift in Sources */,
 				6BC37DC123435D2E00002BB3 /* StoryServiceTest.swift in Sources */,
 				6B412180234618CB0068FC93 /* ApiClientTest.swift in Sources */,

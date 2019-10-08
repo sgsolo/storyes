@@ -1,26 +1,40 @@
 import Foundation
 
 class StoryScreenPresenter: StoryScreenModuleInput {
-	weak var output: StoryScreenModuleOutput?
-	weak var view: StoryScreenViewInput!
-	let storiesService: StoriesServiceInput
-	let cacheManager: CacheServiceInput
-	var storyModel: StoryModel
-	
 	var isTransitionInProgress = false
 	var isContentDownloaded = false
-	private var player: Player?
-	private var isViewDidAppear = false
-	private var slideSwitchTimer = PauseTimer()
 	
-	init(storiesService: StoriesService, cacheManager: CacheServiceInput, storyModel: StoryModel) {
+	private weak var output: StoryScreenModuleOutput?
+	private weak var view: StoryScreenViewInput!
+	private let storiesService: StoriesServiceInput
+	private let cacheManager: CacheServiceInput
+	private let notificationCenter: NotificationCenter
+	private let slideSwitchTimer: PauseTimerInput
+	private var storyModel: StoryModel
+	
+	private var player: PlayerInput?
+	private var isViewDidAppear = false
+	
+	init(view: StoryScreenViewInput,
+		 storiesService: StoriesServiceInput,
+		 cacheManager: CacheServiceInput,
+		 storyModel: StoryModel,
+		 output: StoryScreenModuleOutput?,
+		 slideSwitchTimer: PauseTimerInput = PauseTimer(),
+		 player: PlayerInput? = nil,
+		 notificationCenter: NotificationCenter = NotificationCenter.default) {
+		self.view = view
+		self.output = output
 		self.storiesService = storiesService
 		self.cacheManager = cacheManager
 		self.storyModel = storyModel
+		self.notificationCenter = notificationCenter
+		self.slideSwitchTimer = slideSwitchTimer
+		self.player = player
 	}
 	
 	deinit {
-		NotificationCenter.default.removeObserver(self)
+		notificationCenter.removeObserver(self)
 	}
 }
 
@@ -254,14 +268,14 @@ extension StoryScreenPresenter {
 	}
 	
 	private func addObserver() {
-		NotificationCenter.default.addObserver(self,
-											   selector: #selector(applicationDidEnterBackgroundHandler),
-											   name: NSNotification.Name.UIApplicationWillResignActive,
-											   object: nil)
-		NotificationCenter.default.addObserver(self,
-											   selector: #selector(applicationWillEnterForegroundHandler),
-											   name: NSNotification.Name.UIApplicationDidBecomeActive,
-											   object: nil)
+		notificationCenter.addObserver(self,
+									   selector: #selector(applicationDidEnterBackgroundHandler),
+									   name: NSNotification.Name.UIApplicationWillResignActive,
+									   object: nil)
+		notificationCenter.addObserver(self,
+									   selector: #selector(applicationWillEnterForegroundHandler),
+									   name: NSNotification.Name.UIApplicationDidBecomeActive,
+									   object: nil)
 	}
 	
 	@objc private func applicationDidEnterBackgroundHandler() {

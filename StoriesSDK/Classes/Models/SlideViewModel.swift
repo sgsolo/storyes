@@ -16,7 +16,7 @@ enum AnimationType: Int {
 
 struct SlideViewModel {
 	var type: SlideViewContentType = .image
-	var player: Player?
+	var player: PlayerInput?
 	var videoUrl: URL?
 	var trackUrl: URL?
 	var imageUrl: URL?
