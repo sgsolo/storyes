@@ -36,18 +36,14 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 			let fromView = transitionContext.view(forKey: .from) else { return }
 		let frame = inView.bounds
 		
+		inView.insertSubview(toView, belowSubview: fromView)
+		fromView.transform = .identity
+		fromView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
+		toView.transform = CGAffineTransform(scaleX: scale, y: scale)
 		switch direction {
 		case .leftToRight:
-			inView.insertSubview(toView, belowSubview: fromView)
-			fromView.transform = .identity
-			fromView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
-			toView.transform = CGAffineTransform(scaleX: scale, y: scale)
 			toView.center = CGPoint(x: -frame.size.width * (1/2 + (1 - scale)), y: toView.center.y)
 		case .rightToLeft:
-			inView.insertSubview(toView, belowSubview: fromView)
-			fromView.transform = .identity
-			fromView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
-			toView.transform = CGAffineTransform(scaleX: scale, y: scale)
 			toView.center = CGPoint(x: frame.size.width * (3/2 + (1 - scale)), y: toView.center.y)
 		}
 	}
@@ -66,16 +62,14 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 		let xOffsetFrom = frame.size.width * percentComplete
 		
 		UIView.animate(withDuration: 0.1, animations: {
+			fromView.transform = CGAffineTransform(scaleX: scaleFactorFrom, y: scaleFactorFrom)
+			toView.transform = CGAffineTransform(scaleX: scaleFactorTo, y: scaleFactorTo)
 			switch self.direction {
 			case .leftToRight:
-				fromView.transform = CGAffineTransform(scaleX: scaleFactorFrom, y: scaleFactorFrom)
 				fromView.center = CGPoint(x: xOffsetFrom + frame.size.width / 2, y: fromView.center.y)
-				toView.transform = CGAffineTransform(scaleX: scaleFactorTo, y: scaleFactorTo)
 				toView.center = CGPoint(x: -xOffsetTo + frame.size.width / 2, y: toView.center.y)
 			case .rightToLeft:
-				fromView.transform = CGAffineTransform(scaleX: scaleFactorFrom, y: scaleFactorFrom)
 				fromView.center = CGPoint(x: -xOffsetFrom + frame.size.width / 2, y: fromView.center.y)
-				toView.transform = CGAffineTransform(scaleX: scaleFactorTo, y: scaleFactorTo)
 				toView.center = CGPoint(x: xOffsetTo + frame.size.width / 2, y: toView.center.y)
 			}
 		})
@@ -87,26 +81,19 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 		let inView = transitionContext.containerView
 		let frame = inView.bounds
 		
-		switch direction {
-		case .leftToRight:
-			UIView.animate(withDuration: TimeInterval(transitionDuration * (1 - percentComplete)), animations: {
-				fromView.transform = .identity
-				fromView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
-				toView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
+		UIView.animate(withDuration: TimeInterval(transitionDuration * (1 - percentComplete)), animations: {
+			fromView.transform = .identity
+			fromView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
+			toView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
+			switch self.direction {
+			case .leftToRight:
 				toView.center = CGPoint(x: -frame.size.width / 2, y: fromView.center.y)
-			}, completion: { finished in
-				transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-			})
-		case .rightToLeft:
-			UIView.animate(withDuration: TimeInterval(transitionDuration * (1 - percentComplete)), animations: {
-				fromView.transform = .identity
-				fromView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
-				toView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
+			case .rightToLeft:
 				toView.center = CGPoint(x: 3/2 * frame.size.width, y: fromView.center.y)
-			}, completion: { finished in
-				transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-			})
-		}
+			}
+		},  completion: { finished in
+			transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+		})
 	}
 	
 	func animateFinishTransition(using transitionContext: UIViewControllerContextTransitioning, percentComplete: CGFloat) {
@@ -114,26 +101,18 @@ class StoryAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitionin
 			let fromView = transitionContext.view(forKey: .from)  else { return }
 		let inView = transitionContext.containerView
 		let frame = inView.bounds
-		
-		switch direction {
-		case .leftToRight:
-			UIView.animate(withDuration: TimeInterval(transitionDuration * (1 - percentComplete)), animations: {
-				toView.transform = .identity
-				toView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
-				fromView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
+		UIView.animate(withDuration: TimeInterval(transitionDuration * (1 - percentComplete)), animations: {
+			toView.transform = .identity
+			toView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
+			fromView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
+			switch self.direction {
+			case .leftToRight:
 				fromView.center = CGPoint(x: 3/2 * frame.size.width, y: fromView.center.y)
-			}, completion: { finished in
-				transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-			})
-		case .rightToLeft:
-			UIView.animate(withDuration: TimeInterval(transitionDuration * (1 - percentComplete)), animations: {
-				toView.transform = .identity
-				toView.center = CGPoint(x: frame.size.width / 2, y: fromView.center.y)
-				fromView.transform = CGAffineTransform(scaleX: self.scale, y: self.scale)
+			case .rightToLeft:
 				fromView.center = CGPoint(x: -frame.size.width / 2, y: fromView.center.y)
-			}, completion: { finished in
-				transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-			})
-		}
+			}
+		}, completion: { finished in
+			transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+		})
 	}
 }
