@@ -56,16 +56,21 @@ public class YStoriesManager: NSObject, YStoriesManagerInput {
 	private var fullScreenEndFrame: CGRect?
 	
     private weak var storiesManagerOutput: YStoriesManagerOutput?
-    private let storiesService: StoriesServiceInput = StoriesService.shared
+    private let storiesService: StoriesServiceInput
     
-    public init(storiesManagerOutput: YStoriesManagerOutput) {
-        self.storiesManagerOutput = storiesManagerOutput
-        UIFont.loadAllFonts
-		super.init()
-        makeCarouselViewController(for: YStoriesManager.targetApp)
+	public convenience init(storiesManagerOutput: YStoriesManagerOutput) {
+		self.init(storiesManagerOutput: storiesManagerOutput, storiesService: StoriesService.shared)
     }
+	
+	init(storiesManagerOutput: YStoriesManagerOutput, storiesService: StoriesServiceInput) {
+		self.storiesManagerOutput = storiesManagerOutput
+		self.storiesService = storiesService
+		UIFont.loadAllFonts
+		super.init()
+		makeCarouselViewController(for: YStoriesManager.targetApp)
+	}
     
-    func makeCarouselViewController(for targetApp: SupportedApp) {
+    private func makeCarouselViewController(for targetApp: SupportedApp) {
         self.carosuelModule = CarouselPreviewAssembly.setup(for: targetApp, delegate: self)
         caruselViewController = self.carosuelModule?.view
     }
@@ -110,15 +115,15 @@ extension YStoriesManager: FullScreenModuleOutput {
 
 extension YStoriesManager {
     public func loadStories() {
-        storiesService.getStories(success: { [weak self] _ in
-            self?.storiesManagerOutput?.storiesDidLoad(true, error: nil)
-            guard let stories = self?.storiesService.stories else {
-                return
-            }
-            self?.carosuelModule?.input.storiesDidLoad(stories: stories)
-        }) { [weak self] error in
-            self?.storiesManagerOutput?.storiesDidLoad(false, error: error)
-        }
+		storiesService.getStories { [weak self] result in
+			switch result {
+			case .success(let stories):
+				self?.storiesManagerOutput?.storiesDidLoad(true, error: nil)
+				self?.carosuelModule?.input.storiesDidLoad(stories: stories)
+			case .failure(let error):
+				self?.storiesManagerOutput?.storiesDidLoad(false, error: error)
+			}
+		}
     }
     
     public func colorThemeDidChange(_ toColorTheme: YColorTheme) {

@@ -16,11 +16,8 @@ public protocol FullScreenModuleOutput: class {
 
 final class FullScreenAssembly {
 	static func setup(_ viewController: FullScreenViewController, storiesService: StoriesServiceInput, delegate: FullScreenModuleOutput) -> FullScreenModuleInput {
-		let presenter = FullScreenPresenter(storiesService: storiesService)
-		
+		let presenter = FullScreenPresenter(view: viewController, storiesService: storiesService, output: delegate)
 		viewController.presenter = presenter
-		presenter.view = viewController
-		presenter.output = delegate
 		return presenter
 	}
 }

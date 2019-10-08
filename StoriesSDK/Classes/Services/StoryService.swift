@@ -1,14 +1,19 @@
 import UIKit
 
-protocol StoriesServiceInput {
+protocol StoriesServiceInput: class {
     var stories: [StoryModel]? { get }
-    func getStories(success: Success?, failure: Failure?)
-    func getData(_ slideModel: SlideModel, success: Success?, failure: Failure?)
-    func preDownloadStory(storyModel: StoryModel)
-    func addDownloadQueue(slideModel: SlideModel)
+	var currentStoryIndex: StoryIndex { get set }
+    func getStories(completion: @escaping (Result<[StoryModel], Error>) -> Void)
+	func getData(_ url: URL, completion: @escaping (Result<URL, Error>) -> Void)
+    func getData(_ slideModel: SlideModel, completion: @escaping (Result<SlideViewModel, Error>) -> Void)
+	func prevStory() -> StoryModel?
+	func nextStory() -> StoryModel?
+	func preloadNextStory()
+	func preloadPreviousStory()
+	func preloadNextSlide()
 }
 
-struct Story {
+struct StoryIndex {
     var storyIndex: Int = 0 {
         didSet {
             slideIndex = 0
@@ -18,133 +23,170 @@ struct Story {
 }
 
 class StoriesService: StoriesServiceInput {
-    static let shared = StoriesService()
-    
+	static let shared = StoriesService(apiClient: ApiService(urlSession: ApiService.sharedUrlSession, cacheService: CacheService.shared))
+	
+	var currentStoryIndex = StoryIndex()
     var stories: [StoryModel]?
-    var storyesPredownloadQueue: [() -> Void] = []
-    var isDownloading = false
-    private var apiClient: ApiClientInput = ApiClient()
-    
-    func getStories(success: Success?, failure: Failure?) {
-        apiClient.getCarusel(success: { data in
-            guard let data = data as? Data else { return }
-            do {
-                let stories = try JSONDecoder().decode(StoriesModel.self, from: data)
-                self.stories = stories.stories
-                success?(stories)
-            }
-            catch {
-                print(error)
-                failure?(error)
-            }
-        }, failure: { error in
-            print(error)
-            failure?(error)
-        })
+	
+    private var storiesPredownloadQueue: [() -> Void] = []
+    private var isDownloading = false
+    private let apiClient: ApiServiceInput
+	
+	init(apiClient: ApiServiceInput) {
+		self.apiClient = apiClient
+	}
+	
+	func getStories(completion: @escaping (Result<[StoryModel], Error>) -> Void) {
+		apiClient.getStories { result in
+			switch result {
+			case .success(let data):
+				do {
+					let stories = try JSONDecoder().decode(StoriesModel.self, from: data)
+					self.stories = stories.stories
+					completion(.success(stories.stories))
+				}
+				catch {
+					print(error)
+					completion(.failure(error))
+				}
+			case .failure(let error):
+				print(error)
+				completion(.failure(error))
+			}
+		}
     }
     
-    func getData(_ url: URL, success: Success?, failure: Failure?) {
-        apiClient.getData(url, success: success, failure: failure)
+	func getData(_ url: URL, completion: @escaping (Result<URL, Error>) -> Void) {
+		apiClient.getData(url, completion: completion)
     }
     
-    func getData(_ slideModel: SlideModel, success: Success?, failure: Failure?) {
-        var viewModel = SlideViewModel()
-        viewModel.fillFromSlideModel(slideModel)
+    func getData(_ slideModel: SlideModel, completion: @escaping (Result<SlideViewModel, Error>) -> Void) {
+        var viewModel = SlideViewModel(slideModel: slideModel)
         let dispatchGroup = DispatchGroup()
         var networkError: Error?
 		if let storageDir = slideModel.video?.storageDir, let videoUrl = URL(string: storageDir) {
             viewModel.type = .video
             dispatchGroup.enter()
-            getData(videoUrl, success: { videoUrl in
-                if let videoUrl = videoUrl as? URL {
-                    viewModel.videoUrl = videoUrl
-                }
-                dispatchGroup.leave()
-            }, failure: { error in
-                networkError = error
-                dispatchGroup.leave()
-            })
+			getData(videoUrl, completion: { result in
+				switch result {
+				case .success(let url):
+					viewModel.videoUrl = url
+				case .failure(let error):
+					networkError = error
+				}
+				dispatchGroup.leave()
+			})
         } else {
             if let imageUrlString = slideModel.image, let imageUrl = URL(string: imageUrlString) {
                 viewModel.type = .image
                 dispatchGroup.enter()
-                getData(imageUrl, success: { imageUrl in
-                    if let imageUrl = imageUrl as? URL {
-                        viewModel.imageUrl = imageUrl
-                    }
-                    dispatchGroup.leave()
-                }, failure: { error in
-                    networkError = error
-                    dispatchGroup.leave()
-                })
+				getData(imageUrl, completion: { result in
+					switch result {
+					case .success(let url):
+						viewModel.imageUrl = url
+					case .failure(let error):
+						networkError = error
+					}
+					dispatchGroup.leave()
+				})
             }
 			if let frontImage = slideModel.frontImage, let frontImageUrl = URL(string: frontImage) {
 				dispatchGroup.enter()
-				getData(frontImageUrl, success: { frontImageUrl in
-					if let frontImageUrl = frontImageUrl as? URL {
-						viewModel.frontImageUrl = frontImageUrl
+				getData(frontImageUrl, completion: { result in
+					switch result {
+					case .success(let url):
+						viewModel.frontImageUrl = url
+					case .failure(let error):
+						networkError = error
 					}
-					dispatchGroup.leave()
-				}, failure: { error in
-					networkError = error
 					dispatchGroup.leave()
 				})
 			}
             if let storageDir = slideModel.track?.storageDir, let trackUrl = URL(string: storageDir) {
                 viewModel.type = .track
                 dispatchGroup.enter()
-                getData(trackUrl, success: { localTrackUrl in
-                    if let localTrackUrl = localTrackUrl as? URL {
-                        viewModel.trackUrl = localTrackUrl
-                    }
-                    print(trackUrl)
-                    dispatchGroup.leave()
-                }, failure: { error in
-                    networkError = error
-                    dispatchGroup.leave()
-                })
+				getData(trackUrl, completion: { result in
+					switch result {
+					case .success(let url):
+						viewModel.trackUrl = url
+					case .failure(let error):
+						networkError = error
+					}
+					dispatchGroup.leave()
+				})
             }
         }
         dispatchGroup.notify(queue: .main) {
             if let error = networkError {
-                failure?(error)
+				completion(.failure(error))
             } else {
-                success?(viewModel)
+				completion(.success(viewModel))
             }
         }
     }
+	
+	func prevStory() -> StoryModel? {
+		if let stories = stories,
+			stories.count > currentStoryIndex.storyIndex,
+			currentStoryIndex.storyIndex - 1 >= 0 {
+			return stories[currentStoryIndex.storyIndex - 1]
+		}
+		return nil
+	}
+	
+	func nextStory() -> StoryModel? {
+		if let stories = stories,
+			stories.count > currentStoryIndex.storyIndex + 1 {
+			return stories[currentStoryIndex.storyIndex + 1]
+		}
+		return nil
+	}
+	
+	func preloadNextSlide() {
+		if let stories = stories,
+			stories.count > currentStoryIndex.storyIndex,
+			stories[currentStoryIndex.storyIndex].data.dataSlides.count > stories[currentStoryIndex.storyIndex].currentIndex + 1 {
+			addDownloadQueue(slideModel: stories[currentStoryIndex.storyIndex].data.dataSlides[stories[currentStoryIndex.storyIndex].currentIndex + 1])
+		}
+	}
+	
+	func preloadNextStory() {
+		let nextStoryIndex = currentStoryIndex.storyIndex + 1
+		if let stories = stories, stories.count > nextStoryIndex, stories[nextStoryIndex].data.dataSlides.count > 0 {
+			addDownloadQueue(slideModel: stories[nextStoryIndex].data.dataSlides[0])
+		}
+	}
+	
+	func preloadPreviousStory() {
+		let prevStoryIndex = currentStoryIndex.storyIndex - 1
+		if let stories = stories,
+			stories.count > prevStoryIndex,
+			prevStoryIndex >= 0,
+			stories[prevStoryIndex].data.dataSlides.count > 0 {
+			addDownloadQueue(slideModel: stories[prevStoryIndex].data.dataSlides[0])
+		}
+	}
     
-    func preDownloadStory(storyModel: StoryModel) {
-        storyModel.data.dataSlides.forEach { slideModel in
-            getData(slideModel, success: nil, failure: nil)
+    private func addDownloadQueue(slideModel: SlideModel) {
+        let block = { [weak self] in
+            self?.isDownloading = true
+			self?.getData(slideModel, completion: { _ in
+				self?.isDownloading = false
+				self?.storyesPredownloadQueueRemoveLast()
+				self?.preDownloadNextSlide()
+			})
         }
-    }
-    
-    func addDownloadQueue(slideModel: SlideModel) {
-        let block = {
-            self.isDownloading = true
-            let block = { [weak self] in
-                self?.isDownloading = false
-                self?.removeDownloadQueue()
-                self?.preDownloadNextSlide()
-            }
-            self.getData(slideModel, success: { _ in
-                block()
-            }, failure: { error in
-                block()
-            })
-        }
-        storyesPredownloadQueue.insert(block, at: 0)
+        storiesPredownloadQueue.insert(block, at: 0)
         preDownloadNextSlide()
     }
     
     private func preDownloadNextSlide() {
-        if let predownloadItem = storyesPredownloadQueue.last, isDownloading == false {
+        if let predownloadItem = storiesPredownloadQueue.last, isDownloading == false {
             predownloadItem()
         }
     }
     
-    private func removeDownloadQueue() {
-        _ = storyesPredownloadQueue.removeLast()
+    private func storyesPredownloadQueueRemoveLast() {
+        _ = storiesPredownloadQueue.removeLast()
     }
 }

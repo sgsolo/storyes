@@ -1,6 +1,14 @@
 import Foundation
 
-class PauseTimer {
+protocol PauseTimerInput {
+	var isTimerScheduled: Bool { get }
+	func scheduledTimer(withTimeInterval interval: TimeInterval, repeats: Bool, block: @escaping (Timer) -> Void)
+	func invalidate()
+	func pause()
+	func resume()
+}
+
+class PauseTimer: PauseTimerInput {
     
     var isTimerScheduled = false
     

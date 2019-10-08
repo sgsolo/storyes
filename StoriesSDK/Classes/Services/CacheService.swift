@@ -2,15 +2,14 @@
 import Foundation
 
 protocol CacheServiceInput {
-	func getUrlWith(stringUrl: String, success: Success?, failure: Failure?)
 	func getViewModel(slideModel: SlideModel) -> SlideViewModel?
 	func getUrlWith(stringUrl: String) -> URL?
 	func saveToCacheIfNeeded(_ url: URL, currentLocation: URL) -> URL?
 }
 
 class CacheService: CacheServiceInput {
-	static let shared = CacheService()
-	private let fileManager = FileManager.default
+	static let shared = CacheService(fileManager: FileManager.default)
+	private let fileManager: FileManager //FileManager.default
 	private lazy var baseUrl: URL? = {
 		var documentsUrl = self.fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first
 		documentsUrl?.appendPathComponent("StoriesSdkCacheDirectory")
@@ -20,21 +19,12 @@ class CacheService: CacheServiceInput {
 		return documentsUrl
 	}()
 	
-	func getUrlWith(stringUrl: String, success: Success?, failure: Failure?) {
-		guard let url = URL(string: stringUrl) else {
-			failure?(NSError(domain: "Invalid URL \(stringUrl)", code: 0, userInfo: nil))
-			return
-		}
-		if let directoryUrl = cacheDirectoryFor(url), fileManager.fileExists(atPath: directoryUrl.path) {
-			success?(directoryUrl)
-		} else {
-			failure?(NSError(domain: "Url not contains in cache", code: 0, userInfo: nil))
-		}
+	init(fileManager: FileManager) {
+		self.fileManager = fileManager
 	}
 	
 	func getViewModel(slideModel: SlideModel) -> SlideViewModel? {
-		var viewModel = SlideViewModel()
-		viewModel.fillFromSlideModel(slideModel)
+		var viewModel = SlideViewModel(slideModel: slideModel)
 		if let video = slideModel.video, let videoUrl = video.storageDir, let _ = URL(string: videoUrl) {
 			viewModel.type = .video
 			if let url = self.getUrlWith(stringUrl: videoUrl) {
@@ -92,7 +82,7 @@ class CacheService: CacheServiceInput {
 		return nil
 	}
 
-	func cacheDirectoryFor(_ url: URL) -> URL? {
+	private func cacheDirectoryFor(_ url: URL) -> URL? {
 		let fileURL = url.path
 		let valueAddingPercentEncoding = fileURL.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
 		let cacheUrl = baseUrl?.appendingPathComponent(valueAddingPercentEncoding)

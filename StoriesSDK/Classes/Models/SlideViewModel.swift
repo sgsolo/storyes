@@ -16,7 +16,7 @@ enum AnimationType: Int {
 
 struct SlideViewModel {
 	var type: SlideViewContentType = .image
-	var player: Player?
+	var player: PlayerInput?
 	var videoUrl: URL?
 	var trackUrl: URL?
 	var imageUrl: URL?
@@ -59,7 +59,7 @@ struct SlideViewModel {
 	}
 	var animationType = AnimationType.none
 	
-	mutating func fillFromSlideModel(_ slideModel: SlideModel) {
+	init(slideModel: SlideModel) {
 		self.isBounded = slideModel.contentStyle
 		self.text = slideModel.description
 		self.subtitle = slideModel.title3

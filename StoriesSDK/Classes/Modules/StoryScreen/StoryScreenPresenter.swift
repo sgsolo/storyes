@@ -1,26 +1,40 @@
 import Foundation
 
 class StoryScreenPresenter: StoryScreenModuleInput {
-	weak var output: StoryScreenModuleOutput?
-	weak var view: StoryScreenViewInput!
-	let storiesService: StoriesServiceInput
-	let cacheManager: CacheServiceInput
-	var storyModel: StoryModel
-	
 	var isTransitionInProgress = false
 	var isContentDownloaded = false
-	private var player: Player?
-	private var isViewDidAppear = false
-	private var slideSwitchTimer = PauseTimer()
 	
-	init(storiesService: StoriesService, cacheManager: CacheServiceInput, storyModel: StoryModel) {
+	private weak var output: StoryScreenModuleOutput?
+	private weak var view: StoryScreenViewInput!
+	private let storiesService: StoriesServiceInput
+	private let cacheManager: CacheServiceInput
+	private let notificationCenter: NotificationCenter
+	private let slideSwitchTimer: PauseTimerInput
+	private var storyModel: StoryModel
+	
+	private var player: PlayerInput?
+	private var isViewDidAppear = false
+	
+	init(view: StoryScreenViewInput,
+		 storiesService: StoriesServiceInput,
+		 cacheManager: CacheServiceInput,
+		 storyModel: StoryModel,
+		 output: StoryScreenModuleOutput?,
+		 slideSwitchTimer: PauseTimerInput = PauseTimer(),
+		 player: PlayerInput? = nil,
+		 notificationCenter: NotificationCenter = NotificationCenter.default) {
+		self.view = view
+		self.output = output
 		self.storiesService = storiesService
 		self.cacheManager = cacheManager
 		self.storyModel = storyModel
+		self.notificationCenter = notificationCenter
+		self.slideSwitchTimer = slideSwitchTimer
+		self.player = player
 	}
 	
 	deinit {
-		NotificationCenter.default.removeObserver(self)
+		notificationCenter.removeObserver(self)
 	}
 }
 
@@ -95,9 +109,7 @@ extension StoryScreenPresenter {
 		guard storyModel.data.dataSlides.count > storyModel.currentIndex else { return }
 		let slideModel = self.storyModel.data.dataSlides[self.storyModel.currentIndex]
 		
-		if storyModel.data.dataSlides.count > storyModel.currentIndex + 1 {
-			storiesService.addDownloadQueue(slideModel: self.storyModel.data.dataSlides[self.storyModel.currentIndex + 1])
-		}
+		storiesService.preloadNextSlide()
 		
 		isContentDownloaded = false
 		self.view.updateProgressView(storyModel: self.storyModel, needProgressAnimation: false)
@@ -111,14 +123,17 @@ extension StoryScreenPresenter {
 			self.showSlide(viewModel: viewModel, slideModel: slideModel)
 		} else {
 			self.view.addLoadingView()
-			self.storiesService.getData(slideModel, success: { [weak self, index = storyModel.currentIndex] viewModel in
-				guard let self = self, let viewModel = viewModel as? SlideViewModel, index == self.storyModel.currentIndex else { return }
-				self.showSlide(viewModel: viewModel, slideModel: slideModel)
-			}, failure: { [weak self] error in
-				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-					self?.view.addNetworkErrorView()
+			self.storiesService.getData(slideModel, completion: { [weak self, index = storyModel.currentIndex] result in
+				switch result {
+				case .success(let viewModel):
+					guard let self = self, index == self.storyModel.currentIndex else { return }
+					self.showSlide(viewModel: viewModel, slideModel: slideModel)
+				case .failure(let error):
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+						self?.view.addNetworkErrorView()
+					}
+					print(error)
 				}
-				print(error)
 			})
 		}
 	}
@@ -253,14 +268,14 @@ extension StoryScreenPresenter {
 	}
 	
 	private func addObserver() {
-		NotificationCenter.default.addObserver(self,
-											   selector: #selector(applicationDidEnterBackgroundHandler),
-											   name: NSNotification.Name.UIApplicationWillResignActive,
-											   object: nil)
-		NotificationCenter.default.addObserver(self,
-											   selector: #selector(applicationWillEnterForegroundHandler),
-											   name: NSNotification.Name.UIApplicationDidBecomeActive,
-											   object: nil)
+		notificationCenter.addObserver(self,
+									   selector: #selector(applicationDidEnterBackgroundHandler),
+									   name: NSNotification.Name.UIApplicationWillResignActive,
+									   object: nil)
+		notificationCenter.addObserver(self,
+									   selector: #selector(applicationWillEnterForegroundHandler),
+									   name: NSNotification.Name.UIApplicationDidBecomeActive,
+									   object: nil)
 	}
 	
 	@objc private func applicationDidEnterBackgroundHandler() {
